@@ -1,0 +1,3 @@
+rootProject.name = 'JMCL'
+include 'JMCLCode'
+
