@@ -1,11 +1,11 @@
-package JsonAnalysis;
+package JsonAnalysis.MicrosoftLoginJsonAnalysis;
 
 public class MinecraftInformationObject {
     private String id;
     private String name;
     private SkinsAndCapes[] skins;
     private SkinsAndCapes[] capes;
-    public class SkinsAndCapes{
+    protected class SkinsAndCapes{
         private String id;
         private String state;
         private String url;

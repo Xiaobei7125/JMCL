@@ -1,4 +1,4 @@
-import JsonAnalysis.*;
+import JsonAnalysis.MicrosoftLoginJsonAnalysis.*;
 import com.google.gson.Gson;
 
 public class Extract {
@@ -23,18 +23,17 @@ public class Extract {
     public static String getXboxLiveAuthenticationUserHash(String xboxLiveAuthenticationBody) {
         Gson gson = new Gson();
         XboxLiveAuthenticationObject xboxLiveAuthenticationObject = gson.fromJson(xboxLiveAuthenticationBody,XboxLiveAuthenticationObject.class);
-        return xboxLiveAuthenticationObject.getDisplayClaims().getXui()[0].getUserHash();
+        return xboxLiveAuthenticationObject.getUserHash();
     }
 
     public static boolean ifMinecraftOwnership(String checkMinecraftOwnershipBody) {
         Gson gson = new Gson();
-        CheckMinecraftOwnershipObject checkMinecraftOwnershipObject = gson.fromJson(checkMinecraftOwnershipBody, CheckMinecraftOwnershipObject.class);
-        return checkMinecraftOwnershipObject.getItems().length != 0;
+        MinecraftOwnershipObject MinecraftOwnershipObject = gson.fromJson(checkMinecraftOwnershipBody, MinecraftOwnershipObject.class);
+        return MinecraftOwnershipObject.getItemsLength() != 0;
     }
     public static MinecraftInformationObject getMinecraftInformationObject(String MinecraftInformationBody) {
         Gson gson = new Gson();
-        MinecraftInformationObject MinecraftInformationObject = gson.fromJson(MinecraftInformationBody, MinecraftInformationObject.class);
-        return MinecraftInformationObject;
+        return gson.fromJson(MinecraftInformationBody, MinecraftInformationObject.class);
     }
 
     public static String getMinecraftAuthenticationToken(String MinecraftAuthenticationBody) {

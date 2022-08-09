@@ -1,4 +1,4 @@
-package JsonAnalysis;
+package JsonAnalysis.MicrosoftLoginJsonAnalysis;
 
 public class MinecraftAuthenticationObject {
     private String username;

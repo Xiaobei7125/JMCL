@@ -1,40 +1,23 @@
 
 
-import JsonAnalysis.MinecraftAuthenticationObject;
-import JsonAnalysis.MinecraftInformationObject;
+import JsonAnalysis.MicrosoftLoginJsonAnalysis.MinecraftInformationObject;
+import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestObject;
+import com.google.gson.Gson;
 
 import javax.net.ssl.*;
 import java.net.*;
 import java.io.*;
 import java.nio.channels.*;
-import java.util.concurrent.ExecutionException;
 import java.util.regex.*;
 
 
 public class Test {
     public static void main(String[] ages) throws IOException, URISyntaxException, InterruptedException {
-        //System.out.println(URLs.get(0));
-        //fileOutput(json1);
-        //fileOutput(json2);
-        //System.out.println(httpHandle(json1));
-        //System.out.println(httpHandle(json2));
-        /*HttpRequest httpRequest = HttpRequest.newBuilder()
-                .uri(new URI("https://postman-echo.com/post"))
-                .version(HttpClient.Version.HTTP_2)
-                .timeout(Duration.of(10, SECONDS))
-                .POST(HttpRequest.BodyPublishers.noBody())
-                .build();
-        HttpClient httpClient = HttpClient.newBuilder()
-                .followRedirects(HttpClient.Redirect.ALWAYS)
-                .build();
-        CompletableFuture<HttpResponse<String>> completableFuture = httpClient
-                .sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());
-        System.out.println(completableFuture.get().statusCode());
-        System.out.println(completableFuture.get().body());
-        */
-        microsoftLogin();
-
-
+        //microsoftLogin();
+        Gson gson = new Gson();
+        String MinecraftVersionManifestBody = httpHandle(new URL("http://launchermeta.mojang.com/mc/game/version_manifest.json")).toString();
+        MinecraftVersionManifestObject MinecraftVersionManifestObject = gson.fromJson(MinecraftVersionManifestBody,
+                JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestObject.class);
     }
 
     public static void fileOutput(URL url) throws IOException {
@@ -57,12 +40,12 @@ public class Test {
         }
         assert httpConnection != null;
         BufferedReader is = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
-        StringBuilder b = new StringBuilder();
+        StringBuilder body = new StringBuilder();
         String a;
         while ((a = is.readLine()) != null) {
-            b.append(a);
+            body.append(a);
         }
-        return b;
+        return body;
     }
 
     public static String regReplace(String content, String pattern, String newString) {
@@ -109,7 +92,8 @@ public class Test {
             if(ifMinecraftOwnership){
                 String MinecraftInformationBody = HTTPOperation.receiveMinecraftInformation(MinecraftAuthenticationToken);
                 MinecraftInformationObject MinecraftAuthenticationObject = Extract.getMinecraftInformationObject(MinecraftInformationBody);
-
+                System.out.println(MinecraftAuthenticationObject.getId());
+                System.out.println(MinecraftAuthenticationObject.getName());
             }else {
                 System.out.println("You not have the Minecraft.");
             }

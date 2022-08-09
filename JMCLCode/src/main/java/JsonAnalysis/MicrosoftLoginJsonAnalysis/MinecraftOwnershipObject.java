@@ -1,15 +1,19 @@
-package JsonAnalysis;
+package JsonAnalysis.MicrosoftLoginJsonAnalysis;
 
-public class CheckMinecraftOwnershipObject {
+public class MinecraftOwnershipObject {
     private Items[] items;
     private String signature;
     private int keyId;
-    public class Items{
+    protected class Items{
         private String name;
         private String signature;
     }
 
     public Items[] getItems() {
         return items;
+    }
+
+    public int getItemsLength() {
+        return items.length;
     }
 }

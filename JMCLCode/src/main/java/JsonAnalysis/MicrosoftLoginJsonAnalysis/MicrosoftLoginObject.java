@@ -1,4 +1,4 @@
-package JsonAnalysis;
+package JsonAnalysis.MicrosoftLoginJsonAnalysis;
 
 public class MicrosoftLoginObject {
     private String token_type;
