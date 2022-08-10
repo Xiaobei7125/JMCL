@@ -9,9 +9,6 @@ public class MinecraftOwnershipObject {
         private String signature;
     }
 
-    public Items[] getItems() {
-        return items;
-    }
 
     public int getItemsLength() {
         return items.length;

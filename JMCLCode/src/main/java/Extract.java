@@ -39,6 +39,6 @@ public class Extract {
     public static String getMinecraftAuthenticationToken(String MinecraftAuthenticationBody) {
         Gson gson = new Gson();
         MinecraftAuthenticationObject MinecraftAuthenticationObject = gson.fromJson(MinecraftAuthenticationBody, MinecraftAuthenticationObject.class);
-        return MinecraftAuthenticationObject.getAccess_token();
+        return MinecraftAuthenticationObject.getAccessToken();
     }
 }

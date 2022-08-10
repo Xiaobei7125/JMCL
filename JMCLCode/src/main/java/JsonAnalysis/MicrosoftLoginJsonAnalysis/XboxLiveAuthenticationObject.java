@@ -11,12 +11,12 @@ public class XboxLiveAuthenticationObject {
         public Xui[] getXui() {
             return xui;
         }
-    }
-    protected class Xui{
-        private String uhs;
+        protected class Xui{
+            private String uhs;
 
-        public String getUserHash() {
-            return uhs;
+            public String getUserHash() {
+                return uhs;
+            }
         }
     }
 
@@ -24,9 +24,6 @@ public class XboxLiveAuthenticationObject {
         return Token;
     }
 
-    public XboxLiveAuthenticationObject.DisplayClaims getDisplayClaims() {
-        return DisplayClaims;
-    }
     public String getUserHash() {
         return DisplayClaims.xui[0].getUserHash();
     }

@@ -1,8 +1,9 @@
 
 
 import JsonAnalysis.MicrosoftLoginJsonAnalysis.MinecraftInformationObject;
-import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestV2Object;
+import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestObject;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.net.ssl.*;
 import java.net.*;
@@ -15,11 +16,17 @@ import java.util.regex.*;
 public class Test {
     public static void main(String[] ages) throws IOException, URISyntaxException, InterruptedException {
         //microsoftLogin();
-        Gson gson = new Gson();
-        String MinecraftVersionManifestBody = httpHandle(new URL("http://launchermeta.mojang.com/mc/game/version_manifest.json")).toString();
-        MinecraftVersionManifestV2Object MinecraftVersionManifestV2Object = gson.fromJson(MinecraftVersionManifestBody,
-                JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestV2Object.class);
-        System.out.println(Arrays.toString(MinecraftVersionProcessing.getTypeArray(MinecraftVersionManifestV2Object, MinecraftVersionProcessing.Type.release)));
+        String id = "1.19";
+        Gson gson = new GsonBuilder().setVersion(2).create();
+        String MinecraftVersionManifestBody = httpHandle(new URL("http://launchermeta.mojang.com/mc/game/version_manifest_v2.json")).toString();
+        MinecraftVersionManifestObject MinecraftVersionManifestObject = gson.fromJson(MinecraftVersionManifestBody,
+                JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestObject.class);
+        if(MinecraftVersionProcessing.ifId(MinecraftVersionManifestObject,id)){
+            fileOutput(new URL(MinecraftVersionProcessing.getUrl(MinecraftVersionManifestObject,id)));
+        }else {
+            System.out.println("This Minecraft version does not exist.");
+        }
+
 
     }
 
