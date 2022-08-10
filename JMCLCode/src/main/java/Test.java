@@ -1,13 +1,14 @@
 
 
 import JsonAnalysis.MicrosoftLoginJsonAnalysis.MinecraftInformationObject;
-import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestObject;
+import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestV2Object;
 import com.google.gson.Gson;
 
 import javax.net.ssl.*;
 import java.net.*;
 import java.io.*;
 import java.nio.channels.*;
+import java.util.Arrays;
 import java.util.regex.*;
 
 
@@ -16,8 +17,10 @@ public class Test {
         //microsoftLogin();
         Gson gson = new Gson();
         String MinecraftVersionManifestBody = httpHandle(new URL("http://launchermeta.mojang.com/mc/game/version_manifest.json")).toString();
-        MinecraftVersionManifestObject MinecraftVersionManifestObject = gson.fromJson(MinecraftVersionManifestBody,
-                JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestObject.class);
+        MinecraftVersionManifestV2Object MinecraftVersionManifestV2Object = gson.fromJson(MinecraftVersionManifestBody,
+                JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestV2Object.class);
+        System.out.println(Arrays.toString(MinecraftVersionProcessing.getTypeArray(MinecraftVersionManifestV2Object, MinecraftVersionProcessing.Type.release)));
+
     }
 
     public static void fileOutput(URL url) throws IOException {

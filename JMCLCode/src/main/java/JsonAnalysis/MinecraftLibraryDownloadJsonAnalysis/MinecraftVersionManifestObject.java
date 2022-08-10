@@ -15,28 +15,28 @@ public class MinecraftVersionManifestObject {
         private String releaseTime;
     }
 
-    public String[] getId(){
-        String[] id = new String[versions.length];
-        for (int i = 0; i <= versions.length; i++){
-            id[i] = versions[i].id;
+    public String[] getIdArray(){
+        String[] idArray = new String[versions.length];
+        for (int i = 0; i < versions.length; i++){
+            idArray[i] = versions[i].id;
         }
-        return id;
+        return idArray;
     }
 
-    public String[] getType(){
-        String[] type = new String[versions.length];
-        for (int i = 0; i <= versions.length; i++){
-            type[i] = versions[i].type;
+    public String[] getTypeArray(){
+        String[] typeArray = new String[versions.length];
+        for (int i = 0; i < versions.length; i++){
+            typeArray[i] = versions[i].type;
         }
-        return type;
+        return typeArray;
     }
 
-    public String[] getUrl(){
-        String[] url = new String[versions.length];
-        for (int i = 0; i <= versions.length; i++){
-            url[i] = versions[i].url;
+    public String[] getUrlArray(){
+        String[] urlArray = new String[versions.length];
+        for (int i = 0; i < versions.length; i++){
+            urlArray[i] = versions[i].url;
         }
-        return url;
+        return urlArray;
     }
 
 
