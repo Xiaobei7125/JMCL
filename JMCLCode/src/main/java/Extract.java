@@ -5,13 +5,13 @@ public class Extract {
     public static String getMicrosoftAccessToken(String microsoftLoginBody) {
         Gson gson = new Gson();
         MicrosoftLoginObject microsoftLoginObject = gson.fromJson(microsoftLoginBody,MicrosoftLoginObject.class);
-        return microsoftLoginObject.getAccess_token();
+        return microsoftLoginObject.getAccessToken();
     }
 
     public static String getMicrosoftRefreshToken(String microsoftLoginBody) {
         Gson gson = new Gson();
         MicrosoftLoginObject microsoftLoginObject = gson.fromJson(microsoftLoginBody,MicrosoftLoginObject.class);
-        return microsoftLoginObject.getRefresh_token();
+        return microsoftLoginObject.getRefreshToken();
     }
 
     public static String getXboxLiveAuthenticationToken(String xboxLiveAuthenticationBody) {

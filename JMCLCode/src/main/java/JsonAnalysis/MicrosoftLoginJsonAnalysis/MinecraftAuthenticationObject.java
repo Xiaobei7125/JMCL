@@ -9,8 +9,10 @@ public class MinecraftAuthenticationObject {
     private String[] roles;
     @SerializedName("access_token")
     private String accessToken;
-    private String token_type;
-    private int expires_in;
+    @SerializedName("token_type")
+    private String tokenType;
+    @SerializedName("expires_in")
+    private int expiresIn;
 
     public String getAccessToken() {
         return accessToken;

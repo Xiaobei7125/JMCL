@@ -5,19 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52b5a912-3e1b-441c-ad53-0a299eb59686" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jsonSchemas.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MinecraftLibraryDownloadJsonAnalysis/MinecraftVersionJsonFileObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Deserializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Extract.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Extract.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/MicrosoftLoginObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/MicrosoftLoginObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/MinecraftAuthenticationObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/MinecraftAuthenticationObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/MinecraftOwnershipObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/MinecraftOwnershipObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/XboxLiveAuthenticationObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/XboxLiveAuthenticationObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MinecraftLibraryDownloadJsonAnalysis/MinecraftVersionManifestObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MinecraftLibraryDownloadJsonAnalysis/MinecraftVersionManifestObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MinecraftLibraryDownloadJsonAnalysis/MinecraftVersionManifestV2Object.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftVersionProcessing.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftVersionProcessing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MinecraftLibraryDownloadJsonAnalysis/MinecraftVersionJsonFileObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MinecraftLibraryDownloadJsonAnalysis/MinecraftVersionJsonFileObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Test.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,6 +48,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/1.19.json" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MinecraftLibraryDownloadJsonAnalysis/MinecraftVersionJsonFileObject.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -65,17 +62,18 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "project.structure.last.edited": "模块",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.editor"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/.mc/minecraft/HMCL-3.5.3.221&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
@@ -122,7 +120,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660103852744</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="2">
+      <created>1660138931785</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1660138931785</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

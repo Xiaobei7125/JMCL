@@ -1,18 +1,25 @@
 package JsonAnalysis.MicrosoftLoginJsonAnalysis;
 
-public class MicrosoftLoginObject {
-    private String token_type;
-    private String scope;
-    private int expires_in;
-    private String access_token;
-    private String refresh_token;
-    private String id_token;
+import com.google.gson.annotations.SerializedName;
 
-    public String getAccess_token() {
-        return access_token;
+public class MicrosoftLoginObject {
+    @SerializedName("token_type")
+    private String tokenType;
+    private String scope;
+    @SerializedName("expires_in")
+    private int expiresIn;
+    @SerializedName("access_token")
+    private String accessToken;
+    @SerializedName("refresh_token")
+    private String refreshToken;
+    @SerializedName("id_token")
+    private String idToken;
+
+    public String getAccessToken() {
+        return accessToken;
     }
-    public String getRefresh_token() {
-        return refresh_token;
+    public String getRefreshToken() {
+        return refreshToken;
     }
 
 }

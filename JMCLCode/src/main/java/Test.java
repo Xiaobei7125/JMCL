@@ -1,6 +1,7 @@
 
 
 import JsonAnalysis.MicrosoftLoginJsonAnalysis.MinecraftInformationObject;
+import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionJsonFileObject;
 import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,7 +17,7 @@ import java.util.regex.*;
 public class Test {
     public static void main(String[] ages) throws IOException, URISyntaxException, InterruptedException {
         //microsoftLogin();
-        String id = "1.19";
+        /*String id = "1.19";
         Gson gson = new GsonBuilder().setVersion(2).create();
         String MinecraftVersionManifestBody = httpHandle(new URL("http://launchermeta.mojang.com/mc/game/version_manifest_v2.json")).toString();
         MinecraftVersionManifestObject MinecraftVersionManifestObject = gson.fromJson(MinecraftVersionManifestBody,
@@ -25,8 +26,11 @@ public class Test {
             fileOutput(new URL(MinecraftVersionProcessing.getUrl(MinecraftVersionManifestObject,id)));
         }else {
             System.out.println("This Minecraft version does not exist.");
-        }
-
+        }*/
+        String json = "{\"game\": [\"--username\", \"${auth_player_name}\", \"--version\", \"${version_name}\", \"--gameDir\", \"${game_directory}\", \"--assetsDir\", \"${assets_root}\", \"--assetIndex\", \"${assets_index_name}\", \"--uuid\", \"${auth_uuid}\", \"--accessToken\", \"${auth_access_token}\", \"--clientId\", \"${clientid}\", \"--xuid\", \"${auth_xuid}\", \"--userType\", \"${user_type}\", \"--versionType\", \"${version_type}\", {\"rules\": [{\"action\": \"allow\", \"features\": {\"is_demo_user\": true}}], \"value\": \"--demo\"}, {\"rules\": [{\"action\": \"allow\", \"features\": {\"has_custom_resolution\": true}}], \"value\": [\"--width\", \"${resolution_width}\", \"--height\", \"${resolution_height}\"]}]}";
+        Gson gson = new GsonBuilder().registerTypeAdapter(MinecraftVersionJsonFileObject.Arguments.Game.class,new MinecraftVersionJsonFileObject.GameDeserializer()).create();
+        MinecraftVersionJsonFileObject.Arguments.Game game = gson.fromJson(json, MinecraftVersionJsonFileObject.Arguments.Game.class);
+        System.out.println(game.getValue());
 
     }
 
