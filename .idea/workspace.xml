@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52b5a912-3e1b-441c-ad53-0a299eb59686" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Deserializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Extract.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Extract.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/MicrosoftLoginObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/MicrosoftLoginObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/MinecraftAuthenticationObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/MinecraftAuthenticationObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MinecraftLibraryDownloadJsonAnalysis/MinecraftVersionJsonFileObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MinecraftLibraryDownloadJsonAnalysis/MinecraftVersionJsonFileObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftVersionProcessing.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftVersionProcessing.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Test.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -127,7 +125,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660138931785</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="2">
+      <created>1660276056282</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1660276056282</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

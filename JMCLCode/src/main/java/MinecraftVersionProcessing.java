@@ -57,10 +57,10 @@ public class MinecraftVersionProcessing {
         }
         return "null";
     }
-    /** 这个方法输入MC版本列表变量,版本id ;
-     *  返回此版本是否存在 ;
+    /** 这个方法输入MC版本列表变量,版本id;
+     *  返回此版本是否存在;
      */
-    public static boolean ifId(MinecraftVersionManifestObject MinecraftVersionManifestObject, String id){
+    public static boolean isId(MinecraftVersionManifestObject MinecraftVersionManifestObject, String id){
         String[] idArray = MinecraftVersionManifestObject.getIdArray();
         String[] typeArray = MinecraftVersionManifestObject.getTypeArray();
         int i;
