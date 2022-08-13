@@ -14,7 +14,7 @@ public class MinecraftVersionJsonFileObject {
     private Downloads downloads;
     private String id;
     private JavaVersion javaVersion;
-    private Libraries libraries;
+    private Libraries[] libraries;
     private Logging logging;
     private String mainClass;
     private int minimumLauncherVersion;
@@ -130,10 +130,73 @@ public class MinecraftVersionJsonFileObject {
         private int totalSize;
         private String url;
     }
-    protected class Downloads{}
-    protected class JavaVersion{}
-    protected class Libraries{}
-    protected class Logging{}
+    protected class Downloads{
+        private Client client;
+        @SerializedName("client_mappings")
+        private ClientMappings clientMappings;
+        private Server server;
+        private ServerMappings serverMappings;
+        protected class Client{
+            private String sha1;
+            private int size;
+            private String url;
+        }
+        protected class ClientMappings{
+            private String sha1;
+            private int size;
+            private String url;
+        }
+        protected class Server{
+            private String sha1;
+            private int size;
+            private String url;
+        }
+        protected class ServerMappings{
+            private String sha1;
+            private int size;
+            private String url;
+        }
+    }
+    protected class JavaVersion{
+        private String component;
+        private int majorVersion;
+    }
+    protected class Libraries{
+        private Downloads downloads;
+        private String name;
+        private Rules[] rules;
+        protected class Rules{
+            private String action;
+            private Os os;
+            protected class Os{
+                private String name;
+            }
+        }
+
+        protected class Downloads{
+            private Artifact artifact;
+            protected class Artifact{
+                private String path;
+                private String sha1;
+                private int size;
+                private String url;
+            }
+        }
+    }
+    protected class Logging{
+        private Client client;
+        protected class Client{
+            private String argument;
+            private File file;
+            private String type;
+            protected class File{
+                private String id;
+                private String sha1;
+                private int size;
+                private String url;
+            }
+        }
+    }
     public static class ArgumentsDeserializer implements JsonDeserializer<Arguments>{
         @Override
         public Arguments deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -221,7 +284,6 @@ public class MinecraftVersionJsonFileObject {
                         rules[a].value[0] = jsonArray.get(i).getAsJsonObject().get("value").getAsString();
                     } else if (jsonArray.get(i).getAsJsonObject().get("value").isJsonArray()) {
                         for (c = 0; c < jsonArray.get(i).getAsJsonObject().get("value").getAsJsonArray().size(); c++){
-                            System.out.println(jsonArray.get(i).getAsJsonObject().get("value").getAsJsonArray().size());
                             rules[a].value[c] = String.valueOf(jsonArray.get(i).getAsJsonObject().get("value").getAsJsonArray().get(c));
                         }
 
