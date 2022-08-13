@@ -2,7 +2,9 @@
 
 import JsonAnalysis.MicrosoftLoginJsonAnalysis.MinecraftInformationObject;
 import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionJsonFileObject;
-import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestObject;
+
+
+import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -10,29 +12,25 @@ import javax.net.ssl.*;
 import java.net.*;
 import java.io.*;
 import java.nio.channels.*;
-import java.util.Arrays;
 import java.util.regex.*;
+
+import static JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionJsonFileObject.*;
 
 
 public class Test {
     public static void main(String[] ages) throws IOException, URISyntaxException, InterruptedException {
         //microsoftLogin();
-        /*String id = "1.19";
+        String id = "1.19";
         Gson gson = new GsonBuilder().setVersion(2).create();
         String MinecraftVersionManifestBody = httpHandle(new URL("http://launchermeta.mojang.com/mc/game/version_manifest_v2.json")).toString();
         MinecraftVersionManifestObject MinecraftVersionManifestObject = gson.fromJson(MinecraftVersionManifestBody,
                 JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestObject.class);
-        if(MinecraftVersionProcessing.ifId(MinecraftVersionManifestObject,id)){
-            fileOutput(new URL(MinecraftVersionProcessing.getUrl(MinecraftVersionManifestObject,id)));
+        if(MinecraftVersionProcessing.isId(MinecraftVersionManifestObject,id)){
+            String MinecraftVersionJsonFileBody = String.valueOf(httpHandle(new URL(MinecraftVersionProcessing.getUrl(MinecraftVersionManifestObject,id))));
+            MinecraftVersionJsonFileObject MinecraftVersionJsonFileObject = getGsonObject().fromJson(MinecraftVersionJsonFileBody,JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionJsonFileObject.class);
         }else {
             System.out.println("This Minecraft version does not exist.");
-        }*/
-        String json = "{\"game\": [\"--username\", \"${auth_player_name}\", \"--version\", \"${version_name}\", \"--gameDir\", \"${game_directory}\", \"--assetsDir\", \"${assets_root}\", \"--assetIndex\", \"${assets_index_name}\", \"--uuid\", \"${auth_uuid}\", \"--accessToken\", \"${auth_access_token}\", \"--clientId\", \"${clientid}\", \"--xuid\", \"${auth_xuid}\", \"--userType\", \"${user_type}\", \"--versionType\", \"${version_type}\", {\"rules\": [{\"action\": \"allow\", \"features\": {\"is_demo_user\": true}}], \"value\": \"--demo\"}, {\"rules\": [{\"action\": \"allow\", \"features\": {\"has_custom_resolution\": true}}], \"value\": [\"--width\", \"${resolution_width}\", \"--height\", \"${resolution_height}\"]}], \"jvm\": [{\"rules\": [{\"action\": \"allow\", \"os\": {\"name\": \"osx\"}}], \"value\": [\"-XstartOnFirstThread\"]}, {\"rules\": [{\"action\": \"allow\", \"os\": {\"name\": \"windows\"}}], \"value\": \"-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump\"}, {\"rules\": [{\"action\": \"allow\", \"os\": {\"name\": \"windows\", \"version\": \"^10\\\\.\"}}], \"value\": [\"-Dos.name=Windows 10\", \"-Dos.version=10.0\"]}, {\"rules\": [{\"action\": \"allow\", \"os\": {\"arch\": \"x86\"}}], \"value\": \"-Xss1M\"}, \"-Djava.library.path=${natives_directory}\", \"-Dminecraft.launcher.brand=${launcher_name}\", \"-Dminecraft.launcher.version=${launcher_version}\", \"-cp\", \"${classpath}\"]}";
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(MinecraftVersionJsonFileObject.Arguments.Game.class,new MinecraftVersionJsonFileObject.GameDeserializer())
-                .registerTypeAdapter(MinecraftVersionJsonFileObject.Arguments.Jvm.class,new MinecraftVersionJsonFileObject.JvmDeserializer())
-                .create();
-        MinecraftVersionJsonFileObject.Arguments.Game game = gson.fromJson(json, MinecraftVersionJsonFileObject.Arguments.Game.class);
+        }
 
     }
 

@@ -21,11 +21,14 @@ public class MinecraftVersionJsonFileObject {
     private String releaseTime;
     private String time;
     private String type;
-    public static class Arguments {
-        private Game[] game;
-        private Jvm[] jvm;
-
-        Arguments() {
+    protected static class Arguments {
+        private Game game;
+        private Jvm jvm;
+        public static Arguments newArgumentObject(Game game,Jvm jvm){
+            Arguments newArguments = new Arguments();
+            newArguments.game = game;
+            newArguments.jvm = jvm;
+            return newArguments;
         }
 
         public static class Game {
@@ -105,14 +108,14 @@ public class MinecraftVersionJsonFileObject {
                 newJvm.jvm = jvm;
                 return newJvm;
             }
-            public class JvmRules {
+            public static class JvmRules {
                 private Rules[] rules;
                 private String[] value;
-                public class Rules {
+                public static class Rules {
                     private String action;
                     private Os os;
 
-                    protected class Os {
+                    public static class Os {
                         private String name;
                         private String version;
                     }
@@ -120,7 +123,6 @@ public class MinecraftVersionJsonFileObject {
             }
         }
     }
-
     protected class AssetIndex {
         private String id;
         private String sha1;
@@ -128,11 +130,19 @@ public class MinecraftVersionJsonFileObject {
         private int totalSize;
         private String url;
     }
-
-    public static class GameDeserializer implements JsonDeserializer<Arguments.Game> {
+    protected class Downloads{}
+    protected class JavaVersion{}
+    protected class Libraries{}
+    protected class Logging{}
+    public static class ArgumentsDeserializer implements JsonDeserializer<Arguments>{
         @Override
-        public Arguments.Game deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            JsonArray jsonArray = json.getAsJsonObject().get("game").getAsJsonArray();
+        public Arguments deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            Arguments.Game game = gameDeserialize(json.getAsJsonObject().get("game"));
+            Arguments.Jvm jvm = jvmDeserialize(json.getAsJsonObject().get("jvm"));
+            return Arguments.newArgumentObject(game,jvm);
+        }
+        public Arguments.Game gameDeserialize(JsonElement json) throws JsonParseException {
+            JsonArray jsonArray = json.getAsJsonArray();
             int a = 0;
             int b = 0;
             for (int i = 0; i < jsonArray.size(); i++) {
@@ -169,21 +179,33 @@ public class MinecraftVersionJsonFileObject {
             }
             return Arguments.Game.newGameObject(game, rules);
         }
-    }
-    public static class JvmDeserializer implements JsonDeserializer<Arguments.Jvm>{
-        @Override
-        public Arguments.Jvm deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            JsonArray jsonArray = json.getAsJsonObject().get("jvm").getAsJsonArray();
+        public Arguments.Jvm jvmDeserialize(JsonElement json) throws JsonParseException {
+            JsonArray jsonArray = json.getAsJsonArray();
             int a = 0;
             int b = 0;
+            int c = 0;
             for (int i = 0; i < jsonArray.size(); i++){
                 if (jsonArray.get(i).isJsonObject()){
                     a++;
                 } else if (jsonArray.get(i).isJsonPrimitive()) {
                     b++;
                 }
+
             }
+
             Arguments.Jvm.JvmRules[] rules = new Arguments.Jvm.JvmRules[a];
+            for(int i = 0;i < rules.length;i++){
+                rules[i] = new Arguments.Jvm.JvmRules();
+                rules[i].rules = new Arguments.Jvm.JvmRules.Rules[1];
+                rules[i].rules[0] = new Arguments.Jvm.JvmRules.Rules();
+                rules[i].rules[0].os = new Arguments.Jvm.JvmRules.Rules.Os();
+            }
+            for (int i = 0; i < jsonArray.size(); i++){
+                if(jsonArray.get(i).isJsonObject() && jsonArray.get(i).getAsJsonObject().get("value").isJsonPrimitive()){rules[i].value = new String[1];}
+                else if (jsonArray.get(i).isJsonObject() && jsonArray.get(i).getAsJsonObject().get("value").isJsonArray()) {
+                    rules[i].value = new String[jsonArray.get(i).getAsJsonObject().get("value").getAsJsonArray().size()];
+                }
+            }
             String[] jvm = new String[b];
             a = 0;
             b = 0;
@@ -198,7 +220,8 @@ public class MinecraftVersionJsonFileObject {
                     if (jsonArray.get(i).getAsJsonObject().get("value").isJsonPrimitive()) {
                         rules[a].value[0] = jsonArray.get(i).getAsJsonObject().get("value").getAsString();
                     } else if (jsonArray.get(i).getAsJsonObject().get("value").isJsonArray()) {
-                        for (int c = 0; c < jsonArray.get(i).getAsJsonObject().get("value").getAsJsonArray().size(); c++){
+                        for (c = 0; c < jsonArray.get(i).getAsJsonObject().get("value").getAsJsonArray().size(); c++){
+                            System.out.println(jsonArray.get(i).getAsJsonObject().get("value").getAsJsonArray().size());
                             rules[a].value[c] = String.valueOf(jsonArray.get(i).getAsJsonObject().get("value").getAsJsonArray().get(c));
                         }
 
@@ -212,5 +235,11 @@ public class MinecraftVersionJsonFileObject {
             return Arguments.Jvm.newJvmObject(rules,jvm);
 
         }
+    }
+    public static Gson getGsonObject(){
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Arguments.class,new  ArgumentsDeserializer())
+                .create();
+        return gson;
     }
 }
