@@ -2,6 +2,8 @@ package JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis;
 
 import com.google.gson.annotations.Since;
 
+import java.net.URL;
+
 public class MinecraftVersionManifestObject {
     @Since(1)
     private Latest latest;
@@ -20,7 +22,7 @@ public class MinecraftVersionManifestObject {
         @Since(1)
         private String type;
         @Since(1)
-        private String url;
+        private URL url;
         @Since(1)
         private String time;
         @Since(1)
@@ -46,8 +48,8 @@ public class MinecraftVersionManifestObject {
         return typeArray;
     }
 
-    public String[] getUrlArray(){
-        String[] urlArray = new String[versions.length];
+    public URL[] getUrlArray(){
+        URL[] urlArray = new URL[versions.length];
         for (int i = 0; i < versions.length; i++){
             urlArray[i] = versions[i].url;
         }

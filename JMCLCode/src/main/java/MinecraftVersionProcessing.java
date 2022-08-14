@@ -1,5 +1,7 @@
 import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestObject;
 
+import java.net.URL;
+
 public class MinecraftVersionProcessing {
     /** 这个方法输入MC版本列表变量,版本id;
      *  返回版本的type;
@@ -22,9 +24,9 @@ public class MinecraftVersionProcessing {
         String[] idArray = MinecraftVersionManifestObject.getIdArray();
         String[] typeArray = new String[getTypeArrayCount(MinecraftVersionManifestObject,type)];
         int b = 0;
-        for (int i = 0;i < idArray.length;i++){
-            if(getType(MinecraftVersionManifestObject,idArray[i]).equals(type.toString())){
-                typeArray[b] = idArray[i];
+        for (String s : idArray) {
+            if (getType(MinecraftVersionManifestObject, s).equals(type.toString())) {
+                typeArray[b] = s;
                 b++;
             }
         }
@@ -36,29 +38,30 @@ public class MinecraftVersionProcessing {
     public static int getTypeArrayCount(MinecraftVersionManifestObject MinecraftVersionManifestObject, Type type){
         String[] idArray = MinecraftVersionManifestObject.getIdArray();
         int typeArrayCount = 0;
-        for (int i = 0;i < idArray.length;i++){
-            if(getType(MinecraftVersionManifestObject,idArray[i]).equals(type.toString())){
+        for (String s : idArray) {
+            if (getType(MinecraftVersionManifestObject, s).equals(type.toString())) {
                 typeArrayCount++;
             }
         }
         return typeArrayCount;
     }
-    /** 这个方法输入MC版本列表变量,版本id;
-     *  返回版本的url;
+    /**
+     * 这个方法输入MC版本列表变量,版本id;
+     * 返回版本的url;
      */
-    public static String getUrl(MinecraftVersionManifestObject MinecraftVersionManifestObject, String id){
+    public static URL getUrl(MinecraftVersionManifestObject MinecraftVersionManifestObject, String id){
         String[] idArray = MinecraftVersionManifestObject.getIdArray();
-        String[] urlArray = MinecraftVersionManifestObject.getUrlArray();
+        URL[] urlArray = MinecraftVersionManifestObject.getUrlArray();
         int i;
         for (i = 0;i < idArray.length;i++){
             if(idArray[i].equals(id)){
                 return urlArray[i];
             }
         }
-        return "null";
+        return null;
     }
     /** 这个方法输入MC版本列表变量,版本id;
-     *  返回此版本是否存在;
+     *  返回是否有此版本;
      */
     public static boolean isId(MinecraftVersionManifestObject MinecraftVersionManifestObject, String id){
         String[] idArray = MinecraftVersionManifestObject.getIdArray();

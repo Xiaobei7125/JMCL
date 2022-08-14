@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 import java.lang.reflect.Type;
+import java.net.URL;
 
 public class MinecraftVersionJsonFileObject {
     private Arguments arguments;
@@ -155,7 +156,7 @@ public class MinecraftVersionJsonFileObject {
         private String sha1;
         private int size;
         private int totalSize;
-        private String url;
+        private URL url;
 
         public String getId() {
             return id;
@@ -173,7 +174,7 @@ public class MinecraftVersionJsonFileObject {
             return sha1;
         }
 
-        public String getUrl() {
+        public URL getUrl() {
             return url;
         }
     }
@@ -182,6 +183,7 @@ public class MinecraftVersionJsonFileObject {
         @SerializedName("client_mappings")
         private ClientMappings clientMappings;
         private Server server;
+        @SerializedName("server_mappings")
         private ServerMappings serverMappings;
 
         public Client getClient() {
@@ -203,13 +205,13 @@ public class MinecraftVersionJsonFileObject {
         public class Client{
             private String sha1;
             private int size;
-            private String url;
+            private URL url;
 
             public String getSha1() {
                 return sha1;
             }
 
-            public String getUrl() {
+            public URL getUrl() {
                 return url;
             }
 
@@ -220,12 +222,12 @@ public class MinecraftVersionJsonFileObject {
         public class ClientMappings{
             private String sha1;
             private int size;
-            private String url;
+            private URL url;
             public String getSha1() {
                 return sha1;
             }
 
-            public String getUrl() {
+            public URL getUrl() {
                 return url;
             }
 
@@ -236,12 +238,12 @@ public class MinecraftVersionJsonFileObject {
         public class Server{
             private String sha1;
             private int size;
-            private String url;
+            private URL url;
             public String getSha1() {
                 return sha1;
             }
 
-            public String getUrl() {
+            public URL getUrl() {
                 return url;
             }
 
@@ -252,12 +254,12 @@ public class MinecraftVersionJsonFileObject {
         public class ServerMappings{
             private String sha1;
             private int size;
-            private String url;
+            private URL url;
             public String getSha1() {
                 return sha1;
             }
 
-            public String getUrl() {
+            public URL getUrl() {
                 return url;
             }
 
@@ -327,9 +329,9 @@ public class MinecraftVersionJsonFileObject {
                 private String path;
                 private String sha1;
                 private int size;
-                private String url;
+                private URL url;
 
-                public String getUrl() {
+                public URL getUrl() {
                     return url;
                 }
 
@@ -375,13 +377,13 @@ public class MinecraftVersionJsonFileObject {
                 private String id;
                 private String sha1;
                 private int size;
-                private String url;
+                private URL url;
 
                 public int getSize() {
                     return size;
                 }
 
-                public String getUrl() {
+                public URL getUrl() {
                     return url;
                 }
 

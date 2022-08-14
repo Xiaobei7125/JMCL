@@ -1,5 +1,7 @@
 package JsonAnalysis.MicrosoftLoginJsonAnalysis;
 
+import java.net.URL;
+
 public class MinecraftInformationObject {
     private String id;
     private String name;
@@ -8,7 +10,7 @@ public class MinecraftInformationObject {
     protected class SkinsAndCapes{
         private String id;
         private String state;
-        private String url;
+        private URL url;
         private String variant;
         private String alias;
     }

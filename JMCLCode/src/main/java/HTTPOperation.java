@@ -18,7 +18,7 @@ public class HTTPOperation {
         System.out.println("Please enter redirection URL");
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         String redirection = bufferedReader.readLine();
-        return Test.regReplace(redirection, "https://127\\.0\\.0\\.1/\\?code=", "");
+        return Util.regReplace(redirection, "https://127\\.0\\.0\\.1/\\?code=", "");
     }
 
     public static String requestMicrosoftLogin(String code) throws URISyntaxException, InterruptedException, IOException {
@@ -63,15 +63,15 @@ public class HTTPOperation {
         return httpResponse.body();
     }
 
-    public static String requestXboxLiveAuthentication(String xboxLiveToken, Test.xboxLiveType type) throws URISyntaxException, IOException, InterruptedException {
+    public static String requestXboxLiveAuthentication(String xboxLiveToken, Util.xboxLiveType type) throws URISyntaxException, IOException, InterruptedException {
         URI uri = null;
         String body = null;
-        if (type.equals(Test.xboxLiveType.XBL)) {
+        if (type.equals(Util.xboxLiveType.XBL)) {
             uri = new URI("https://user.auth.xboxlive.com/user/authenticate");
             body = "{\"Properties\":{\"AuthMethod\":\"RPS\",\"SiteName\":\"user.auth.xboxlive.com\",\"RpsTicket\":\"d=" +
                     xboxLiveToken + "\"},\"RelyingParty\":\"http://auth.xboxlive.com\",\"TokenType\":\"JWT\"}";
         }
-        if (type.equals(Test.xboxLiveType.XSTS)) {
+        if (type.equals(Util.xboxLiveType.XSTS)) {
             uri = new URI("https://xsts.auth.xboxlive.com/xsts/authorize");
             body = "{\"Properties\":{\"SandboxId\":\"RETAIL\",\"UserTokens\":[\"" + xboxLiveToken +
                     "\"]},\"RelyingParty\":\"rp://api.minecraftservices.com/\",\"TokenType\":\"JWT\"}";
