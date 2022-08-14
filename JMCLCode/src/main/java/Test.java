@@ -1,18 +1,17 @@
 
 
 import JsonAnalysis.MicrosoftLoginJsonAnalysis.MinecraftInformationObject;
-import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionJsonFileObject;
 
 
 import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.*;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 
 import javax.net.ssl.*;
 import java.net.*;
 import java.io.*;
 import java.nio.channels.*;
 import java.util.regex.*;
+
 
 import static JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionJsonFileObject.*;
 
