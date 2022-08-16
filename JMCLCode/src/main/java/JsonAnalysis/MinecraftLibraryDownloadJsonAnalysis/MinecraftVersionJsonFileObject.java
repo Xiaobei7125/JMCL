@@ -283,6 +283,7 @@ public class MinecraftVersionJsonFileObject {
     public class Libraries{
         private Downloads downloads;
         private String name;
+        private Natives natives;
         private Rules[] rules;
 
         public Rules[] getRules() {
@@ -295,6 +296,11 @@ public class MinecraftVersionJsonFileObject {
 
         public String getName() {
             return name;
+        }
+        public class Natives{
+            private String osx;
+            private String linux;
+            private String windows;
         }
 
         public class Rules{
@@ -319,13 +325,18 @@ public class MinecraftVersionJsonFileObject {
         }
 
         public class Downloads{
-            private Artifact artifact;
+            private ArtifactAndNatives artifact;
+            private Classifiers classifiers;
 
-            public Artifact getArtifact() {
+            public ArtifactAndNatives getArtifact() {
                 return artifact;
             }
 
-            public class Artifact{
+            public Classifiers getClassifiers() {
+                return classifiers;
+            }
+
+            public class ArtifactAndNatives{
                 private String path;
                 private String sha1;
                 private int size;
@@ -345,6 +356,26 @@ public class MinecraftVersionJsonFileObject {
 
                 public String getPath() {
                     return path;
+                }
+            }
+            public class Classifiers{
+                @SerializedName("natives-macos")
+                private ArtifactAndNatives nativesMacos;
+                @SerializedName("natives-linux")
+                private ArtifactAndNatives nativesLinux;
+                @SerializedName("natives-windows")
+                private ArtifactAndNatives nativesWindows;
+
+                public ArtifactAndNatives getNativesLinux() {
+                    return nativesLinux;
+                }
+
+                public ArtifactAndNatives getNativesMacos() {
+                    return nativesMacos;
+                }
+
+                public ArtifactAndNatives getNativesWindows() {
+                    return nativesWindows;
                 }
             }
         }

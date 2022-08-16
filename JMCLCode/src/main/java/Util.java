@@ -13,6 +13,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Util {
+    public static void deleteDirector(String path){
+        File[] array = new File(path).listFiles();
+        for (File file : array) {
+            if (file.isDirectory()) {
+                deleteDirector(file.getPath());
+            }
+            file.delete();
+        }
+    }
     public static void fileOutput(URL url, String path,String name) throws IOException {
         File folder = new File(path);
         if (!folder.exists() && !folder.isDirectory()) {
