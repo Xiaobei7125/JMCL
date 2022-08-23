@@ -68,12 +68,12 @@ public class Util {
         }
         assert httpsConnection != null;
         BufferedReader is = new BufferedReader(new InputStreamReader(httpsConnection.getInputStream()));
-        StringBuilder b = new StringBuilder();
+        StringBuilder body = new StringBuilder();
         String a;
         while ((a = is.readLine()) != null) {
-            b.append(a);
+            body.append(a);
         }
-        return b;
+        return body;
     }
 
     public static void microsoftLogin() throws IOException, URISyntaxException, InterruptedException {

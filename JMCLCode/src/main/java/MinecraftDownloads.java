@@ -25,6 +25,12 @@ public class MinecraftDownloads {
         path = Util.regReplace(path,name,"");
         Util.fileOutput(url,mainPath+"libraries\\"+path,name);
     }
+    public static void downloadsLog4jFile(URL url, String mainPath,String fileId) throws IOException {
+        Util.fileOutput(url,mainPath+"assets\\log_configs\\",fileId);
+    }
+    public static void downloadsAssetIndexFile(URL url, String mainPath,String id) throws IOException {
+        Util.fileOutput(url,mainPath+"assets\\indexes\\",id+".json");
+    }
     enum VersionFile{
         jar,json
     }
