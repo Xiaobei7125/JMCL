@@ -564,7 +564,7 @@ public class MinecraftVersionJsonFileObject {
     public String getAssets () {
         return assets;
     }
-    public Downloads getDownloads () {
+    public Downloads getDownloads() {
         return downloads;
     }
     public int getComplianceLevel () {
@@ -576,7 +576,7 @@ public class MinecraftVersionJsonFileObject {
     public JavaVersion getJavaVersion () {
         return javaVersion;
     }
-    public Libraries[] getLibraries () {
+    public Libraries[] getLibraries() {
         return libraries;
     }
     public Logging getLogging () {

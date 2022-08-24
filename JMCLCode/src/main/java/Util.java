@@ -34,46 +34,34 @@ public class Util {
         fileChannel.close();
     }
 
-    public static StringBuilder httpHandle(URL url) throws IOException {
-        URLConnection connection = url.openConnection();
-        HttpURLConnection httpConnection = null;
-        if (connection instanceof HttpURLConnection) {
-            httpConnection = (HttpURLConnection) connection;
-        } else {
-            System.out.println("The URL is null");
-        }
-        assert httpConnection != null;
-        BufferedReader is = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
-        StringBuilder body = new StringBuilder();
-        String a;
-        while ((a = is.readLine()) != null) {
-            body.append(a);
-        }
-        return body;
-    }
-
     public static String regReplace(String content, String pattern, String newString) {
         Pattern p = Pattern.compile(pattern);
         Matcher m = p.matcher(content);
         return m.replaceAll(newString);
     }
 
-    public static StringBuilder httpsHandle(URL url) throws IOException {
+    public static StringBuilder httpHandle(URL url) throws IOException {
         URLConnection connection = url.openConnection();
-        HttpsURLConnection httpsConnection = null;
-        if (connection instanceof HttpsURLConnection) {
-            httpsConnection = (HttpsURLConnection) connection;
+        if (connection instanceof HttpsURLConnection httpsConnection) {
+            BufferedReader is = new BufferedReader(new InputStreamReader(httpsConnection.getInputStream()));
+            StringBuilder body = new StringBuilder();
+            String a;
+            while ((a = is.readLine()) != null) {
+                body.append(a);
+            }
+            return body;
+        } else if (connection instanceof HttpURLConnection httpConnection) {
+            BufferedReader is = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
+            StringBuilder body = new StringBuilder();
+            String a;
+            while ((a = is.readLine()) != null) {
+                body.append(a);
+            }
+            return body;
         } else {
             System.out.println("The URL is null");
         }
-        assert httpsConnection != null;
-        BufferedReader is = new BufferedReader(new InputStreamReader(httpsConnection.getInputStream()));
-        StringBuilder body = new StringBuilder();
-        String a;
-        while ((a = is.readLine()) != null) {
-            body.append(a);
-        }
-        return body;
+        return null;
     }
 
     public static void microsoftLogin() throws IOException, URISyntaxException, InterruptedException {
