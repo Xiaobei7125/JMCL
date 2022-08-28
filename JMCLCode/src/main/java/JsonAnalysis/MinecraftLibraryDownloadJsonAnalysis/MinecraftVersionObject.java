@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import java.lang.reflect.Type;
 import java.net.URL;
 
-public class MinecraftVersionJsonFileObject {
+public class MinecraftVersionObject {
     private Arguments arguments;
     private AssetIndex assetIndex;
     private String assets;
@@ -552,7 +552,7 @@ public class MinecraftVersionJsonFileObject {
     }
     public static Gson getGsonObject(){
         return new GsonBuilder()
-                .registerTypeAdapter(Arguments.class,new  ArgumentsDeserializer())
+                .registerTypeAdapter(Arguments.class,new ArgumentsDeserializer())
                 .create();
     }
     public Arguments getArguments () {

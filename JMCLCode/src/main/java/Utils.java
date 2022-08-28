@@ -12,7 +12,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Util {
+public class Utils {
     public static void deleteDirector(String path){
         File[] array = new File(path).listFiles();
         for (File file : array) {
@@ -27,6 +27,7 @@ public class Util {
         if (!folder.exists() && !folder.isDirectory()) {
             folder.mkdirs();
         }
+        if(folder.canWrite()) folder.setWritable(true);
         ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
         FileOutputStream fileOutputStream = new FileOutputStream(path+name);
         FileChannel fileChannel = fileOutputStream.getChannel();
