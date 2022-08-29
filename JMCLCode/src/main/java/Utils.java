@@ -1,9 +1,6 @@
-import JsonAnalysis.MicrosoftLoginJsonAnalysis.MinecraftInformationObject;
-
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
@@ -35,10 +32,21 @@ public class Utils {
         fileChannel.close();
     }
 
-    public static String regReplace(String content, String pattern, String newString) {
-        Pattern p = Pattern.compile(pattern);
-        Matcher m = p.matcher(content);
-        return m.replaceAll(newString);
+    public static String regexReplace(String input, String regex, String replacement) {
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(input);
+        return m.replaceAll(replacement);
+    }
+    public static String[] regexMatching(String input, String regex){
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        String[] StringArray = new String[10000];
+        int c = 0 ;
+        while (matcher.find()){
+            StringArray[c] = matcher.group();
+            c++;
+        }
+        return Utils.removeNull(StringArray);
     }
 
     public static StringBuilder httpHandle(URL url) throws IOException {
@@ -65,34 +73,26 @@ public class Utils {
         return null;
     }
 
-    public static void microsoftLogin() throws IOException, URISyntaxException, InterruptedException {
-        String MicrosoftLoginCode = HTTPOperation.requestMicrosoftLoginCode();
-        String MicrosoftLoginTokenBody = HTTPOperation.requestMicrosoftLogin(MicrosoftLoginCode);
-        String MicrosoftAccessToken = Extract.getMicrosoftAccessToken(MicrosoftLoginTokenBody);
-        String microsoftRefreshToken = Extract.getMicrosoftRefreshToken(MicrosoftLoginTokenBody);
-        String XBLAuthenticationBody = HTTPOperation.requestXboxLiveAuthentication(MicrosoftAccessToken, xboxLiveType.XBL);
-        String XBLAuthenticationToken = Extract.getXboxLiveAuthenticationToken(XBLAuthenticationBody);
-        String XBLAuthenticationUserHash = Extract.getXboxLiveAuthenticationUserHash(XBLAuthenticationBody);
-        String XSTSAuthenticationBody = HTTPOperation.requestXboxLiveAuthentication(XBLAuthenticationToken, xboxLiveType.XSTS);
-        String XSTSAuthenticationToken = Extract.getXboxLiveAuthenticationToken(XSTSAuthenticationBody);
-        String XSTSAuthenticationUserHash = Extract.getXboxLiveAuthenticationUserHash(XSTSAuthenticationBody);
-        if (XBLAuthenticationUserHash.equals(XSTSAuthenticationUserHash)) {
-            String MinecraftAuthenticationBody = HTTPOperation.requestMinecraftAuthentication(XSTSAuthenticationToken, XSTSAuthenticationUserHash);
-            String MinecraftAuthenticationToken = Extract.getMinecraftAuthenticationToken(MinecraftAuthenticationBody);
-
-            String MinecraftOwnershipBody = HTTPOperation.checkMinecraftOwnership(MinecraftAuthenticationToken);
-            boolean ifMinecraftOwnership = Extract.ifMinecraftOwnership(MinecraftOwnershipBody);
-            if (ifMinecraftOwnership) {
-                String MinecraftInformationBody = HTTPOperation.receiveMinecraftInformation(MinecraftAuthenticationToken);
-                MinecraftInformationObject MinecraftAuthenticationObject = Extract.getMinecraftInformationObject(MinecraftInformationBody);
-                System.out.println(MinecraftAuthenticationObject.getId());
-                System.out.println(MinecraftAuthenticationObject.getName());
-            } else {
-                System.out.println("You not have the Minecraft.");
-            }
-        } else {
-            System.out.println("Please try again.");
+    public static String[] removeNull(String[] array){
+        int c = 0;
+        for (String a : array) {
+            if (a != null) c++;
         }
+        String[] newArray = new String[c];
+        for (int i = 0; i < c; i++){
+            newArray[i] = array[i];
+        }
+        return newArray;
+    }
+    public static StringBuilder deleteSymbol(String s, String symbol){
+        StringBuilder newString = new StringBuilder();
+        for (String i:s.split("")){
+            if (i.equals("{")){
+                continue;
+            }
+            newString.append(i);
+        }
+        return newString;
     }
     enum xboxLiveType{
         XBL,XSTS

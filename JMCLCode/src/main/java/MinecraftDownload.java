@@ -7,12 +7,12 @@ public class MinecraftDownload {
         Utils.fileOutput(url,mainPath+"versions\\"+id+"\\",id+"."+versionFile);
     }
     public static void downloadNativesDllLibraries(URL url, String mainPath,String id,String path) throws Exception {
-        String name = Utils.regReplace(String.valueOf(url),"[a-zA-Z]+://[\\w\\d./-]+/","");
+        String name = Utils.regexReplace(String.valueOf(url),"[a-zA-Z]+://[\\w\\d./-]+/","");
         Utils.fileOutput(url,path+"\\natives\\",name);
         ZipUtils.unzip(path+"\\natives\\"+name,mainPath+"versions\\"+id+"\\natives\\");
         File[] array = new File(mainPath+"versions\\"+id+"\\natives\\").listFiles();
         for (File file : array) {
-            if (!Utils.regReplace(file.getName(), "[\\w\\d-.]+\\.", "").equals("dll")) {
+            if (!Utils.regexReplace(file.getName(), "[\\w\\d-.]+\\.", "").equals("dll")) {
                 if (file.isDirectory()) {
                     Utils.deleteDirector(file.getPath());
                 }
@@ -21,8 +21,8 @@ public class MinecraftDownload {
         }
     }
     public static void downloadOtherLibraries(URL url, String mainPath,String path) throws IOException {
-        String name = Utils.regReplace(String.valueOf(url),"[a-zA-Z]+://[\\w\\d./-]+/","");
-        path = Utils.regReplace(path,name,"");
+        String name = Utils.regexReplace(String.valueOf(url),"[a-zA-Z]+://[\\w\\d./-]+/","");
+        path = Utils.regexReplace(path,name,"");
         Utils.fileOutput(url,mainPath+"libraries\\"+path,name);
     }
     public static void downloadLog4jFile(URL url, String mainPath,String fileId) throws IOException {
@@ -35,8 +35,8 @@ public class MinecraftDownload {
         Utils.fileOutput(url,mainPath+"assets\\objects\\"+hash.substring(0,2)+"\\",hash);
     }
     public static void downloadAssetIndexCopyFile(URL url, String mainPath,String path) throws IOException {
-        String name = Utils.regReplace(path,"[\\w/]+/","");
-        path = Utils.regReplace(path,name,"");
+        String name = Utils.regexReplace(path,"[\\w/]+/","");
+        path = Utils.regexReplace(path,name,"");
         Utils.fileOutput(url,mainPath+"assets\\virtual\\legacy\\"+path,name);
     }
     enum VersionFile{

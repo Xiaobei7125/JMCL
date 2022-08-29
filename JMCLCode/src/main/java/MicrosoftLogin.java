@@ -1,7 +1,7 @@
 import JsonAnalysis.MicrosoftLoginJsonAnalysis.*;
 import com.google.gson.Gson;
 
-public class Extract {
+public class MicrosoftLogin {
     public static String getMicrosoftAccessToken(String microsoftLoginBody) {
         Gson gson = new Gson();
         MicrosoftLoginObject microsoftLoginObject = gson.fromJson(microsoftLoginBody,MicrosoftLoginObject.class);

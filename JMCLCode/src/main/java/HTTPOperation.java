@@ -18,7 +18,7 @@ public class HTTPOperation {
         System.out.println("Please enter redirection URL");
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         String redirection = bufferedReader.readLine();
-        return Utils.regReplace(redirection, "https://127\\.0\\.0\\.1/\\?code=", "");
+        return Utils.regexReplace(redirection, "https://127\\.0\\.0\\.1/\\?code=", "");
     }
 
     public static String requestMicrosoftLogin(String code) throws URISyntaxException, InterruptedException, IOException {

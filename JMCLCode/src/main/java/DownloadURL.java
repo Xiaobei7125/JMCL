@@ -35,9 +35,9 @@ public class DownloadURL {
         if (downloadSource == DownloadSource.official){
             return new URL(url);
         } else if (downloadSource == DownloadSource.bmclapi) {
-            return new URL(Utils.regReplace(url,"https://piston-meta.mojang.com/",bmclapi));
+            return new URL(Utils.regexReplace(url,"https://piston-meta.mojang.com/",bmclapi));
         }else{
-            return new URL(Utils.regReplace(url,"https://piston-meta.mojang.com/",mcbbs));
+            return new URL(Utils.regexReplace(url,"https://piston-meta.mojang.com/",mcbbs));
         }
     }
     public static URL versionJarFileURL(MinecraftVersionObject MinecraftVersionObject, DownloadSource downloadSource) throws MalformedURLException {
@@ -45,9 +45,9 @@ public class DownloadURL {
         if (downloadSource == DownloadSource.official){
             return new URL(url);
         } else if (downloadSource == DownloadSource.bmclapi) {
-            return new URL(Utils.regReplace(url,"https://launcher.mojang.com/",bmclapi));
+            return new URL(Utils.regexReplace(url,"https://launcher.mojang.com/",bmclapi));
         }else{
-            return new URL(Utils.regReplace(url,"https://launcher.mojang.com/",mcbbs));
+            return new URL(Utils.regexReplace(url,"https://launcher.mojang.com/",mcbbs));
         }
     }
     public static URL nativesJarURL(MinecraftVersionObject MinecraftVersionObject, DownloadSource downloadSource, int i) throws MalformedURLException {
@@ -55,9 +55,9 @@ public class DownloadURL {
         if (downloadSource == DownloadSource.official){
             return new URL(url);
         } else if (downloadSource == DownloadSource.bmclapi) {
-            return new URL(Utils.regReplace(url,"https://libraries.minecraft.net/",bmclapi + "maven/"));
+            return new URL(Utils.regexReplace(url,"https://libraries.minecraft.net/",bmclapi + "maven/"));
         }else{
-            return new URL(Utils.regReplace(url,"https://libraries.minecraft.net/",mcbbs + "maven/"));
+            return new URL(Utils.regexReplace(url,"https://libraries.minecraft.net/",mcbbs + "maven/"));
         }
     }
     public static URL otherJarLibrariesURL(MinecraftVersionObject MinecraftVersionObject, DownloadSource downloadSource, int i) throws MalformedURLException {
@@ -65,9 +65,9 @@ public class DownloadURL {
         if (downloadSource == DownloadSource.official){
             return new URL(url);
         } else if (downloadSource == DownloadSource.bmclapi) {
-            return new URL(Utils.regReplace(url,"https://libraries.minecraft.net/",bmclapi + "maven/"));
+            return new URL(Utils.regexReplace(url,"https://libraries.minecraft.net/",bmclapi + "maven/"));
         }else{
-            return new URL(Utils.regReplace(url,"https://libraries.minecraft.net/",mcbbs + "maven/"));
+            return new URL(Utils.regexReplace(url,"https://libraries.minecraft.net/",mcbbs + "maven/"));
         }
     }
     public static URL Log4jFileURL(MinecraftVersionObject MinecraftVersionObject, DownloadSource downloadSource) throws MalformedURLException {
@@ -75,9 +75,9 @@ public class DownloadURL {
         if (downloadSource == DownloadSource.official){
             return new URL(url);
         } else if (downloadSource == DownloadSource.bmclapi) {
-            return new URL(Utils.regReplace(url,"https://launcher.mojang.com/",bmclapi));
+            return new URL(Utils.regexReplace(url,"https://launcher.mojang.com/",bmclapi));
         }else{
-            return new URL(Utils.regReplace(url,"https://launcher.mojang.com/",mcbbs));
+            return new URL(Utils.regexReplace(url,"https://launcher.mojang.com/",mcbbs));
         }
     }
     public static URL assetIndexJsonURL(MinecraftVersionObject MinecraftVersionObject, DownloadSource downloadSource) throws MalformedURLException {
@@ -85,9 +85,9 @@ public class DownloadURL {
         if (downloadSource == DownloadSource.official){
             return new URL(url);
         } else if (downloadSource == DownloadSource.bmclapi) {
-            return new URL(Utils.regReplace(url,"https://launchermeta.mojang.com/",bmclapi));
+            return new URL(Utils.regexReplace(url,"https://launchermeta.mojang.com/",bmclapi));
         }else{
-            return new URL(Utils.regReplace(url,"https://launchermeta.mojang.com/",mcbbs));
+            return new URL(Utils.regexReplace(url,"https://launchermeta.mojang.com/",mcbbs));
         }
     }
     public static URL assetIndexFileURL(String hash,DownloadSource downloadSource) throws MalformedURLException {
