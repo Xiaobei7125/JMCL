@@ -25,7 +25,16 @@ public class Utils {
             folder.mkdirs();
         }
         if(folder.canWrite()) folder.setWritable(true);
-        ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
+        //ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        httpURLConnection.setRequestMethod("GET");
+        httpURLConnection.setDoOutput(true);
+        httpURLConnection.setDoInput(true);
+        httpURLConnection.setUseCaches(false);
+        httpURLConnection.setConnectTimeout(1000);
+        httpURLConnection.setReadTimeout(50000);
+        InputStream in = httpURLConnection.getInputStream();
+        ReadableByteChannel readableByteChannel = Channels.newChannel(in);
         FileOutputStream fileOutputStream = new FileOutputStream(path+name);
         FileChannel fileChannel = fileOutputStream.getChannel();
         fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);

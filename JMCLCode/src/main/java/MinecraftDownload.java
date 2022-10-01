@@ -6,19 +6,21 @@ public class MinecraftDownload {
     public static void downloadVersionFile(URL url, String mainPath, String id, VersionFile versionFile) throws IOException {
         Utils.fileOutput(url,mainPath+"versions\\"+id+"\\",id+"."+versionFile);
     }
-    public static void downloadNativesDllLibraries(URL url, String mainPath,String id,String path) throws Exception {
+    public static boolean downloadNativesDllLibraries(URL url, String mainPath,String id,String path) throws Exception {
         String name = Utils.regexReplace(String.valueOf(url),"[a-zA-Z]+://[\\w\\d./-]+/","");
         Utils.fileOutput(url,path+"\\natives\\",name);
         ZipUtils.unzip(path+"\\natives\\"+name,mainPath+"versions\\"+id+"\\natives\\");
         File[] array = new File(mainPath+"versions\\"+id+"\\natives\\").listFiles();
+        assert array != null;
         for (File file : array) {
             if (!Utils.regexReplace(file.getName(), "[\\w\\d-.]+\\.", "").equals("dll")) {
                 if (file.isDirectory()) {
                     Utils.deleteDirector(file.getPath());
                 }
-                file.delete();
+                if (file.delete()) return false;
             }
         }
+        return true;
     }
     public static void downloadOtherLibraries(URL url, String mainPath,String path) throws IOException {
         String name = Utils.regexReplace(String.valueOf(url),"[a-zA-Z]+://[\\w\\d./-]+/","");
