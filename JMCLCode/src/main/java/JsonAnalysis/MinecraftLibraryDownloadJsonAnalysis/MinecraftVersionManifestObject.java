@@ -3,6 +3,7 @@ package JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis;
 import com.google.gson.annotations.Since;
 
 import java.net.URL;
+import java.util.Objects;
 
 public class MinecraftVersionManifestObject {
     @Since(1)
@@ -62,6 +63,16 @@ public class MinecraftVersionManifestObject {
             sha1Array[i] = versions[i].sha1;
         }
         return sha1Array;
+    }
+    public String getSha1(String id){
+        String[] idArray = getIdArray();
+        String sha1;
+        for (int i = 0; i < idArray.length; i++){
+            if (Objects.equals(idArray[i], id)){
+                return getSha1Array()[i];
+            }
+        }
+        return "";
     }
 
     public String getRelease(){

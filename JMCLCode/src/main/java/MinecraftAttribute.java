@@ -10,7 +10,10 @@ public class MinecraftAttribute {
         this.id = id;
         this.mainPath = mainPath;
     }
-
+    public MinecraftAttribute(String mainPath,String id){
+        this.id = id;
+        this.mainPath = mainPath;
+    }
     public String getMainPath() {
         return mainPath;
     }

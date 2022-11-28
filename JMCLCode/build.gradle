@@ -19,3 +19,22 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+jar {
+    archivesBaseName = 'JMCL'
+    archiveVersion = 'Bata-Downloads-1'
+    manifest {
+        attributes(
+                "Manifest-Version": 1.0,
+                'Main-Class': 'Test',
+                //'Build-Jdk': '18.0.1.1'
+        )
+    }
+
+    from {
+        (configurations.runtimeClasspath).collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
+
