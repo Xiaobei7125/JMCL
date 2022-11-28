@@ -104,7 +104,7 @@ public class Utils {
         }
         return newString;
     }
-    public static String fileSha1(File file) throws NoSuchAlgorithmException, IOException {
+    public static String fileSha1(File file) throws NoSuchAlgorithmException {
         /*BufferedReader in = new BufferedReader(new FileReader(file), 5 * 1024 * 1024);
         String input = "";
         String i;
@@ -116,7 +116,6 @@ public class Utils {
         }else {
             byte[] input = readToString(String.valueOf(file));
             MessageDigest md = MessageDigest.getInstance("SHA-1");
-            assert input != null;
             byte[] messageDigest = md.digest(input);
             BigInteger no = new BigInteger(1, messageDigest);
             String hashText = no.toString(16);
@@ -131,7 +130,6 @@ public class Utils {
         String encoding = "UTF-8";
         File file = new File(fileName);
         Long fileLength = file.length();
-        System.out.println(fileLength);
         byte[] fileContent = new byte[fileLength.intValue()];
         try {
             FileInputStream in = new FileInputStream(file);
@@ -142,7 +140,6 @@ public class Utils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(fileContent.length);
         return fileContent;
     }
     enum xboxLiveType{

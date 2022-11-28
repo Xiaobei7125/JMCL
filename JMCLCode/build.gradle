@@ -22,12 +22,12 @@ test {
 
 jar {
     archivesBaseName = 'JMCL'
-    archiveVersion = 'Bata-Downloads-1'
+    archiveVersion = 'Bata-Downloads-2'
     manifest {
         attributes(
                 "Manifest-Version": 1.0,
                 'Main-Class': 'Test',
-                //'Build-Jdk': '18.0.1.1'
+                'Build-Jdk': '16'
         )
     }
 
