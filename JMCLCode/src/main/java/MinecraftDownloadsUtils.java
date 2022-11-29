@@ -8,10 +8,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
+
 public class MinecraftDownloadsUtils {
     static int end = 0;
     static int error = 0;
-    static int quantity = 0;
     static ExecutorService executorService =  Executors.newCachedThreadPool();
     private static void downloadVersionFile(MinecraftVersionObject MinecraftVersionObject, DownloadURL.DownloadSource downloadSource, MinecraftAttribute MinecraftAttribute) throws Exception {
         MinecraftDownload.downloadVersionFile(DownloadURL.versionJarFileURL(MinecraftVersionObject,downloadSource),MinecraftAttribute.mainPath,MinecraftAttribute.id, MinecraftDownload.VersionFile.jar);
@@ -39,7 +39,7 @@ public class MinecraftDownloadsUtils {
     }
     public static void downloadsVersionFileUtils(MinecraftVersionObject MinecraftVersionObject, MinecraftAttribute MinecraftAttribute){
         IThreadManagement iThreadManagement = () -> {
-            quantity++;
+            SetUp.quantity++;
             String name = MinecraftAttribute.id+"." + MinecraftDownload.VersionFile.jar;
             executorService.execute(()-> {
                 //下载路径
@@ -79,13 +79,13 @@ public class MinecraftDownloadsUtils {
                     error++;
                 }
             });
-            quantity--;
+            SetUp.quantity--;
         };
         iThreadManagement.run();
     }
     public static void downloadsVersionJsonUtils(MinecraftVersionManifestObject MinecraftVersionManifestObject, MinecraftAttribute MinecraftAttribute){
         IThreadManagement iThreadManagement = () -> {
-            quantity++;
+            SetUp.quantity++;
             String name = MinecraftAttribute.id + MinecraftDownload.VersionFile.json;
             executorService.execute(() -> {
                 try {
@@ -122,13 +122,13 @@ public class MinecraftDownloadsUtils {
                     error++;
                 }
             });
-            quantity--;
+            SetUp.quantity--;
         };
         iThreadManagement.run();
     }
     public static void downloadLog4jFileUtils(MinecraftVersionObject MinecraftVersionObject, MinecraftAttribute MinecraftAttribute) {
         IThreadManagement iThreadManagement = () -> {
-            quantity++;
+            SetUp.quantity++;
             String name = MinecraftVersionObject.getLogging().getClient().getFile().getId();
             executorService.execute(() -> {
                 try {
@@ -167,13 +167,13 @@ public class MinecraftDownloadsUtils {
                     error++;
                 }
             });
-            quantity--;
+            SetUp.quantity--;
         };
         iThreadManagement.run();
     }
     public static void downloadAssetIndexJsonUtils(MinecraftVersionObject MinecraftVersionObject,MinecraftAttribute MinecraftAttribute){
         IThreadManagement iThreadManagement = () -> {
-            quantity++;
+            SetUp.quantity++;
             String name = MinecraftVersionObject.getAssetIndex().getId();
             executorService.execute(() -> {
                 try {
@@ -212,7 +212,7 @@ public class MinecraftDownloadsUtils {
                     error++;
                 }
             });
-            quantity--;
+            SetUp.quantity--;
         };
         iThreadManagement.run();
     }
@@ -229,7 +229,7 @@ public class MinecraftDownloadsUtils {
                     MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers().getNativesWindows() != null) {
                 String name = new File(DownloadURL.nativesJarURL(MinecraftVersionObject, DownloadURL.DownloadSource.official, i).getPath()).getName();
                 IThreadManagement iThreadManagement = () -> {
-                    quantity++;
+                    SetUp.quantity++;
                     executorService.execute(() -> {
                         //String path = MinecraftAttribute.runPath+"\\natives\\";
                         //if (Objects.equals(MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers().getNativesWindows().getSha1(), Utils.fileSha1(new File(path + name)))) {
@@ -276,7 +276,7 @@ public class MinecraftDownloadsUtils {
                             }
                         }
                     });
-                    quantity--;
+                    SetUp.quantity--;
                 };
                 iThreadManagement.run();
                 /*
@@ -299,7 +299,7 @@ public class MinecraftDownloadsUtils {
             } else if (MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers() == null) {
                 String name = new File(DownloadURL.otherJarLibrariesURL(MinecraftVersionObject, DownloadURL.DownloadSource.official, i).getPath()).getName();
                 IThreadManagement iThreadManagement = () -> {
-                    quantity++;
+                    SetUp.quantity++;
                     executorService.execute(() -> {
                         try {
                             String path = MinecraftAttribute.mainPath + "libraries\\" + Utils.regexReplace(MinecraftVersionObject.getLibraries()[finalI].getDownloads().getArtifact().getPath(), name, "");
@@ -354,7 +354,7 @@ public class MinecraftDownloadsUtils {
                             }
                         }
                     });
-                    quantity--;
+                    SetUp.quantity--;
                 /*
                 new Thread(()-> {
                     try {
@@ -397,7 +397,7 @@ public class MinecraftDownloadsUtils {
             int size = Integer.parseInt(sizeArray[i]);
             int finalI = i;
             IThreadManagement iThreadManagement = () -> {
-                quantity++;
+                SetUp.quantity++;
                 executorService.execute(() -> {
                     try {
                         String path1 = MinecraftAttribute.mainPath + "assets\\objects\\" + hash.substring(0, 2) + "\\";
@@ -450,11 +450,11 @@ public class MinecraftDownloadsUtils {
                         }
                     }
                 });
-                quantity--;
+                SetUp.quantity--;
             };
             iThreadManagement.run();
             iThreadManagement = () -> {
-                quantity++;
+                SetUp.quantity++;
                 executorService.execute(() -> {
                     try {
                         String path1 = MinecraftAttribute.mainPath + "assets\\virtual\\legacy\\" + Utils.regexReplace(path, Utils.regexReplace(path, "[\\w/]+/", ""), "");
@@ -507,7 +507,7 @@ public class MinecraftDownloadsUtils {
                         }
                     }
                 });
-                quantity--;
+                SetUp.quantity--;
             };
             iThreadManagement.run();
             /*new Thread(()-> {
