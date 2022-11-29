@@ -9,17 +9,17 @@ import static JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersion
 
 public class MinecraftRequest {
     private static MinecraftVersionManifestObject getMinecraftVersionManifestObject(DownloadURL.DownloadSource downloadSource) throws IOException {
-        String MinecraftVersionManifestJson = String.valueOf(Utils.httpHandle(DownloadURL.versionManifestJsonURL(DownloadURL.VersionManifest.v2, downloadSource)));
+        String MinecraftVersionManifestJson = String.valueOf(Utils.getFileContent(DownloadURL.versionManifestJsonURL(DownloadURL.VersionManifest.v2, downloadSource)));
         return new GsonBuilder().setVersion(2).create().fromJson(MinecraftVersionManifestJson,
                 JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestObject.class);
     }
     private static MinecraftVersionObject getMinecraftVersionObject(MinecraftVersionManifestObject MinecraftVersionManifestObject, String id, DownloadURL.DownloadSource downloadSource) throws IOException {
-        String MinecraftVersionJson = String.valueOf(Utils.httpHandle(DownloadURL.versionJsonFileURL(MinecraftVersionManifestObject,id,downloadSource)));
+        String MinecraftVersionJson = String.valueOf(Utils.getFileContent(DownloadURL.versionJsonFileURL(MinecraftVersionManifestObject,id,downloadSource)));
         return getGsonObject().fromJson(MinecraftVersionJson,
                 JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionObject.class);
     }
     private static String getMinecraftVersionAssetIndexJson(MinecraftVersionObject MinecraftVersionObject, DownloadURL.DownloadSource downloadSource) throws IOException {
-        return String.valueOf(Utils.httpHandle(Objects.requireNonNull(DownloadURL.assetIndexJsonURL(MinecraftVersionObject, downloadSource))));
+        return String.valueOf(Utils.getFileContent(Objects.requireNonNull(DownloadURL.assetIndexJsonURL(MinecraftVersionObject, downloadSource))));
     }
     public static String getMinecraftVersionAssetIndexJson(MinecraftVersionObject MinecraftVersionObject) throws IOException {
         try {
