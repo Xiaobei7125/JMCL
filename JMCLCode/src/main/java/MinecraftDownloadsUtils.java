@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MinecraftDownloadsUtils {
     static int end = 0;
     static int error = 0;
+    static int quantity = 0;
     static ExecutorService executorService =  Executors.newCachedThreadPool();
     private static void downloadVersionFile(MinecraftVersionObject MinecraftVersionObject, DownloadURL.DownloadSource downloadSource, MinecraftAttribute MinecraftAttribute) throws Exception {
         MinecraftDownload.downloadVersionFile(DownloadURL.versionJarFileURL(MinecraftVersionObject,downloadSource),MinecraftAttribute.mainPath,MinecraftAttribute.id, MinecraftDownload.VersionFile.jar);
@@ -37,163 +38,183 @@ public class MinecraftDownloadsUtils {
         MinecraftDownload.downloadAssetIndexCopyFile(DownloadURL.assetIndexFileURL(hash, downloadSource),MinecraftAttribute.mainPath,path);
     }
     public static void downloadsVersionFileUtils(MinecraftVersionObject MinecraftVersionObject, MinecraftAttribute MinecraftAttribute){
-        String name = MinecraftAttribute.id+"." + MinecraftDownload.VersionFile.jar;
-        executorService.execute(()-> {
-            //下载路径
-            String path = MinecraftAttribute.mainPath+"versions\\"+ MinecraftAttribute.id+"\\";
-            //从下载处获得的sha1
-            String standardSha1 = MinecraftVersionObject.getDownloads().getClient().getSha1();
-            int standardSize = MinecraftVersionObject.getDownloads().getClient().getSize();
-            File file = new File(path + name);
-            try {
-                if (Objects.equals(standardSha1 , Utils.fileSha1(file)) && file.length() == standardSize) {
-                    System.out.println("DL-VF '" + name + "' File already exists and SHA-1 is the same");
-                } else {
-                    for (int j = 0;j < 10;j++) {
-                        try {
-                            System.out.println("DL-VF-0-" + j + " downloading '" + name + "'");
+        IThreadManagement iThreadManagement = () -> {
+            quantity++;
+            String name = MinecraftAttribute.id+"." + MinecraftDownload.VersionFile.jar;
+            executorService.execute(()-> {
+                //下载路径
+                String path = MinecraftAttribute.mainPath+"versions\\"+ MinecraftAttribute.id+"\\";
+                //从下载处获得的sha1
+                String standardSha1 = MinecraftVersionObject.getDownloads().getClient().getSha1();
+                int standardSize = MinecraftVersionObject.getDownloads().getClient().getSize();
+                File file = new File(path + name);
+                try {
+                    if (Objects.equals(standardSha1 , Utils.fileSha1(file)) && file.length() == standardSize) {
+                        System.out.println("DL-VF '" + name + "' File already exists and SHA-1 is the same");
+                    } else {
+                        for (int j = 0;j < 10;j++) {
                             try {
-                                downloadVersionFile(MinecraftVersionObject, DownloadURL.DownloadSource.official, MinecraftAttribute);
-                            } catch (Exception e) {
+                                System.out.println("DL-VF-0-" + j + " downloading '" + name + "'");
                                 try {
-                                    downloadVersionFile(MinecraftVersionObject, DownloadURL.DownloadSource.bmclapi, MinecraftAttribute);
-                                } catch (Exception f) {
-                                    downloadVersionFile(MinecraftVersionObject, DownloadURL.DownloadSource.mcbbs, MinecraftAttribute);
+                                    downloadVersionFile(MinecraftVersionObject, DownloadURL.DownloadSource.official, MinecraftAttribute);
+                                } catch (Exception e) {
+                                    try {
+                                        downloadVersionFile(MinecraftVersionObject, DownloadURL.DownloadSource.bmclapi, MinecraftAttribute);
+                                    } catch (Exception f) {
+                                        downloadVersionFile(MinecraftVersionObject, DownloadURL.DownloadSource.mcbbs, MinecraftAttribute);
+                                    }
                                 }
+                                if (Objects.equals(standardSha1, Utils.fileSha1(file)) & file.length() == standardSize) {
+                                    System.out.println("DL-VF" + " Download '" + name + "' end");
+                                    end++;
+                                    break;
+                                }
+                            } catch (Exception e) {
+                                System.out.println("DL-VF-0-" + j + " Download '" + name + "' error");
                             }
-                            if (Objects.equals(standardSha1, Utils.fileSha1(file)) & file.length() == standardSize) {
-                                System.out.println("DL-VF" + " Download '" + name + "' end");
-                                end++;
-                                break;
-                            }
-                        } catch (Exception e) {
-                            System.out.println("DL-VF-0-" + j + " Download '" + name + "' error");
                         }
                     }
+                } catch (Exception e) {
+                    System.out.println("DL-VF-0" + " Download '" + name + "' error");
+                    error++;
                 }
-            } catch (Exception e) {
-                System.out.println("DL-VF-0" + " Download '" + name + "' error");
-                error++;
-            }
-        });
+            });
+            quantity--;
+        };
+        iThreadManagement.run();
     }
     public static void downloadsVersionJsonUtils(MinecraftVersionManifestObject MinecraftVersionManifestObject, MinecraftAttribute MinecraftAttribute){
-        String name = MinecraftAttribute.id + MinecraftDownload.VersionFile.json;
-        executorService.execute(()-> {
-            try {
-                String path = MinecraftAttribute.mainPath+"versions\\"+MinecraftAttribute.id+"\\";
-                String standardSha1 = MinecraftVersionManifestObject.getSha1(MinecraftAttribute.id);
-                File file = new File(path + name);
-                if (Objects.equals(standardSha1, Utils.fileSha1(file))) {
-                    System.out.println("DL-VJ '" + name + "' File already exists and SHA-1 is the same");
-                }else {
-                    for (int j = 0;j < 10; j++) {
-                        try {
-                            System.out.println("DL-VJ-0-" + j + " downloading '" + name + "'");
+        IThreadManagement iThreadManagement = () -> {
+            quantity++;
+            String name = MinecraftAttribute.id + MinecraftDownload.VersionFile.json;
+            executorService.execute(() -> {
+                try {
+                    String path = MinecraftAttribute.mainPath + "versions\\" + MinecraftAttribute.id + "\\";
+                    String standardSha1 = MinecraftVersionManifestObject.getSha1(MinecraftAttribute.id);
+                    File file = new File(path + name);
+                    if (Objects.equals(standardSha1, Utils.fileSha1(file))) {
+                        System.out.println("DL-VJ '" + name + "' File already exists and SHA-1 is the same");
+                    } else {
+                        for (int j = 0; j < 10; j++) {
                             try {
-                                downloadVersionJson(MinecraftVersionManifestObject, DownloadURL.DownloadSource.official, MinecraftAttribute);
-                            } catch (Exception e) {
+                                System.out.println("DL-VJ-0-" + j + " downloading '" + name + "'");
                                 try {
-                                    downloadVersionJson(MinecraftVersionManifestObject, DownloadURL.DownloadSource.bmclapi, MinecraftAttribute);
-                                } catch (Exception f) {
-                                    downloadVersionJson(MinecraftVersionManifestObject, DownloadURL.DownloadSource.mcbbs, MinecraftAttribute);
+                                    downloadVersionJson(MinecraftVersionManifestObject, DownloadURL.DownloadSource.official, MinecraftAttribute);
+                                } catch (Exception e) {
+                                    try {
+                                        downloadVersionJson(MinecraftVersionManifestObject, DownloadURL.DownloadSource.bmclapi, MinecraftAttribute);
+                                    } catch (Exception f) {
+                                        downloadVersionJson(MinecraftVersionManifestObject, DownloadURL.DownloadSource.mcbbs, MinecraftAttribute);
+                                    }
                                 }
+                                if (Objects.equals(standardSha1, Utils.fileSha1(file))) {
+                                    System.out.println("DL-VJ" + " Download '" + name + "' end");
+                                    end++;
+                                    break;
+                                }
+                            } catch (Exception e) {
+                                System.out.println("DL-VJ" + j + " Download '" + name + "' error");
                             }
-                            if (Objects.equals(standardSha1, Utils.fileSha1(file))) {
-                                System.out.println("DL-VJ" + " Download '" + name + "' end");
-                                end++;
-                                break;
-                            }
-                        } catch (Exception e) {
-                            System.out.println("DL-VJ" + j + " Download '" + name + "' error");
                         }
                     }
+                } catch (Exception e) {
+                    System.out.println("DL-VJ" + " Download '" + name + "' error");
+                    error++;
                 }
-            }catch (Exception e) {
-                System.out.println("DL-VJ" + " Download '" + name + "' error");
-                error++;
-            }
-        });
+            });
+            quantity--;
+        };
+        iThreadManagement.run();
     }
-    public static void downloadLog4jFileUtils(MinecraftVersionObject MinecraftVersionObject, MinecraftAttribute MinecraftAttribute){
-        String name = MinecraftVersionObject.getLogging().getClient().getFile().getId();
-        executorService.execute(()-> {
-            try {
-                String path = MinecraftAttribute.mainPath+"assets\\log_configs\\";
-                String standardSha1 = MinecraftVersionObject.getLogging().getClient().getFile().getSha1();
-                int standardSize = MinecraftVersionObject.getLogging().getClient().getFile().getSize();
-                File file = new File(path + name);
-                if (Objects.equals(standardSha1, Utils.fileSha1(new File(path + name))) && standardSize == file.length()) {
-                    System.out.println("DL-LF '" + name + "' File already exists and SHA-1 is the same");
-                }else {
-                    for (int j = 0;j < 10; j++) {
-                        try {
-                            System.out.println("DL-LF" + j + " downloading: '" + name + "'");
+    public static void downloadLog4jFileUtils(MinecraftVersionObject MinecraftVersionObject, MinecraftAttribute MinecraftAttribute) {
+        IThreadManagement iThreadManagement = () -> {
+            quantity++;
+            String name = MinecraftVersionObject.getLogging().getClient().getFile().getId();
+            executorService.execute(() -> {
+                try {
+                    String path = MinecraftAttribute.mainPath + "assets\\log_configs\\";
+                    String standardSha1 = MinecraftVersionObject.getLogging().getClient().getFile().getSha1();
+                    int standardSize = MinecraftVersionObject.getLogging().getClient().getFile().getSize();
+                    File file = new File(path + name);
+                    if (Objects.equals(standardSha1, Utils.fileSha1(new File(path + name))) && standardSize == file.length()) {
+                        System.out.println("DL-LF '" + name + "' File already exists and SHA-1 is the same");
+                    } else {
+                        for (int j = 0; j < 10; j++) {
                             try {
-                                downloadLog4jFile(MinecraftVersionObject, DownloadURL.DownloadSource.official, MinecraftAttribute);
-                            } catch (Exception e) {
+                                System.out.println("DL-LF" + j + " downloading: '" + name + "'");
                                 try {
-                                    downloadLog4jFile(MinecraftVersionObject, DownloadURL.DownloadSource.bmclapi, MinecraftAttribute);
-                                } catch (Exception f) {
-                                    downloadLog4jFile(MinecraftVersionObject, DownloadURL.DownloadSource.mcbbs, MinecraftAttribute);
+                                    downloadLog4jFile(MinecraftVersionObject, DownloadURL.DownloadSource.official, MinecraftAttribute);
+                                } catch (Exception e) {
+                                    try {
+                                        downloadLog4jFile(MinecraftVersionObject, DownloadURL.DownloadSource.bmclapi, MinecraftAttribute);
+                                    } catch (Exception f) {
+                                        downloadLog4jFile(MinecraftVersionObject, DownloadURL.DownloadSource.mcbbs, MinecraftAttribute);
+                                    }
                                 }
+                                if (Objects.equals(standardSha1, Utils.fileSha1(file)) & file.length() == standardSize) {
+                                    System.out.println("DL-LF" + " Download '" + name + "' end");
+                                    end++;
+                                    break;
+                                }
+                            } catch (Exception e) {
+                                System.out.println("DL-LF" + j + " Download '" + name + "' error");
                             }
-                            if (Objects.equals(standardSha1, Utils.fileSha1(file)) & file.length() == standardSize) {
-                                System.out.println("DL-LF" + " Download '" + name + "' end");
-                                end++;
-                                break;
-                            }
-                        } catch (Exception e) {
-                            System.out.println("DL-LF" + j + " Download '" + name + "' error");
                         }
-                    }
 
+                    }
+                } catch (Exception e) {
+                    System.out.println("DL-LF" + " Download '" + name + "' error");
+                    error++;
                 }
-            }catch (Exception e) {
-                System.out.println("DL-LF" + " Download '" + name + "' error");
-                error++;
-            }
-        });
+            });
+            quantity--;
+        };
+        iThreadManagement.run();
     }
     public static void downloadAssetIndexJsonUtils(MinecraftVersionObject MinecraftVersionObject,MinecraftAttribute MinecraftAttribute){
-        String name = MinecraftVersionObject.getAssetIndex().getId();
-        executorService.execute(()-> {
-            try {
-                String path = MinecraftAttribute.mainPath + "assets\\indexes\\";
-                String standardSha1 = MinecraftVersionObject.getAssetIndex().getSha1();
-                int standardSize = MinecraftVersionObject.getAssetIndex().getSize();
-                File file = new File(path + name);
-                if (Objects.equals(standardSha1, Utils.fileSha1(file)) && standardSize == file.length()) {
-                    System.out.println("DL-LF '" + name + "' File already exists and SHA-1 is the same");
-                } else {
-                    for (int j = 0;j < 10; j++) {
-                        try {
-                            System.out.println("DL-AJ" + j + " downloading '" + name + "'");
+        IThreadManagement iThreadManagement = () -> {
+            quantity++;
+            String name = MinecraftVersionObject.getAssetIndex().getId();
+            executorService.execute(() -> {
+                try {
+                    String path = MinecraftAttribute.mainPath + "assets\\indexes\\";
+                    String standardSha1 = MinecraftVersionObject.getAssetIndex().getSha1();
+                    int standardSize = MinecraftVersionObject.getAssetIndex().getSize();
+                    File file = new File(path + name);
+                    if (Objects.equals(standardSha1, Utils.fileSha1(file)) && standardSize == file.length()) {
+                        System.out.println("DL-LF '" + name + "' File already exists and SHA-1 is the same");
+                    } else {
+                        for (int j = 0; j < 10; j++) {
                             try {
-                                downloadAssetIndexJson(MinecraftVersionObject, DownloadURL.DownloadSource.official, MinecraftAttribute);
-                            } catch (Exception e) {
+                                System.out.println("DL-AJ" + j + " downloading '" + name + "'");
                                 try {
-                                    downloadAssetIndexJson(MinecraftVersionObject, DownloadURL.DownloadSource.bmclapi, MinecraftAttribute);
-                                } catch (Exception f) {
-                                    downloadAssetIndexJson(MinecraftVersionObject, DownloadURL.DownloadSource.mcbbs, MinecraftAttribute);
+                                    downloadAssetIndexJson(MinecraftVersionObject, DownloadURL.DownloadSource.official, MinecraftAttribute);
+                                } catch (Exception e) {
+                                    try {
+                                        downloadAssetIndexJson(MinecraftVersionObject, DownloadURL.DownloadSource.bmclapi, MinecraftAttribute);
+                                    } catch (Exception f) {
+                                        downloadAssetIndexJson(MinecraftVersionObject, DownloadURL.DownloadSource.mcbbs, MinecraftAttribute);
+                                    }
                                 }
+                                if (Objects.equals(standardSha1, Utils.fileSha1(file)) & file.length() == standardSize) {
+                                    System.out.println("DL-AJ" + " Download '" + name + "' end");
+                                    end++;
+                                    break;
+                                }
+                            } catch (Exception e) {
+                                System.out.println("DL-AJ" + j + " Download '" + name + "' error");
                             }
-                            if (Objects.equals(standardSha1, Utils.fileSha1(file)) & file.length() == standardSize) {
-                                System.out.println("DL-AJ" + " Download '" + name + "' end");
-                                end++;
-                                break;
-                            }
-                        } catch(Exception e){
-                            System.out.println("DL-AJ" + j + " Download '" + name + "' error");
                         }
-                    }
 
+                    }
+                } catch (Exception e) {
+                    System.out.println("DL-AJ" + " Download '" + name + "' error");
+                    error++;
                 }
-            } catch (Exception e) {
-                System.out.println("DL-AJ" + " Download '" + name + "' error");
-                error++;
-            }
-        });
+            });
+            quantity--;
+        };
+        iThreadManagement.run();
     }
     public static void downloadsLibrariesUtils(MinecraftVersionObject MinecraftVersionObject,MinecraftAttribute MinecraftAttribute) throws Exception {
         AtomicInteger DLNDEnd = new AtomicInteger();
@@ -202,59 +223,62 @@ public class MinecraftDownloadsUtils {
         AtomicInteger DLOJError = new AtomicInteger();
         AtomicInteger DLNDadd = new AtomicInteger();
         AtomicInteger DLOJadd = new AtomicInteger();
-        for (int i = 0;i < MinecraftVersionObject.getLibraries().length;i++){
+        for (int i = 0; i < MinecraftVersionObject.getLibraries().length; i++) {
             int finalI = i;
-            if (MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers() != null && MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers().getNativesWindows() != null){
-                String name = new File(DownloadURL.nativesJarURL(MinecraftVersionObject, DownloadURL.DownloadSource.official,i).getPath()).getName();
-                executorService.execute(()-> {
-                    try {
+            if (MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers() != null &&
+                    MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers().getNativesWindows() != null) {
+                String name = new File(DownloadURL.nativesJarURL(MinecraftVersionObject, DownloadURL.DownloadSource.official, i).getPath()).getName();
+                IThreadManagement iThreadManagement = () -> {
+                    quantity++;
+                    executorService.execute(() -> {
                         //String path = MinecraftAttribute.runPath+"\\natives\\";
                         //if (Objects.equals(MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers().getNativesWindows().getSha1(), Utils.fileSha1(new File(path + name)))) {
                         //    System.out.println("DL-ND '" + name + "' File already exists and SHA-1 is the same");
                         //} else {
-                            for (int j = 0; j < 10; j++) {
+                        for (int j = 0; j < 10; j++) {
+                            try {
+                                System.out.println("DL-ND-" + finalI + "-" + j + " downloading '" + name + "'");
                                 try {
-                                    System.out.println("DL-ND-" + finalI + "-" + j + " downloading '" + name + "'");
-                                    try {
-                                        downloadNativesDllLibraries(MinecraftVersionObject, DownloadURL.DownloadSource.official, MinecraftAttribute, finalI);
-                                    } catch (Exception e) {
-                                        try {
-                                            downloadNativesDllLibraries(MinecraftVersionObject, DownloadURL.DownloadSource.bmclapi, MinecraftAttribute, finalI);
-                                        } catch (Exception f) {
-                                            downloadNativesDllLibraries(MinecraftVersionObject, DownloadURL.DownloadSource.mcbbs, MinecraftAttribute, finalI);
-                                        }
-                                    }
-                                    System.out.println("DL-ND-" + finalI + " Download '" + name + "' end");
-                                    end++;
-                                    synchronized (DLNDEnd) {
-                                        synchronized ((DLNDError)) {
-                                            synchronized ((DLNDadd)) {
-                                                DLNDEnd.addAndGet(1);
-                                                DLNDadd.set(DLNDEnd.get() + DLNDError.get());
-                                                System.out.println("DL-ND " + DLNDEnd + "/" + DLNDadd + "/" + MinecraftVersionObject.getLibraries().length);
-                                            }
-                                        }
-                                    }
-                                    break;
+                                    downloadNativesDllLibraries(MinecraftVersionObject, DownloadURL.DownloadSource.official, MinecraftAttribute, finalI);
                                 } catch (Exception e) {
-                                    System.out.println("DL-ND-" + finalI + "-" + j + " Download '" + name + "' error");
+                                    try {
+                                        downloadNativesDllLibraries(MinecraftVersionObject, DownloadURL.DownloadSource.bmclapi, MinecraftAttribute, finalI);
+                                    } catch (Exception f) {
+                                        downloadNativesDllLibraries(MinecraftVersionObject, DownloadURL.DownloadSource.mcbbs, MinecraftAttribute, finalI);
+                                    }
                                 }
+                                System.out.println("DL-ND-" + finalI + " Download '" + name + "' end");
+                                end++;
+                                synchronized (DLNDEnd) {
+                                    synchronized ((DLNDError)) {
+                                        synchronized ((DLNDadd)) {
+                                            DLNDEnd.addAndGet(1);
+                                            DLNDadd.set(DLNDEnd.get() + DLNDError.get());
+                                            System.out.println("DL-ND " + DLNDEnd + "/" + DLNDadd + "/" + MinecraftVersionObject.getLibraries().length);
+                                        }
+                                    }
+                                }
+                                break;
+                            } catch (Exception e) {
+                                System.out.println("DL-ND-" + finalI + "-" + j + " Download '" + name + "' error");
                             }
+                        }
                         //}
-                    } catch (Exception e) {
                         System.out.println("DL-ND-" + finalI + " Download '" + name + "' error");
                         error++;
                         synchronized (DLNDEnd) {
-                            synchronized ((DLNDError)){
-                                synchronized ((DLNDadd)){
+                            synchronized ((DLNDError)) {
+                                synchronized ((DLNDadd)) {
                                     DLNDError.addAndGet(1);
                                     DLNDadd.set(DLNDEnd.get() + DLNDError.get());
-                                    System.out.println("DL-ND " + DLNDError + "/"+ DLNDadd + "/" + " error");
+                                    System.out.println("DL-ND " + DLNDError + "/" + DLNDadd + "/" + " error");
                                 }
                             }
                         }
-                    }
-                });
+                    });
+                    quantity--;
+                };
+                iThreadManagement.run();
                 /*
                 new Thread(()-> {
                     try {
@@ -273,61 +297,64 @@ public class MinecraftDownloadsUtils {
                 },"DL-ND-"+i).start();
                 */
             } else if (MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers() == null) {
-                String name = new File(DownloadURL.otherJarLibrariesURL(MinecraftVersionObject, DownloadURL.DownloadSource.official,i).getPath()).getName();
-                executorService.execute(()-> {
-                    try {
-                        String path = MinecraftAttribute.mainPath+"libraries\\"+ Utils.regexReplace(MinecraftVersionObject.getLibraries()[finalI].getDownloads().getArtifact().getPath(),name,"");
-                        String standardSha1 = MinecraftVersionObject.getLibraries()[finalI].getDownloads().getArtifact().getSha1();
-                        int standardSize = MinecraftVersionObject.getLibraries()[finalI].getDownloads().getArtifact().getSize();
-                        File file = new File(path + name);
-                        if (Objects.equals(standardSha1, Utils.fileSha1(file)) && standardSize == file.length()) {
-                            System.out.println("DL-OJ '" + name + "' File already exists and SHA-1 is the same");
-                        } else {
-                            for (int j = 0;j < 10; j++) {
-                                try {
-                                    System.out.println("DL-OJ-" + finalI + "-" + j + " downloading '" + name + "'");
+                String name = new File(DownloadURL.otherJarLibrariesURL(MinecraftVersionObject, DownloadURL.DownloadSource.official, i).getPath()).getName();
+                IThreadManagement iThreadManagement = () -> {
+                    quantity++;
+                    executorService.execute(() -> {
+                        try {
+                            String path = MinecraftAttribute.mainPath + "libraries\\" + Utils.regexReplace(MinecraftVersionObject.getLibraries()[finalI].getDownloads().getArtifact().getPath(), name, "");
+                            String standardSha1 = MinecraftVersionObject.getLibraries()[finalI].getDownloads().getArtifact().getSha1();
+                            int standardSize = MinecraftVersionObject.getLibraries()[finalI].getDownloads().getArtifact().getSize();
+                            File file = new File(path + name);
+                            if (Objects.equals(standardSha1, Utils.fileSha1(file)) && standardSize == file.length()) {
+                                System.out.println("DL-OJ '" + name + "' File already exists and SHA-1 is the same");
+                            } else {
+                                for (int j = 0; j < 10; j++) {
                                     try {
-                                        downloadOtherJarLibraries(MinecraftVersionObject, DownloadURL.DownloadSource.official, MinecraftAttribute, finalI);
-                                    } catch (Exception e) {
+                                        System.out.println("DL-OJ-" + finalI + "-" + j + " downloading '" + name + "'");
                                         try {
-                                            downloadOtherJarLibraries(MinecraftVersionObject, DownloadURL.DownloadSource.bmclapi, MinecraftAttribute, finalI);
-                                        } catch (Exception f) {
-                                            downloadOtherJarLibraries(MinecraftVersionObject, DownloadURL.DownloadSource.mcbbs, MinecraftAttribute, finalI);
-                                        }
-                                    }
-                                    if (Objects.equals(standardSha1, Utils.fileSha1(file)) & file.length() == standardSize) {
-                                        System.out.println("DL-OJ-" + finalI + " Download '" + name + "' end");
-                                        end++;
-                                        synchronized (DLOJEnd) {
-                                            synchronized ((DLOJError)) {
-                                                synchronized ((DLOJadd)) {
-                                                    DLOJEnd.addAndGet(1);
-                                                    DLOJadd.set(DLOJEnd.get() + DLOJError.get());
-                                                    System.out.println("DL-OJ " + DLOJEnd + "/" + DLOJadd + "/" + MinecraftVersionObject.getLibraries().length);
-                                                }
+                                            downloadOtherJarLibraries(MinecraftVersionObject, DownloadURL.DownloadSource.official, MinecraftAttribute, finalI);
+                                        } catch (Exception e) {
+                                            try {
+                                                downloadOtherJarLibraries(MinecraftVersionObject, DownloadURL.DownloadSource.bmclapi, MinecraftAttribute, finalI);
+                                            } catch (Exception f) {
+                                                downloadOtherJarLibraries(MinecraftVersionObject, DownloadURL.DownloadSource.mcbbs, MinecraftAttribute, finalI);
                                             }
                                         }
-                                        break;
+                                        if (Objects.equals(standardSha1, Utils.fileSha1(file)) & file.length() == standardSize) {
+                                            System.out.println("DL-OJ-" + finalI + " Download '" + name + "' end");
+                                            end++;
+                                            synchronized (DLOJEnd) {
+                                                synchronized ((DLOJError)) {
+                                                    synchronized ((DLOJadd)) {
+                                                        DLOJEnd.addAndGet(1);
+                                                        DLOJadd.set(DLOJEnd.get() + DLOJError.get());
+                                                        System.out.println("DL-OJ " + DLOJEnd + "/" + DLOJadd + "/" + MinecraftVersionObject.getLibraries().length);
+                                                    }
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    } catch (Exception e) {
+                                        System.out.println("DL-OJ-" + finalI + "-" + j + " Download '" + name + "' error");
                                     }
-                                } catch (Exception e) {
-                                    System.out.println("DL-OJ-" + finalI + "-" + j + " Download '" + name + "' error");
+                                }
+                            }
+                        } catch (Exception e) {
+                            System.out.println("DL-OJ-" + finalI + " Download '" + name + "' error");
+                            error++;
+                            synchronized (DLOJEnd) {
+                                synchronized ((DLOJError)) {
+                                    synchronized ((DLOJadd)) {
+                                        DLOJError.addAndGet(1);
+                                        DLOJadd.set(DLOJEnd.get() + DLOJError.get());
+                                        System.out.println("DL-OJ " + DLOJError + "/" + DLOJadd + "/" + " error");
+                                    }
                                 }
                             }
                         }
-                    } catch (Exception e) {
-                        System.out.println("DL-OJ-" + finalI + " Download '" + name + "' error");
-                        error++;
-                        synchronized (DLOJEnd) {
-                            synchronized ((DLOJError)){
-                                synchronized ((DLOJadd)){
-                                    DLOJError.addAndGet(1);
-                                    DLOJadd.set(DLOJEnd.get() + DLOJError.get());
-                                    System.out.println("DL-OJ " + DLOJError + "/"+ DLOJadd + "/" + " error");
-                                }
-                            }
-                        }
-                    }
-                });
+                    });
+                    quantity--;
                 /*
                 new Thread(()-> {
                     try {
@@ -345,6 +372,8 @@ public class MinecraftDownloadsUtils {
                     }
                 },"DL-OJ-"+i).start();
                 */
+                };
+                iThreadManagement.run();
             }
         }
     }
@@ -367,110 +396,120 @@ public class MinecraftDownloadsUtils {
             String path = pathArray[i];
             int size = Integer.parseInt(sizeArray[i]);
             int finalI = i;
-            executorService.execute(() ->{
-                try {
-                    String path1 = MinecraftAttribute.mainPath+"assets\\objects\\"+hash.substring(0,2)+"\\";
-                    File file = new File(path1 + hash);
-                    if (Objects.equals(hash, Utils.fileSha1(file)) && size == file.length()) {
-                        System.out.println("DA-AI '" + hash + "' File already exists and SHA-1 is the same");
-                    } else {
-                        for (int j = 0;j < 10; j++) {
-                            try {
-                                System.out.println("DA-AI-" + finalI + "-" + j + " downloading '" + hash + "'");
+            IThreadManagement iThreadManagement = () -> {
+                quantity++;
+                executorService.execute(() -> {
+                    try {
+                        String path1 = MinecraftAttribute.mainPath + "assets\\objects\\" + hash.substring(0, 2) + "\\";
+                        File file = new File(path1 + hash);
+                        if (Objects.equals(hash, Utils.fileSha1(file)) && size == file.length()) {
+                            System.out.println("DA-AI '" + hash + "' File already exists and SHA-1 is the same");
+                        } else {
+                            for (int j = 0; j < 10; j++) {
                                 try {
-                                    downloadAssetIndexFile(MinecraftAttribute, DownloadURL.DownloadSource.official, hash);
-                                } catch (Exception e) {
+                                    System.out.println("DA-AI-" + finalI + "-" + j + " downloading '" + hash + "'");
                                     try {
-                                        downloadAssetIndexFile(MinecraftAttribute, DownloadURL.DownloadSource.bmclapi, hash);
-                                    } catch (Exception f) {
-                                        downloadAssetIndexFile(MinecraftAttribute, DownloadURL.DownloadSource.mcbbs, hash);
-                                    }
-                                }
-                                if (Objects.equals(hash, Utils.fileSha1(file)) & file.length() == size) {
-                                    System.out.println("DA-AI-" + finalI + " Download '" + hash + "' end");
-                                    end++;
-                                    synchronized (DAIFEnd) {
-                                        synchronized ((DAIFError)) {
-                                            synchronized ((DAIFadd)) {
-                                                DAIFEnd.addAndGet(1);
-                                                DAIFadd.set(DAIFEnd.get() + DAIFError.get());
-                                                System.out.println("DA-AI " + DAIFEnd + "/" + DAIFadd + "/" + hashArray.length);
-                                            }
+                                        downloadAssetIndexFile(MinecraftAttribute, DownloadURL.DownloadSource.official, hash);
+                                    } catch (Exception e) {
+                                        try {
+                                            downloadAssetIndexFile(MinecraftAttribute, DownloadURL.DownloadSource.bmclapi, hash);
+                                        } catch (Exception f) {
+                                            downloadAssetIndexFile(MinecraftAttribute, DownloadURL.DownloadSource.mcbbs, hash);
                                         }
                                     }
-                                    break;
-                                }
-                            } catch (Exception e) {
-                                System.out.println("DA-AI-" + finalI + "-" + j + " Download '" + hash + "' error");
-                            }
-                        }
-                    }
-                }catch (Exception e) {
-                    System.out.println("DA-AI-" + finalI + " Download '" + hash + "' error");
-                    error++;
-                    synchronized (DAIFEnd) {
-                        synchronized ((DAIFError)) {
-                            synchronized ((DAIFadd)) {
-                                DAIFError.addAndGet(1);
-                                DAIFadd.set(DAIFEnd.get() + DAIFError.get());
-                                System.out.println("DA-AI " + DAIFError + "/" + DAIFadd + "/" + " error");
-                            }
-                        }
-                    }
-                }
-            });
-            executorService.execute(()-> {
-                try {
-                    String path1 = MinecraftAttribute.mainPath + "assets\\virtual\\legacy\\"+ Utils.regexReplace(path,Utils.regexReplace(path,"[\\w/]+/",""),"");
-                    File file = new File(path1 + Utils.regexReplace(path,"[\\w/]+/",""));
-                    if (Objects.equals(hash, Utils.fileSha1(file)) && size == file.length()) {
-                        System.out.println("DA-AC '" + hash + "' File already exists and SHA-1 is the same");
-                    }else {
-                        for (int j = 0;j < 10; j++) {
-                            try {
-                                System.out.println("DA-AC-" + finalI + "-" + j + " downloading '" + path + "'");
-                                try {
-                                    downloadAssetIndexCopyFile(MinecraftAttribute, DownloadURL.DownloadSource.official, path, hash);
-                                } catch (Exception e) {
-                                    try {
-                                        downloadAssetIndexCopyFile(MinecraftAttribute, DownloadURL.DownloadSource.bmclapi, path, hash);
-                                 } catch (Exception f) {
-                                        downloadAssetIndexCopyFile(MinecraftAttribute, DownloadURL.DownloadSource.mcbbs, path, hash);
-                                    }
-                                }
-                                if (Objects.equals(hash, Utils.fileSha1(file)) & file.length() == size) {
-                                    System.out.println("DA-AC-" + finalI + " Download '" + path + "' end");
-                                    end++;
-                                    synchronized (DACFEnd) {
-                                        synchronized ((DACFError)) {
-                                            synchronized ((DACFadd)) {
-                                                DACFEnd.addAndGet(1);
-                                                DACFadd.set(DACFEnd.get() + DACFError.get());
-                                                System.out.println("DA-AC " + DACFEnd + "/" + DACFadd + "/" + hashArray.length);
+                                    if (Objects.equals(hash, Utils.fileSha1(file)) & file.length() == size) {
+                                        System.out.println("DA-AI-" + finalI + " Download '" + hash + "' end");
+                                        end++;
+                                        synchronized (DAIFEnd) {
+                                            synchronized ((DAIFError)) {
+                                                synchronized ((DAIFadd)) {
+                                                    DAIFEnd.addAndGet(1);
+                                                    DAIFadd.set(DAIFEnd.get() + DAIFError.get());
+                                                    System.out.println("DA-AI " + DAIFEnd + "/" + DAIFadd + "/" + hashArray.length);
+                                                }
                                             }
                                         }
+                                        break;
                                     }
-                                    break;
+                                } catch (Exception e) {
+                                    System.out.println("DA-AI-" + finalI + "-" + j + " Download '" + hash + "' error");
                                 }
-                               } catch (Exception e) {
-                                System.out.println("DA-AC-" + finalI + "-" + j + " Download '" + hash + "' error");
+                            }
+                        }
+                    } catch (Exception e) {
+                        System.out.println("DA-AI-" + finalI + " Download '" + hash + "' error");
+                        error++;
+                        synchronized (DAIFEnd) {
+                            synchronized ((DAIFError)) {
+                                synchronized ((DAIFadd)) {
+                                    DAIFError.addAndGet(1);
+                                    DAIFadd.set(DAIFEnd.get() + DAIFError.get());
+                                    System.out.println("DA-AI " + DAIFError + "/" + DAIFadd + "/" + " error");
+                                }
                             }
                         }
                     }
-                } catch (Exception e) {
-                    System.out.println("DA-AC-" + finalI + " Download '" + path + "' error");
-                    error++;
-                    synchronized (DACFEnd) {
-                        synchronized ((DACFError)) {
-                            synchronized ((DACFadd)) {
-                                DACFError.addAndGet(1);
-                                DACFadd.set(DACFEnd.get() + DACFError.get());
-                                System.out.println("DA-AC " + DACFError + "/" + DACFadd + "/" + " error");
+                });
+                quantity--;
+            };
+            iThreadManagement.run();
+            iThreadManagement = () -> {
+                quantity++;
+                executorService.execute(() -> {
+                    try {
+                        String path1 = MinecraftAttribute.mainPath + "assets\\virtual\\legacy\\" + Utils.regexReplace(path, Utils.regexReplace(path, "[\\w/]+/", ""), "");
+                        File file = new File(path1 + Utils.regexReplace(path, "[\\w/]+/", ""));
+                        if (Objects.equals(hash, Utils.fileSha1(file)) && size == file.length()) {
+                            System.out.println("DA-AC '" + hash + "' File already exists and SHA-1 is the same");
+                        } else {
+                            for (int j = 0; j < 10; j++) {
+                                try {
+                                    System.out.println("DA-AC-" + finalI + "-" + j + " downloading '" + path + "'");
+                                    try {
+                                        downloadAssetIndexCopyFile(MinecraftAttribute, DownloadURL.DownloadSource.official, path, hash);
+                                    } catch (Exception e) {
+                                        try {
+                                            downloadAssetIndexCopyFile(MinecraftAttribute, DownloadURL.DownloadSource.bmclapi, path, hash);
+                                        } catch (Exception f) {
+                                            downloadAssetIndexCopyFile(MinecraftAttribute, DownloadURL.DownloadSource.mcbbs, path, hash);
+                                        }
+                                    }
+                                    if (Objects.equals(hash, Utils.fileSha1(file)) & file.length() == size) {
+                                        System.out.println("DA-AC-" + finalI + " Download '" + path + "' end");
+                                        end++;
+                                        synchronized (DACFEnd) {
+                                            synchronized ((DACFError)) {
+                                                synchronized ((DACFadd)) {
+                                                    DACFEnd.addAndGet(1);
+                                                    DACFadd.set(DACFEnd.get() + DACFError.get());
+                                                    System.out.println("DA-AC " + DACFEnd + "/" + DACFadd + "/" + hashArray.length);
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    }
+                                } catch (Exception e) {
+                                    System.out.println("DA-AC-" + finalI + "-" + j + " Download '" + hash + "' error");
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        System.out.println("DA-AC-" + finalI + " Download '" + path + "' error");
+                        error++;
+                        synchronized (DACFEnd) {
+                            synchronized ((DACFError)) {
+                                synchronized ((DACFadd)) {
+                                    DACFError.addAndGet(1);
+                                    DACFadd.set(DACFEnd.get() + DACFError.get());
+                                    System.out.println("DA-AC " + DACFError + "/" + DACFadd + "/" + " error");
+                                }
                             }
                         }
                     }
-                }
-            });
+                });
+                quantity--;
+            };
+            iThreadManagement.run();
             /*new Thread(()-> {
                 try {
                     System.out.println("DL-AI-"+ finalI +" downloading AssetIndex:"+hash+"'");
