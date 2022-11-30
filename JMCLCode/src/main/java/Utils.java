@@ -2,7 +2,6 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
@@ -10,7 +9,6 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,27 +47,66 @@ public class Utils {
         }
     }
     public static void MultiThreadedDownloadAFile(URL url, String path) throws IOException {
-        int totalSize = Objects.requireNonNull(getFileContent(url)).toString().getBytes().length;
-        //new FileInputStream(new File(new URL(url).toURI())).getChannel();
-        long numberOfSegments = (long) Math.ceil(totalSize/SetUp.multiThreadedDownloadAFileSegmentSize);
-        for (int i = 0;i<=numberOfSegments;i++) {
-            int finalI = i;
-            PublicVariable.executorService.execute(() -> {
-                try {
-                    RandomAccessFile randomAccessFile = new RandomAccessFile(path, "rwd");
-                    randomAccessFile.seek((long) SetUp.multiThreadedDownloadAFileSegmentSize * finalI);
-                    byte[] bytes = new byte[SetUp.multiThreadedDownloadAFileSegmentSize];
-                    randomAccessFile.read(bytes);
-                    randomAccessFile.close();
-                    randomAccessFile = new RandomAccessFile(path, "rwd");
-                    randomAccessFile.seek((long) SetUp.multiThreadedDownloadAFileSegmentSize * finalI);
-                    randomAccessFile.write(bytes);
-                    randomAccessFile.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+        File file = new File(path);
+        if (file.exists() && !file.isDirectory()) file.delete();
+        URLConnection urlConnection = url.openConnection();
+        HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
+        if(httpURLConnection.getResponseCode()==200) {
+            int totalSize = urlConnection.getContentLength();
+            System.out.println(totalSize);
+            //int totalSize = Objects.requireNonNull(getFileContent(url)).toString().getBytes().length;
+            //new FileInputStream(new File(new URL(url).toURI())).getChannel();
+            long numberOfSegments = (long) Math.ceil(totalSize / SetUp.multiThreadedDownloadAFileSegmentSize);
+            for (int i = 0; i <= numberOfSegments; i++) {
+                int finalI = i;
+                PublicVariable.executorService.execute(() -> {
+                    try {
+                        RandomAccessFile randomAccessFile = new RandomAccessFile(path, "rwd");
+                        randomAccessFile.setLength(totalSize);
+                        randomAccessFile.seek((long) SetUp.multiThreadedDownloadAFileSegmentSize * finalI);
+                        byte[] bytes;
+                        for (int j = 0; j < 10; j++) {
+                            try {
+                                //bytes = Objects.requireNonNull(Utils.getPartOfTheFileContent(url, SetUp.multiThreadedDownloadAFileSegmentSize * finalI,
+                                        //SetUp.multiThreadedDownloadAFileSegmentSize * (finalI+1)-1,path));//.toString().getBytes();
+                                int start = SetUp.multiThreadedDownloadAFileSegmentSize * finalI;
+                                int end;
+                                if (finalI != numberOfSegments) {
+                                    end = SetUp.multiThreadedDownloadAFileSegmentSize * (finalI + 1) - 1;
+                                }else {
+                                    end = totalSize;
+                                }
+                                bytes = getPartOfTheFileContent(url,start,end,path);
+                                assert bytes != null;
+                                System.out.println(bytes.length + "/" + (end-start));
+                                randomAccessFile.write(bytes);
+                                break;
+                            } catch (Throwable ignored) {}
+                        }
+                        randomAccessFile.close();
+                    } catch (IOException ignored) {
+                    }
+                });
+            }
         }
+    }
+    public static byte[] getData(InputStream is) throws IOException{
+        // 字节输出流
+        ByteArrayOutputStream bops = new ByteArrayOutputStream();
+        // 读取数据的缓存区
+        byte[] buffer = new byte[1024];
+        // 读取长度的记录
+        int len;
+        // 循环读取
+        while ((len = is.read(buffer)) != -1) {
+            bops.write(buffer, 0, len);
+        }
+        // 把读取的内容转换成byte数组
+        byte[] data = bops.toByteArray();
+        bops.flush();
+        bops.close();
+        is.close();
+        return data;
     }
     public static String regexReplace(String input, String regex, String replacement) {
         Pattern p = Pattern.compile(regex);
@@ -122,7 +159,7 @@ public class Utils {
         }
         return null;
     }
-    public static StringBuilder getPartOfTheFileContent(URL url,int start,int end) throws IOException {
+    public static byte[] getPartOfTheFileContent(URL url, int start, int end ,String path) throws IOException {
         URLConnection connection = url.openConnection();
         if (connection instanceof HttpsURLConnection httpsConnection) {
             httpsConnection.setRequestMethod("GET");
@@ -132,13 +169,16 @@ public class Utils {
             httpsConnection.setConnectTimeout(1000);
             httpsConnection.setReadTimeout(1000);
             httpsConnection.setRequestProperty("Range", "bytes="+start+"-"+end);
-            BufferedReader is = new BufferedReader(new InputStreamReader(httpsConnection.getInputStream()));
-            StringBuilder body = new StringBuilder();
-            String a;
-            while ((a = is.readLine()) != null) {
-                body.append(a);
+            if (httpsConnection.getResponseCode() == 206) {
+                //RandomAccessFile randomAccessFile=new RandomAccessFile(path, "rwd");
+                //randomAccessFile.seek(start);
+                Thread t = Thread.currentThread();
+                String name = t.getName();
+                System.out.println(name+" "+httpsConnection.getResponseCode());
+                //BufferedReader is = new BufferedReader(new InputStreamReader(httpsConnection.getInputStream()));
+                return getData(httpsConnection.getInputStream());
             }
-            return body;
+            System.out.println("Request failed");
         } else if (connection instanceof HttpURLConnection httpConnection) {
             httpConnection.setRequestMethod("GET");
             httpConnection.setDoOutput(true);
@@ -147,14 +187,17 @@ public class Utils {
             httpConnection.setConnectTimeout(1000);
             httpConnection.setReadTimeout(1000);
             httpConnection.setRequestProperty("Range", "bytes="+start+"-"+end);
-            BufferedReader is = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
-            StringBuilder body = new StringBuilder();
-            String a;
-            while ((a = is.readLine()) != null) {
-                body.append(a);
-            }
-            return body;
-        } else {
+            if (httpConnection.getResponseCode() == 206) {
+                //RandomAccessFile randomAccessFile=new RandomAccessFile(path, "rwd");
+                //randomAccessFile.seek(start);
+                Thread t = Thread.currentThread();
+                String name = t.getName();
+                System.out.println(name+" "+httpConnection.getResponseCode());
+                //BufferedReader is = new BufferedReader(new InputStreamReader(httpsConnection.getInputStream()));
+                return getData(httpConnection.getInputStream());
+                }
+            System.out.println("Request failed");
+        }else {
             System.out.println("The URL is null");
         }
         return null;
