@@ -3,7 +3,6 @@ package JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis;
 import com.google.gson.*;
 import com.google.gson.annotations.SerializedName;
 
-
 import java.lang.reflect.Type;
 import java.net.URL;
 

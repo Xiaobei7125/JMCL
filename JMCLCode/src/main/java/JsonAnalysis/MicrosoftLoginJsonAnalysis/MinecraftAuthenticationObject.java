@@ -2,8 +2,6 @@ package JsonAnalysis.MicrosoftLoginJsonAnalysis;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serial;
-
 public class MinecraftAuthenticationObject {
     private String username;
     private String[] roles;

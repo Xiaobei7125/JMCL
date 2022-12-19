@@ -4,9 +4,6 @@ import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionObject;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MinecraftUtils {
     public static void microsoftLogin() throws IOException, URISyntaxException, InterruptedException {

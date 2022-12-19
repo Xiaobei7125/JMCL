@@ -1,11 +1,3 @@
-import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestObject;
-import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionObject;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.util.Objects;
-
 public class Test {
     public static void main(String[] ages) throws Exception {
         //BufferedReader mainPath = new BufferedReader(new InputStreamReader(System.in));

@@ -1,6 +1,5 @@
-import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionObject;
 import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestObject;
-
+import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -104,7 +103,7 @@ public class DownloadURL {
         official,bmclapi,mcbbs
     }
     enum VersionManifest{
-        v1,v2;
+        v1,v2
 
     }
 }
