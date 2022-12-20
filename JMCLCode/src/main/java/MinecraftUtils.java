@@ -33,19 +33,21 @@ public class MinecraftUtils {
             System.out.println("Please try again.");
         }
     }
-    public static void downloadMinecraft(MinecraftAttribute MinecraftAttribute) throws Exception {
-        MinecraftVersionManifestObject MinecraftVersionManifestObject = MinecraftRequest.getMinecraftVersionManifestObject();
-        if(MinecraftVersionProcessing.isId(MinecraftVersionManifestObject,MinecraftAttribute.id)){
-            MinecraftVersionObject MinecraftVersionObject = MinecraftRequest.getMinecraftVersionObject(MinecraftVersionManifestObject,MinecraftAttribute);
-            MinecraftDownloadsUtils.downloadsVersionFileUtils(MinecraftVersionObject,MinecraftAttribute);
-            MinecraftDownloadsUtils.downloadsVersionJsonUtils(MinecraftVersionManifestObject,MinecraftAttribute);
-            MinecraftDownloadsUtils.downloadsLibrariesUtils(MinecraftVersionObject,MinecraftAttribute);
-            MinecraftDownloadsUtils.downloadLog4jFileUtils(MinecraftVersionObject,MinecraftAttribute);
-            MinecraftDownloadsUtils.downloadAssetIndexJsonUtils(MinecraftVersionObject,MinecraftAttribute);
-            MinecraftDownloadsUtils.downloadsAssetIndexUtils(MinecraftVersionObject,MinecraftAttribute);
-            System.out.println(MinecraftDownloadsUtils.end+"/"+MinecraftDownloadsUtils.error+"/"+(MinecraftDownloadsUtils.error+MinecraftDownloadsUtils.end));
-        }else {
-            System.out.println("This Minecraft version does not exist.");
-        }
+    public static void downloadMinecraft(MinecraftAttribute MinecraftAttribute) {
+        try {
+            MinecraftVersionManifestObject MinecraftVersionManifestObject = MinecraftRequest.getMinecraftVersionManifestObject();
+            if(MinecraftVersionProcessing.isId(MinecraftVersionManifestObject,MinecraftAttribute.id)){
+                MinecraftVersionObject MinecraftVersionObject = MinecraftRequest.getMinecraftVersionObject(MinecraftVersionManifestObject,MinecraftAttribute);
+                MinecraftDownloadsUtils.downloadsVersionFileUtils(MinecraftVersionObject,MinecraftAttribute);
+                MinecraftDownloadsUtils.downloadsVersionJsonUtils(MinecraftVersionManifestObject,MinecraftAttribute);
+                MinecraftDownloadsUtils.downloadsLibrariesUtils(MinecraftVersionObject,MinecraftAttribute);
+                MinecraftDownloadsUtils.downloadLog4jFileUtils(MinecraftVersionObject,MinecraftAttribute);
+                MinecraftDownloadsUtils.downloadAssetIndexJsonUtils(MinecraftVersionObject,MinecraftAttribute);
+                MinecraftDownloadsUtils.downloadsAssetIndexUtils(MinecraftVersionObject,MinecraftAttribute);
+                System.out.println(MinecraftDownloadsUtils.end+"/"+MinecraftDownloadsUtils.error+"/"+(MinecraftDownloadsUtils.error+MinecraftDownloadsUtils.end));
+            }else {
+                System.out.println("This Minecraft version does not exist.");
+            }
+        }catch (Exception ignored){}
     }
 }

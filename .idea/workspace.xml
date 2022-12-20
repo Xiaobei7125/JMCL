@@ -4,18 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52b5a912-3e1b-441c-ad53-0a299eb59686" name="变更" comment="修修修">
+    <list default="true" id="52b5a912-3e1b-441c-ad53-0a299eb59686" name="变更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/DownloadURL.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/DownloadURL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/MinecraftAuthenticationObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/MinecraftAuthenticationObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MinecraftLibraryDownloadJsonAnalysis/MinecraftVersionObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MinecraftLibraryDownloadJsonAnalysis/MinecraftVersionObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftDownload.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftDownload.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftDownloadsUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftDownloadsUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/PublicVariable.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/PublicVariable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/SetUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/SetUp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Test.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/ZipUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/ZipUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,7 +107,7 @@
     &quot;project.structure.last.edited&quot;: &quot;项目&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Subversion&quot;,
     &quot;two.files.diff.last.used.file&quot;: &quot;E:/JavaTest/JMCL/filename.txt&quot;
   }
 }</component>
@@ -184,6 +180,9 @@
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\56308\AppData\Roaming\Subversion</configuration>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
       <changelist id="52b5a912-3e1b-441c-ad53-0a299eb59686" name="变更" comment="" />
@@ -353,7 +352,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669803283326</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="修修修">
+      <created>1671411546465</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1671411546465</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -396,7 +402,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/JMCL$Text2.ic" NAME="Text2 覆盖结果" MODIFIED="1669772050100" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/JMCL$Test.ic" NAME="Test 覆盖结果" MODIFIED="1671411297804" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/JMCL$Test.ic" NAME="Test 覆盖结果" MODIFIED="1671439821757" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/JMCL$JMCL_JMCLCode___JMCLCode_Test_main___.ic" NAME="JMCL:JMCLCode [:JMCLCode:Test.main()] 覆盖结果" MODIFIED="1669607663646" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

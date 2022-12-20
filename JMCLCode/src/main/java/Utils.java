@@ -51,13 +51,17 @@ public class Utils {
         if (file.exists() && !file.isDirectory()) file.delete();
         URLConnection urlConnection = url.openConnection();
         HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
-        if(httpURLConnection.getResponseCode()==200) {
+        int responseCode = httpURLConnection.getResponseCode();
+        if(responseCode==200) {
             int totalSize = urlConnection.getContentLength();
             long numberOfSegments = (long) Math.ceil(totalSize / SetUp.multiThreadedDownloadAFileSegmentSize);
             for (int i = 0; i <= numberOfSegments; i++) {
                 int finalI = i;
-                PublicVariable.executorService.execute(() -> {
+                PublicVariable.multiThreadedDownloadExecutorService.execute(() -> {
                     try {
+                        if (!file.exists() && !file.isDirectory()) {
+                            file.createNewFile();
+                        }
                         RandomAccessFile randomAccessFile = new RandomAccessFile(path, "rwd");
                         randomAccessFile.setLength(totalSize);
                         randomAccessFile.seek((long) SetUp.multiThreadedDownloadAFileSegmentSize * finalI);
@@ -201,16 +205,20 @@ public class Utils {
         }
         return newString;
     }
-    public static String fileSha1(File file) throws NoSuchAlgorithmException {
+    public static String fileSha1(File file) throws NoSuchAlgorithmException, IOException {
+        if (!file.exists() && !file.isDirectory()) {
+            file.createNewFile();
+        }
         if(!file.exists()){
             return null;
         }else {
+            if(!file.canWrite()) file.setWritable(true);
             byte[] input = readToString(String.valueOf(file));
             MessageDigest md = MessageDigest.getInstance("SHA-1");
             byte[] messageDigest = md.digest(input);
             BigInteger no = new BigInteger(1, messageDigest);
             StringBuilder hashText = new StringBuilder(no.toString(16));
-            while (hashText.length() < 32) hashText.insert(0, "0");
+            while (hashText.length() < 40) hashText.insert(0, "0");
             return hashText.toString();
         }
     }
