@@ -5,13 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52b5a912-3e1b-441c-ad53-0a299eb59686" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/DownloadURL.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/DownloadURL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MinecraftLibraryDownloadJsonAnalysis/MinecraftVersionObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MinecraftLibraryDownloadJsonAnalysis/MinecraftVersionObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftDownload.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftDownload.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftDownloadsUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftDownloadsUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftVersionProcessing.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftVersionProcessing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/SetUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/SetUp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Test.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Utils.java" afterDir="false" />
@@ -375,7 +373,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671498652337</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="修修修">
+      <created>1671518288820</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1671518288821</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -411,6 +416,9 @@
     <MESSAGE value="多线程下载一个文件终于做好了！！！" />
     <MESSAGE value="修修修" />
     <option name="LAST_COMMIT_MESSAGE" value="修修修" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
@@ -418,7 +426,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/JMCL$Text2.ic" NAME="Text2 覆盖结果" MODIFIED="1669772050100" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/JMCL$Test.ic" NAME="Test 覆盖结果" MODIFIED="1671509587315" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/JMCL$Test.ic" NAME="Test 覆盖结果" MODIFIED="1671526143515" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/JMCL$JMCL_JMCLCode___JMCLCode_Test_main___.ic" NAME="JMCL:JMCLCode [:JMCLCode:Test.main()] 覆盖结果" MODIFIED="1669607663646" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

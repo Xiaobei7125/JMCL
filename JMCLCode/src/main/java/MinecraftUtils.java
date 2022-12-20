@@ -44,7 +44,6 @@ public class MinecraftUtils {
                 MinecraftDownloadsUtils.downloadLog4jFileUtils(MinecraftVersionObject,MinecraftAttribute);
                 MinecraftDownloadsUtils.downloadAssetIndexJsonUtils(MinecraftVersionObject,MinecraftAttribute);
                 MinecraftDownloadsUtils.downloadsAssetIndexUtils(MinecraftVersionObject,MinecraftAttribute);
-                System.out.println(MinecraftDownloadsUtils.end+"/"+MinecraftDownloadsUtils.error+"/"+(MinecraftDownloadsUtils.error+MinecraftDownloadsUtils.end));
             }else {
                 System.out.println("This Minecraft version does not exist.");
             }

@@ -13,16 +13,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Utils {
-    public static void deleteDirector(String path){
+    public static void deleteDirectory(String path) {
         File[] array = new File(path).listFiles();
         assert array != null;
         for (File file : array) {
             if (file.isDirectory()) {
-                deleteDirector(file.getPath());
+                deleteDirectory(file.getPath());
             }
             file.delete();
         }
     }
+
     public static void downloadAFile(URL url, String incompletePath, String name) throws IOException {
         File file = new File(incompletePath);
         if (!file.exists() && !file.isDirectory()) {
@@ -45,14 +46,23 @@ public class Utils {
             fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
             fileChannel.close();
         }
+        if (file.length() == 0) {
+            file.delete();
+        }
     }
     public static void MultiThreadedDownloadAFile(URL url, String path) throws IOException {
         File file = new File(path);
         if (file.exists() && !file.isDirectory()) file.delete();
         URLConnection urlConnection = url.openConnection();
         HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
+        httpURLConnection.setRequestMethod("GET");
+        httpURLConnection.setDoOutput(true);
+        httpURLConnection.setDoInput(true);
+        httpURLConnection.setUseCaches(false);
+        httpURLConnection.setConnectTimeout(SetUp.downloadConnectTimeout);
+        httpURLConnection.setReadTimeout(SetUp.downloadReadTimeout);
         int responseCode = httpURLConnection.getResponseCode();
-        if(responseCode==200) {
+        if (responseCode == 200) {
             int totalSize = urlConnection.getContentLength();
             long numberOfSegments = (long) Math.ceil(totalSize / SetUp.multiThreadedDownloadAFileSegmentSize);
             for (int i = 0; i <= numberOfSegments; i++) {
@@ -72,21 +82,28 @@ public class Utils {
                                 int end;
                                 if (finalI != numberOfSegments) {
                                     end = SetUp.multiThreadedDownloadAFileSegmentSize * (finalI + 1) - 1;
-                                }else {
+                                } else {
                                     end = totalSize;
                                 }
-                                bytes = getPartOfTheFileContent(url,start,end,path);
+                                bytes = getPartOfTheFileContent(url, start, end);
                                 assert bytes != null;
                                 randomAccessFile.write(bytes);
                                 randomAccessFile.close();
+                                if (file.length() == 0) {
+                                    file.delete();
+                                }
                                 break;
-                            } catch (Throwable ignored) {}
+                            } catch (Throwable ignored) {
+                            }
                         }
                         randomAccessFile.close();
                     } catch (IOException ignored) {
                     }
                 });
             }
+        }
+        if (file.length() == 0) {
+            file.delete();
         }
     }
     public static byte[] getData(InputStream is) throws IOException{
@@ -120,22 +137,7 @@ public class Utils {
     }
     public static StringBuilder getFileContent(URL url) throws IOException {
         URLConnection connection = url.openConnection();
-        if (connection instanceof HttpsURLConnection httpsConnection) {
-            httpsConnection.setRequestMethod("GET");
-            httpsConnection.setDoOutput(true);
-            httpsConnection.setDoInput(true);
-            httpsConnection.setUseCaches(false);
-            httpsConnection.setConnectTimeout(SetUp.downloadConnectTimeout);
-            httpsConnection.setReadTimeout(SetUp.downloadReadTimeout);
-            BufferedReader is = new BufferedReader(new InputStreamReader(httpsConnection.getInputStream()));
-            StringBuilder body = new StringBuilder();
-            String a;
-            while ((a = is.readLine()) != null) {
-                body.append(a);
-            }
-            is.close();
-            return body;
-        } else if (connection instanceof HttpURLConnection httpConnection) {
+        if (connection instanceof HttpURLConnection httpConnection) {
             httpConnection.setRequestMethod("GET");
             httpConnection.setDoOutput(true);
             httpConnection.setDoInput(true);
@@ -155,7 +157,8 @@ public class Utils {
         }
         return null;
     }
-    public static byte[] getPartOfTheFileContent(URL url, int start, int end ,String path) throws IOException {
+
+    public static byte[] getPartOfTheFileContent(URL url, int start, int end) throws IOException {
         URLConnection connection = url.openConnection();
         if (connection instanceof HttpsURLConnection httpsConnection) {
             httpsConnection.setRequestMethod("GET");
@@ -164,22 +167,10 @@ public class Utils {
             httpsConnection.setUseCaches(false);
             httpsConnection.setConnectTimeout(SetUp.downloadConnectTimeout);
             httpsConnection.setReadTimeout(SetUp.downloadReadTimeout);
-            httpsConnection.setRequestProperty("Range", "bytes="+start+"-"+end);
+            httpsConnection.setRequestProperty("Range", "bytes=" + start + "-" + end);
             if (httpsConnection.getResponseCode() == 206) {
                 return getData(httpsConnection.getInputStream());
             }
-            System.out.println("Request failed");
-        } else if (connection instanceof HttpURLConnection httpConnection) {
-            httpConnection.setRequestMethod("GET");
-            httpConnection.setDoOutput(true);
-            httpConnection.setDoInput(true);
-            httpConnection.setUseCaches(false);
-            httpConnection.setConnectTimeout(SetUp.downloadConnectTimeout);
-            httpConnection.setReadTimeout(SetUp.downloadReadTimeout);
-            httpConnection.setRequestProperty("Range", "bytes="+start+"-"+end);
-            if (httpConnection.getResponseCode() == 206) {
-                return getData(httpConnection.getInputStream());
-                }
             System.out.println("Request failed");
         }else {
             System.out.println("The URL is null");
@@ -207,10 +198,6 @@ public class Utils {
     }
     public static String fileSha1(File file) throws NoSuchAlgorithmException, IOException {
         if (!file.exists() && !file.isDirectory()) {
-            file.getParentFile().mkdirs();
-            file.createNewFile();
-        }
-        if(!file.exists()){
             return null;
         }else {
             if(!file.canWrite()) file.setWritable(true);

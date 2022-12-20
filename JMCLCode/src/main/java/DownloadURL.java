@@ -110,11 +110,19 @@ public class DownloadURL {
             return new URL(mcbbs+url);
         }
     }
-    enum DownloadSource{
-        official,bmclapi,mcbbs
+    enum DownloadSource {
+
+        official(SetUp.ifUseOfficialDownloadSource), bmclapi(SetUp.ifUseBmclapiDownloadSource), mcbbs(SetUp.ifUseMcbbsDownloadSource);
+        boolean ifUse;
+
+        DownloadSource(boolean ifUseDownloadSource) {
+            this.ifUse = ifUseDownloadSource;
+        }
     }
-    enum VersionManifest{
-        v1,v2
+
+    enum VersionManifest {
+        v1, v2
 
     }
 }
+

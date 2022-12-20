@@ -25,7 +25,7 @@ public class MinecraftDownload {
         for (File file : array) {
             if (!Utils.regexReplace(file.getName(), "[\\w\\d-.]+\\.", "").equals("dll")) {
                 if (file.isDirectory()) {
-                    Utils.deleteDirector(file.getPath());
+                    Utils.deleteDirectory(file.getPath());
                 }
                 if (file.delete()) return false;
             }

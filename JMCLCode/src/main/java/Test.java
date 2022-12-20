@@ -1,31 +1,24 @@
+import java.util.concurrent.TimeUnit;
+
 public class Test {
     public static void main(String[] ages) throws Exception {
         //BufferedReader mainPath = new BufferedReader(new InputStreamReader(System.in));
         //BufferedReader id = new BufferedReader(new InputStreamReader(System.in));
         String mainPath = "E:\\JavaTest\\JMCL\\.minecraft\\";
-        String id = "rd-132211";
+        String id = "1.12.2";
         //microsoftLogin();
         //MinecraftUtils.downloadMinecraft(new MinecraftAttribute(mainPath.readLine(), id.readLine()));
         MinecraftUtils.downloadMinecraft(new MinecraftAttribute(mainPath, id));
-        /*
-        //MinecraftAttribute MinecraftAttribute = new MinecraftAttribute(mainPath.readLine(), id.readLine());
-        MinecraftAttribute MinecraftAttribute = new MinecraftAttribute(mainPath, id);
-        MinecraftVersionManifestObject MinecraftVersionManifestObject = MinecraftRequest.getMinecraftVersionManifestObject();
-        MinecraftVersionObject MinecraftVersionObject = MinecraftRequest
-                .getMinecraftVersionObject(MinecraftVersionManifestObject,MinecraftAttribute);
-        String name = MinecraftAttribute.id+"." + MinecraftDownload.VersionFile.jar;
-        String path = MinecraftAttribute.mainPath+"versions\\"+ MinecraftAttribute.id+"\\";
-        String i;
-        boolean b;
-        System.out.println(b = Objects.equals(MinecraftVersionObject.getDownloads().getClient().getSha1(), i = Utils.fileSha1(new File(path + name))));
-        System.out.println(MinecraftVersionObject.getDownloads().getClient().getSha1());
-        System.out.println(i);
-        /*if (!b){
-            MinecraftDownloadsUtils.downloadsVersionFileUtils(MinecraftVersionObject,MinecraftAttribute);
+        PublicVariable.executorService.shutdown();
+        for (; ; ) {
+            if (PublicVariable.executorService.awaitTermination(5000, TimeUnit.MILLISECONDS)) {
+                PublicVariable.multiThreadedDownloadExecutorService.shutdown();
+                System.out.println(PublicVariable.executorService.isTerminated());
+                System.out.println(MinecraftDownloadsUtils.end + "/" + MinecraftDownloadsUtils.error + "/" +
+                        (MinecraftDownloadsUtils.error + MinecraftDownloadsUtils.end));
+                break;
+            }
         }
-
-         */
-        //MinecraftDownloadsUtils.downloadsVersionFileUtils(MinecraftVersionObject,MinecraftAttribute);
     }
 }
 //"E:\\JavaTest\\JMCL\\.minecraft\\"
