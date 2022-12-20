@@ -7,6 +7,7 @@ import java.lang.reflect.Type;
 import java.net.URL;
 
 public class MinecraftVersionObject {
+    private String minecraftArguments;
     private Arguments arguments;
     private AssetIndex assetIndex;
     private String assets;

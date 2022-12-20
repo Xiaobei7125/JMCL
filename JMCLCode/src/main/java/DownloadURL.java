@@ -30,13 +30,24 @@ public class DownloadURL {
         }
     }
     public static URL versionJsonFileURL(MinecraftVersionManifestObject MinecraftVersionManifestObject, String id, DownloadSource downloadSource) throws MalformedURLException {
-        String url = String.valueOf(MinecraftVersionProcessing.getUrl(MinecraftVersionManifestObject,id));
-        if (downloadSource == DownloadSource.official){
-            return new URL(url);
-        } else if (downloadSource == DownloadSource.bmclapi) {
-            return new URL(Utils.regexReplace(url,"https://piston-meta.mojang.com/",bmclapi));
-        }else{
-            return new URL(Utils.regexReplace(url,"https://piston-meta.mojang.com/",mcbbs));
+        String url = String.valueOf(MinecraftVersionProcessing.getUrl(MinecraftVersionManifestObject, id));
+        if (MinecraftVersionProcessing.getIdCount(MinecraftVersionManifestObject, "1.17.1")
+                < MinecraftVersionProcessing.getIdCount(MinecraftVersionManifestObject, id)) {
+            if (downloadSource == DownloadSource.official) {
+                return new URL(url);
+            } else if (downloadSource == DownloadSource.bmclapi) {
+                return new URL(Utils.regexReplace(url, "https://piston-meta.mojang.com/", bmclapi));
+            } else {
+                return new URL(Utils.regexReplace(url, "https://piston-meta.mojang.com/", mcbbs));
+            }
+        } else {
+            if (downloadSource == DownloadSource.official) {
+                return new URL(url);
+            } else if (downloadSource == DownloadSource.bmclapi) {
+                return new URL(Utils.regexReplace(url, "https://launchermeta.mojang.com/", bmclapi));
+            } else {
+                return new URL(Utils.regexReplace(url, "https://launchermeta.mojang.com/", mcbbs));
+            }
         }
     }
     public static URL versionJarFileURL(MinecraftVersionObject MinecraftVersionObject, DownloadSource downloadSource) throws MalformedURLException {

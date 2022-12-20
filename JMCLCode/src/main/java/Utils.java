@@ -207,6 +207,7 @@ public class Utils {
     }
     public static String fileSha1(File file) throws NoSuchAlgorithmException, IOException {
         if (!file.exists() && !file.isDirectory()) {
+            file.getParentFile().mkdirs();
             file.createNewFile();
         }
         if(!file.exists()){

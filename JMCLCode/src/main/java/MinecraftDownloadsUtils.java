@@ -59,6 +59,10 @@ public class MinecraftDownloadsUtils {
                 try {
                     if (Objects.equals(standardSha1, Utils.fileSha1(file)) && standardSize == file.length() && SetUp.ifCheckFileSha1BeforeDownloading) {
                         System.out.println("DL-VF '" + name + "' File already exists and SHA-1 is the same");
+                        System.out.println("DL-VF" + " Download '" + name + "' end");
+                        end++;
+                        SetUp.threadQuantity--;
+                        return;
                     } else {
                         for (int j = 0; j < SetUp.downloadRetries; j++) {
                             try {
@@ -146,8 +150,9 @@ public class MinecraftDownloadsUtils {
 
     public static void downloadLog4jFileUtils(MinecraftVersionObject MinecraftVersionObject, MinecraftAttribute MinecraftAttribute) {
         IThreadManagement iThreadManagement = () -> {
-            
-
+            if (MinecraftVersionObject.getLogging() == null) {
+                return;
+            }
             String name = MinecraftVersionObject.getLogging().getClient().getFile().getId();
             PublicVariable.executorService.execute(() -> {
                 String path = MinecraftAttribute.mainPath + "assets\\log_configs\\";

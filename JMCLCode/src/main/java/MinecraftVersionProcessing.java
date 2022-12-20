@@ -67,15 +67,31 @@ public class MinecraftVersionProcessing {
         String[] idArray = MinecraftVersionManifestObject.getIdArray();
         String[] typeArray = MinecraftVersionManifestObject.getTypeArray();
         int i;
-        for (i = 0;i < idArray.length;i++){
-            if(idArray[i].equals(id)){
+        for (i = 0; i < idArray.length; i++) {
+            if (idArray[i].equals(id)) {
                 return true;
             }
         }
         return false;
     }
-    enum Type{
-        release,snapshot,old_beta,old_alpha
+
+    /**
+     * 这个方法输入MC版本列表变量,版本id;
+     * 返回此版本id在版本id数组的位置;
+     */
+    public static int getIdCount(MinecraftVersionManifestObject MinecraftVersionManifestObject, String id) {
+        String[] idArray = MinecraftVersionManifestObject.getIdArray();
+        int i;
+        for (i = 0; i < idArray.length; i++) {
+            if (idArray[i].equals(id)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    enum Type {
+        release, snapshot, old_beta, old_alpha
     }
 }
 

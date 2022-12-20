@@ -6,7 +6,7 @@ public class SetUp {
     static int downloadRetries = 100;
     static int downloadConnectTimeout = 1000;
     static int downloadReadTimeout = 1000;
-    static boolean ifCheckFileSha1BeforeDownloading = false;
+    static boolean ifCheckFileSha1BeforeDownloading = true;
     public static void threadWait(){
         for (; ; ) {
             if (SetUp.threadQuantity < SetUp.maxThreadsQuantity || maxThreadsQuantity == 0) {
