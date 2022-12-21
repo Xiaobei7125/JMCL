@@ -277,17 +277,21 @@ public class MinecraftDownloadsUtils {
     }
 
     public static void downloadsLibrariesUtils(MinecraftVersionObject MinecraftVersionObject, MinecraftAttribute MinecraftAttribute) throws Exception {
-        AtomicInteger DLNDEnd = new AtomicInteger();
-        AtomicInteger DLOJEnd = new AtomicInteger();
-        AtomicInteger DLNDError = new AtomicInteger();
-        AtomicInteger DLOJError = new AtomicInteger();
-        AtomicInteger DLNDadd = new AtomicInteger();
-        AtomicInteger DLOJadd = new AtomicInteger();
+        AtomicInteger DLEnd = new AtomicInteger();
+        AtomicInteger DLError = new AtomicInteger();
+        AtomicInteger DLAdd = new AtomicInteger();
+        int sumOfDL = 0;
+        for (int i = 0; i < MinecraftVersionObject.getLibraries().length; i++) {
+            if ((MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers() != null &&
+                    MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers().getNativesWindows() != null)
+                    || MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers() == null) sumOfDL++;
+        }
         for (int i = 0; i < MinecraftVersionObject.getLibraries().length; i++) {
             int finalI = i;
             if (MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers() != null &&
                     MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers().getNativesWindows() != null) {
                 String name = new File(DownloadURL.nativesJarURL(MinecraftVersionObject, DownloadURL.DownloadSource.official, i).getPath()).getName();
+                int finalSumOfDL = sumOfDL;
                 IThreadManagement iThreadManagement = () -> PublicVariable.executorService.execute(() -> {
                     for (int j = 0; j != SetUp.downloadRetries; j++) {
                         try {
@@ -303,12 +307,12 @@ public class MinecraftDownloadsUtils {
                             }
                             System.out.println("DL-ND-" + finalI + " Download '" + name + "' end");
                             end++;
-                            synchronized (DLNDEnd) {
-                                synchronized ((DLNDError)) {
-                                    synchronized ((DLNDadd)) {
-                                        DLNDEnd.addAndGet(1);
-                                        DLNDadd.set(DLNDEnd.get() + DLNDError.get());
-                                        System.out.println("DL-ND " + DLNDEnd + "/" + DLNDadd + "/" + MinecraftVersionObject.getLibraries().length);
+                            synchronized (DLEnd) {
+                                synchronized ((DLError)) {
+                                    synchronized ((DLAdd)) {
+                                        DLEnd.addAndGet(1);
+                                        DLAdd.set(DLEnd.get() + DLError.get());
+                                        System.out.println("DL-ND " + DLEnd + "/" + DLAdd + "/" + finalSumOfDL);
                                     }
                                 }
                             }
@@ -321,12 +325,12 @@ public class MinecraftDownloadsUtils {
                     //}
                     System.out.println("DL-ND-" + finalI + " Download '" + name + "' error");
                     error++;
-                    synchronized (DLNDEnd) {
-                        synchronized ((DLNDError)) {
-                            synchronized ((DLNDadd)) {
-                                DLNDError.addAndGet(1);
-                                DLNDadd.set(DLNDEnd.get() + DLNDError.get());
-                                System.out.println("DL-ND " + DLNDError + "/" + DLNDadd + "/" + " error");
+                    synchronized (DLEnd) {
+                        synchronized ((DLError)) {
+                            synchronized ((DLAdd)) {
+                                DLError.addAndGet(1);
+                                DLAdd.set(DLEnd.get() + DLError.get());
+                                System.out.println("DL-ND " + DLError + "/" + DLAdd + "/" + " error");
                             }
                         }
                     }
@@ -340,7 +344,7 @@ public class MinecraftDownloadsUtils {
                         MinecraftDownloadsUtils.downloadsNativesDllLibrariesUtils(MinecraftVersionObject, MinecraftAttribute, finalI);
                         System.out.println("DL-ND-" + finalI + " Download '" + name + "' end");
                         synchronized (DLNDEnd) {
-                            System.out.println("DL-ND " + DLNDEnd.addAndGet(1) + "/" + MinecraftVersionObject.getLibraries().length);
+                            System.out.println("DL-ND " + DLNDEnd.addAndGet(1) + "/" + sumOfDL);
                         }
                     } catch (Exception e) {
                         System.out.println("DL-ND-" + finalI + " Download '" + name + "' error");
@@ -352,6 +356,7 @@ public class MinecraftDownloadsUtils {
                 */
             } else if (MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers() == null) {
                 String name = new File(DownloadURL.otherJarLibrariesURL(MinecraftVersionObject, DownloadURL.DownloadSource.official, i).getPath()).getName();
+                int finalSumOfDL = sumOfDL;
                 IThreadManagement iThreadManagement = () -> {
                     PublicVariable.executorService.execute(() -> {
                         String path = MinecraftAttribute.mainPath + "libraries\\" + Utils.regexReplace(MinecraftVersionObject.getLibraries()[finalI].getDownloads().getArtifact().getPath(), name, "");
@@ -362,12 +367,12 @@ public class MinecraftDownloadsUtils {
                             if (Objects.equals(standardSha1, Utils.fileSha1(file)) && standardSize == file.length() && SetUp.ifCheckFileSha1BeforeDownloading) {
                                 System.out.println("DL-OJ '" + name + "' File already exists and SHA-1 is the same");
                                 end++;
-                                synchronized (DLOJEnd) {
-                                    synchronized ((DLOJError)) {
-                                        synchronized ((DLOJadd)) {
-                                            DLOJEnd.addAndGet(1);
-                                            DLOJadd.set(DLOJEnd.get() + DLOJError.get());
-                                            System.out.println("DL-OJ " + DLOJEnd + "/" + DLOJadd + "/" + MinecraftVersionObject.getLibraries().length);
+                                synchronized (DLEnd) {
+                                    synchronized ((DLError)) {
+                                        synchronized ((DLAdd)) {
+                                            DLEnd.addAndGet(1);
+                                            DLAdd.set(DLEnd.get() + DLError.get());
+                                            System.out.println("DL-OJ " + DLEnd + "/" + DLAdd + "/" + finalSumOfDL);
                                         }
                                     }
                                 }
@@ -389,12 +394,12 @@ public class MinecraftDownloadsUtils {
                                         if (Objects.equals(standardSha1, Utils.fileSha1(file)) & file.length() == standardSize) {
                                             System.out.println("DL-OJ-" + finalI + " Download '" + name + "' end");
                                             end++;
-                                            synchronized (DLOJEnd) {
-                                                synchronized ((DLOJError)) {
-                                                    synchronized ((DLOJadd)) {
-                                                        DLOJEnd.addAndGet(1);
-                                                        DLOJadd.set(DLOJEnd.get() + DLOJError.get());
-                                                        System.out.println("DL-OJ " + DLOJEnd + "/" + DLOJadd + "/" + MinecraftVersionObject.getLibraries().length);
+                                            synchronized (DLEnd) {
+                                                synchronized ((DLError)) {
+                                                    synchronized ((DLAdd)) {
+                                                        DLEnd.addAndGet(1);
+                                                        DLAdd.set(DLEnd.get() + DLError.get());
+                                                        System.out.println("DL-OJ " + DLEnd + "/" + DLAdd + "/" + finalSumOfDL);
                                                     }
                                                 }
                                             }
@@ -410,12 +415,12 @@ public class MinecraftDownloadsUtils {
                         }
                         System.out.println("DL-OJ-" + finalI + " Download '" + name + "' error");
                         error++;
-                        synchronized (DLOJEnd) {
-                            synchronized ((DLOJError)) {
-                                synchronized ((DLOJadd)) {
-                                    DLOJError.addAndGet(1);
-                                    DLOJadd.set(DLOJEnd.get() + DLOJError.get());
-                                    System.out.println("DL-OJ " + DLOJError + "/" + DLOJadd + "/" + " error");
+                        synchronized (DLEnd) {
+                            synchronized ((DLError)) {
+                                synchronized ((DLAdd)) {
+                                    DLError.addAndGet(1);
+                                    DLAdd.set(DLEnd.get() + DLError.get());
+                                    System.out.println("DL-OJ " + DLError + "/" + DLAdd + "/" + " error");
                                 }
                             }
                         }
@@ -428,7 +433,7 @@ public class MinecraftDownloadsUtils {
                         MinecraftDownloadsUtils.downloadOtherJarLibrariesUtils(MinecraftVersionObject,MinecraftAttribute, finalI);
                         System.out.println("DL-OJ-" + finalI + " Download '" + name + "' end");
                         synchronized (DLOJEnd) {
-                            System.out.println("DL-OJ " + DLOJEnd.addAndGet(1) + "/" + MinecraftVersionObject.getLibraries().length);
+                            System.out.println("DL-OJ " + DLOJEnd.addAndGet(1) + "/" + sumOfDL);
                         }
                     } catch (Exception e) {
                         System.out.println("DL-OJ-" + finalI + " Download '" + name + "' error");

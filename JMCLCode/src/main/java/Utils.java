@@ -1,4 +1,3 @@
-import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
@@ -69,14 +68,13 @@ public class Utils {
                 int finalI = i;
                 PublicVariable.multiThreadedDownloadExecutorService.execute(() -> {
                     try {
-                        if (!file.exists() && !file.isDirectory()) {
-                            file.createNewFile();
-                        }
+                        if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
+                        if (!file.exists() && !file.isDirectory()) file.createNewFile();
                         RandomAccessFile randomAccessFile = new RandomAccessFile(path, "rwd");
                         randomAccessFile.setLength(totalSize);
                         randomAccessFile.seek((long) SetUp.multiThreadedDownloadAFileSegmentSize * finalI);
                         byte[] bytes;
-                        for (int j = 0; j < SetUp.downloadRetries; j++) {
+                        for (int j = 0; j != SetUp.downloadRetries; j++) {
                             try {
                                 int start = SetUp.multiThreadedDownloadAFileSegmentSize * finalI;
                                 int end;
@@ -160,19 +158,19 @@ public class Utils {
 
     public static byte[] getPartOfTheFileContent(URL url, int start, int end) throws IOException {
         URLConnection connection = url.openConnection();
-        if (connection instanceof HttpsURLConnection httpsConnection) {
-            httpsConnection.setRequestMethod("GET");
-            httpsConnection.setDoOutput(true);
-            httpsConnection.setDoInput(true);
-            httpsConnection.setUseCaches(false);
-            httpsConnection.setConnectTimeout(SetUp.downloadConnectTimeout);
-            httpsConnection.setReadTimeout(SetUp.downloadReadTimeout);
-            httpsConnection.setRequestProperty("Range", "bytes=" + start + "-" + end);
-            if (httpsConnection.getResponseCode() == 206) {
-                return getData(httpsConnection.getInputStream());
+        if (connection instanceof HttpURLConnection httpConnection) {
+            httpConnection.setRequestMethod("GET");
+            httpConnection.setDoOutput(true);
+            httpConnection.setDoInput(true);
+            httpConnection.setUseCaches(false);
+            httpConnection.setConnectTimeout(SetUp.downloadConnectTimeout);
+            httpConnection.setReadTimeout(SetUp.downloadReadTimeout);
+            httpConnection.setRequestProperty("Range", "bytes=" + start + "-" + end);
+            if (httpConnection.getResponseCode() == 206) {
+                return getData(httpConnection.getInputStream());
             }
             System.out.println("Request failed");
-        }else {
+        } else {
             System.out.println("The URL is null");
         }
         return null;

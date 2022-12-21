@@ -9,8 +9,8 @@ public class SetUp {
     static boolean ifCheckFileSha1BeforeDownloading = true;
     static boolean ifDownloadAssetIndexCopy = true;
     static boolean ifUseMcbbsDownloadSource = false;
-    static boolean ifUseBmclapiDownloadSource = false;
-    static boolean ifUseOfficialDownloadSource = false;
+    static boolean ifUseBmclapiDownloadSource = true;
+    static boolean ifUseOfficialDownloadSource = true;
 
     public static void threadWait() {
         for (; ; ) {
