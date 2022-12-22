@@ -4,6 +4,7 @@ import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionObject;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.concurrent.TimeUnit;
 
 public class MinecraftUtils {
     public static void microsoftLogin() throws IOException, URISyntaxException, InterruptedException {
@@ -36,14 +37,24 @@ public class MinecraftUtils {
     public static void downloadMinecraft(MinecraftAttribute MinecraftAttribute) {
         try {
             MinecraftVersionManifestObject MinecraftVersionManifestObject = MinecraftRequest.getMinecraftVersionManifestObject();
-            if(MinecraftVersionProcessing.isId(MinecraftVersionManifestObject,MinecraftAttribute.id)){
-                MinecraftVersionObject MinecraftVersionObject = MinecraftRequest.getMinecraftVersionObject(MinecraftVersionManifestObject,MinecraftAttribute);
-                MinecraftDownloadsUtils.downloadsVersionFileUtils(MinecraftVersionObject,MinecraftAttribute);
-                MinecraftDownloadsUtils.downloadsVersionJsonUtils(MinecraftVersionManifestObject,MinecraftAttribute);
-                MinecraftDownloadsUtils.downloadsLibrariesUtils(MinecraftVersionObject,MinecraftAttribute);
-                MinecraftDownloadsUtils.downloadLog4jFileUtils(MinecraftVersionObject,MinecraftAttribute);
-                MinecraftDownloadsUtils.downloadAssetIndexJsonUtils(MinecraftVersionObject,MinecraftAttribute);
-                MinecraftDownloadsUtils.downloadsAssetIndexUtils(MinecraftVersionObject,MinecraftAttribute);
+            if(MinecraftVersionProcessing.isId(MinecraftVersionManifestObject,MinecraftAttribute.id)) {
+                MinecraftVersionObject MinecraftVersionObject = MinecraftRequest.getMinecraftVersionObject(MinecraftVersionManifestObject, MinecraftAttribute);
+                MinecraftDownloadsUtils.downloadsVersionFileUtils(MinecraftVersionObject, MinecraftAttribute);
+                MinecraftDownloadsUtils.downloadsVersionJsonUtils(MinecraftVersionManifestObject, MinecraftAttribute);
+                MinecraftDownloadsUtils.downloadsLibrariesUtils(MinecraftVersionObject, MinecraftAttribute);
+                MinecraftDownloadsUtils.downloadLog4jFileUtils(MinecraftVersionObject, MinecraftAttribute);
+                MinecraftDownloadsUtils.downloadAssetIndexJsonUtils(MinecraftVersionObject, MinecraftAttribute);
+                MinecraftDownloadsUtils.downloadsAssetIndexUtils(MinecraftVersionObject, MinecraftAttribute);
+                PublicVariable.executorService.shutdown();
+                for (; ; ) {
+                    if (PublicVariable.executorService.awaitTermination(5000, TimeUnit.MILLISECONDS)) {
+                        PublicVariable.multiThreadedDownloadExecutorService.shutdownNow();
+                        System.out.println(PublicVariable.executorService.isTerminated());
+                        System.out.println(MinecraftDownloadsUtils.end + "/" + MinecraftDownloadsUtils.error + "/" +
+                                (MinecraftDownloadsUtils.error + MinecraftDownloadsUtils.end));
+                        break;
+                    }
+                }
             }else {
                 System.out.println("This Minecraft version does not exist.");
             }

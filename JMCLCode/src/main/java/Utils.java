@@ -6,6 +6,7 @@ import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
@@ -28,15 +29,15 @@ public class Utils {
         if (!file.exists() && !file.isDirectory()) {
             file.mkdirs();
         }
-        if(!file.canWrite()) file.setWritable(true);
+        if (!file.canWrite()) file.setWritable(true);
         //ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("GET");
         httpURLConnection.setDoOutput(true);
         httpURLConnection.setDoInput(true);
         httpURLConnection.setUseCaches(false);
-        httpURLConnection.setConnectTimeout(SetUp.downloadConnectTimeout);
-        httpURLConnection.setReadTimeout(SetUp.downloadReadTimeout);
+        httpURLConnection.setConnectTimeout(SetUp.getInstance().downloadConnectTimeout);
+        httpURLConnection.setReadTimeout(SetUp.getInstance().downloadReadTimeout);
         if (httpURLConnection.getResponseCode() == 200) {
             InputStream in = httpURLConnection.getInputStream();
             ReadableByteChannel readableByteChannel = Channels.newChannel(in);
@@ -58,12 +59,12 @@ public class Utils {
         httpURLConnection.setDoOutput(true);
         httpURLConnection.setDoInput(true);
         httpURLConnection.setUseCaches(false);
-        httpURLConnection.setConnectTimeout(SetUp.downloadConnectTimeout);
-        httpURLConnection.setReadTimeout(SetUp.downloadReadTimeout);
+        httpURLConnection.setConnectTimeout(SetUp.getInstance().downloadConnectTimeout);
+        httpURLConnection.setReadTimeout(SetUp.getInstance().downloadReadTimeout);
         int responseCode = httpURLConnection.getResponseCode();
         if (responseCode == 200) {
             int totalSize = urlConnection.getContentLength();
-            long numberOfSegments = (long) Math.ceil(totalSize / SetUp.multiThreadedDownloadAFileSegmentSize);
+            long numberOfSegments = (long) Math.ceil(totalSize / SetUp.getInstance().multiThreadedDownloadAFileSegmentSize);
             for (int i = 0; i <= numberOfSegments; i++) {
                 int finalI = i;
                 PublicVariable.multiThreadedDownloadExecutorService.execute(() -> {
@@ -72,14 +73,14 @@ public class Utils {
                         if (!file.exists() && !file.isDirectory()) file.createNewFile();
                         RandomAccessFile randomAccessFile = new RandomAccessFile(path, "rwd");
                         randomAccessFile.setLength(totalSize);
-                        randomAccessFile.seek((long) SetUp.multiThreadedDownloadAFileSegmentSize * finalI);
+                        randomAccessFile.seek((long) SetUp.getInstance().multiThreadedDownloadAFileSegmentSize * finalI);
                         byte[] bytes;
-                        for (int j = 0; j != SetUp.downloadRetries; j++) {
+                        for (int j = 0; j != SetUp.getInstance().downloadRetries; j++) {
                             try {
-                                int start = SetUp.multiThreadedDownloadAFileSegmentSize * finalI;
+                                int start = SetUp.getInstance().multiThreadedDownloadAFileSegmentSize * finalI;
                                 int end;
                                 if (finalI != numberOfSegments) {
-                                    end = SetUp.multiThreadedDownloadAFileSegmentSize * (finalI + 1) - 1;
+                                    end = SetUp.getInstance().multiThreadedDownloadAFileSegmentSize * (finalI + 1) - 1;
                                 } else {
                                     end = totalSize;
                                 }
@@ -140,8 +141,8 @@ public class Utils {
             httpConnection.setDoOutput(true);
             httpConnection.setDoInput(true);
             httpConnection.setUseCaches(false);
-            httpConnection.setConnectTimeout(SetUp.downloadConnectTimeout);
-            httpConnection.setReadTimeout(SetUp.downloadReadTimeout);
+            httpConnection.setConnectTimeout(SetUp.getInstance().downloadConnectTimeout);
+            httpConnection.setReadTimeout(SetUp.getInstance().downloadReadTimeout);
             BufferedReader is = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
             StringBuilder body = new StringBuilder();
             String a;
@@ -163,8 +164,8 @@ public class Utils {
             httpConnection.setDoOutput(true);
             httpConnection.setDoInput(true);
             httpConnection.setUseCaches(false);
-            httpConnection.setConnectTimeout(SetUp.downloadConnectTimeout);
-            httpConnection.setReadTimeout(SetUp.downloadReadTimeout);
+            httpConnection.setConnectTimeout(SetUp.getInstance().downloadConnectTimeout);
+            httpConnection.setReadTimeout(SetUp.getInstance().downloadReadTimeout);
             httpConnection.setRequestProperty("Range", "bytes=" + start + "-" + end);
             if (httpConnection.getResponseCode() == 206) {
                 return getData(httpConnection.getInputStream());
@@ -198,7 +199,7 @@ public class Utils {
         if (!file.exists() && !file.isDirectory()) {
             return null;
         }else {
-            if(!file.canWrite()) file.setWritable(true);
+            if (!file.canWrite()) file.setWritable(true);
             byte[] input = readToString(String.valueOf(file));
             MessageDigest md = MessageDigest.getInstance("SHA-1");
             byte[] messageDigest = md.digest(input);
@@ -208,7 +209,8 @@ public class Utils {
             return hashText.toString();
         }
     }
-    public static byte[] readToString(String fileName) {
+
+    public static byte[] readToString(String fileName) throws IOException {
         File file = new File(fileName);
         long fileLength = file.length();
         byte[] fileContent = new byte[(int) fileLength];
@@ -217,11 +219,26 @@ public class Utils {
             in.read(fileContent);
             in.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IOException(e);
         }
         return fileContent;
     }
-    enum xboxLiveType{
-        XBL,XSTS
+
+    public static byte[] writeToString(String fileName, String contents) throws IOException {
+        File file = new File(fileName);
+        long fileLength = contents.length();
+        byte[] fileContent = new byte[(int) fileLength];
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            out.write(contents.getBytes(StandardCharsets.UTF_8));
+            out.close();
+        } catch (IOException e) {
+            throw new IOException(e);
+        }
+        return fileContent;
+    }
+
+    enum xboxLiveType {
+        XBL, XSTS
     }
 }

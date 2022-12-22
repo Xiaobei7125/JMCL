@@ -14,6 +14,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
     implementation 'com.google.code.gson:gson:2.10'
     implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'net.sf.jopt-simple:jopt-simple:6.0-alpha-3'
 }
 
 test {
@@ -22,12 +23,12 @@ test {
 
 jar {
     archivesBaseName = 'JMCL'
-    archiveVersion = 'Bata-Downloads-3'
+    archiveVersion = 'Downloads-1.0.1'
     manifest {
         attributes(
                 "Manifest-Version": 1.0,
-                'Main-Class': 'test2',
-                'Build-Jdk': '16'
+                'Main-Class': 'CommandLineInputTest',
+                'Build-Jdk': '18'
         )
     }
 
