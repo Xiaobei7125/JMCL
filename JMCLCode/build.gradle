@@ -23,12 +23,12 @@ test {
 
 jar {
     archivesBaseName = 'JMCL'
-    archiveVersion = 'Downloads-1.0.1'
+    archiveVersion = 'Downloads-1.1'
     manifest {
         attributes(
                 "Manifest-Version": 1.0,
                 'Main-Class': 'CommandLineInputTest',
-                'Build-Jdk': '18'
+                'Build-Jdk': '16'
         )
     }
 

@@ -23,6 +23,8 @@ public class CommandLineInputTest {
             optionParser.acceptsAll(Arrays.asList(setOption), "Set up").withOptionalArg().ofType(String.class);
             String[] loginOption = {"l", "login"};
             optionParser.acceptsAll(Arrays.asList(loginOption), "Login");
+            String[] startOption = {"st", "start"};
+            optionParser.acceptsAll(Arrays.asList(startOption), "Start Minecraft");
             {
                 optionParser.accepts("maxThreadsQuantity").withOptionalArg().ofType(Integer.class);
                 optionParser.accepts("ifMultiThreadedDownloadAFile").withOptionalArg().ofType(Boolean.class);
@@ -42,56 +44,57 @@ public class CommandLineInputTest {
             MinecraftUtils.downloadMinecraft(new MinecraftAttribute((String) optionSet.valueOf("p"), (String) optionSet.valueOf("id")));
         } else if (optionSet.has("l")) {
             MinecraftUtils.microsoftLogin();
+        } else if (optionSet.has("st")) {
+            MinecraftUtils.startMinecraft(new MinecraftAttribute((String) optionSet.valueOf("p"), (String) optionSet.valueOf("id")));
         } else if (optionSet.has("s")) {
             String name;
             if (optionSet.has(name = "maxThreadsQuantity")) {
-                SetUp.getInstance().maxThreadsQuantity = (int) optionSet.valueOf(name);
+                SetUp.getInstance().download.threads.maxThreadsQuantity = (int) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "ifMultiThreadedDownloadAFile")) {
-                SetUp.getInstance().ifMultiThreadedDownloadAFile = (boolean) optionSet.valueOf(name);
+                SetUp.getInstance().download.threads.multiThreadedDownload.ifMultiThreadedDownloadAFile = (boolean) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "multiThreadedDownloadAFileSegmentSize")) {
-                SetUp.getInstance().multiThreadedDownloadAFileSegmentSize = (int) optionSet.valueOf(name);
+                SetUp.getInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize = (int) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "downloadRetries")) {
-                SetUp.getInstance().downloadRetries = (int) optionSet.valueOf(name);
+                SetUp.getInstance().download.downloadRetries = (int) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "downloadConnectTimeout")) {
-                SetUp.getInstance().downloadConnectTimeout = (int) optionSet.valueOf(name);
+                SetUp.getInstance().download.downloadConnectTimeout = (int) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "downloadReadTimeout")) {
-                SetUp.getInstance().downloadReadTimeout = (int) optionSet.valueOf(name);
+                SetUp.getInstance().download.downloadReadTimeout = (int) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "ifCheckFileSha1BeforeDownloading")) {
-                SetUp.getInstance().ifCheckFileSha1BeforeDownloading = (boolean) optionSet.valueOf(name);
+                SetUp.getInstance().download.ifCheckFileSha1BeforeDownloading = (boolean) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "ifDownloadAssetIndexCopy")) {
-                SetUp.getInstance().ifDownloadAssetIndexCopy = (boolean) optionSet.valueOf(name);
+                SetUp.getInstance().download.ifDownloadAssetIndexCopy = (boolean) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "ifUseOfficialDownloadSource")) {
-                SetUp.getInstance().ifUseOfficialDownloadSource = (boolean) optionSet.valueOf(name);
+                SetUp.getInstance().download.source.ifUseOfficialDownloadSource = (boolean) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "ifUseBmclapiDownloadSource")) {
-                SetUp.getInstance().ifUseBmclapiDownloadSource = (boolean) optionSet.valueOf(name);
+                SetUp.getInstance().download.source.ifUseBmclapiDownloadSource = (boolean) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "ifUseMcbbsDownloadSource")) {
-                SetUp.getInstance().ifUseMcbbsDownloadSource = (boolean) optionSet.valueOf(name);
+                SetUp.getInstance().download.source.ifUseMcbbsDownloadSource = (boolean) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
         }
 
     }
-
     public static <T> void export(String name, T to) {
         System.out.println("set " + name + " to " + to + " success");
     }

@@ -36,8 +36,8 @@ public class Utils {
         httpURLConnection.setDoOutput(true);
         httpURLConnection.setDoInput(true);
         httpURLConnection.setUseCaches(false);
-        httpURLConnection.setConnectTimeout(SetUp.getInstance().downloadConnectTimeout);
-        httpURLConnection.setReadTimeout(SetUp.getInstance().downloadReadTimeout);
+        httpURLConnection.setConnectTimeout(SetUp.getInstance().download.downloadConnectTimeout);
+        httpURLConnection.setReadTimeout(SetUp.getInstance().download.downloadReadTimeout);
         if (httpURLConnection.getResponseCode() == 200) {
             InputStream in = httpURLConnection.getInputStream();
             ReadableByteChannel readableByteChannel = Channels.newChannel(in);
@@ -59,12 +59,12 @@ public class Utils {
         httpURLConnection.setDoOutput(true);
         httpURLConnection.setDoInput(true);
         httpURLConnection.setUseCaches(false);
-        httpURLConnection.setConnectTimeout(SetUp.getInstance().downloadConnectTimeout);
-        httpURLConnection.setReadTimeout(SetUp.getInstance().downloadReadTimeout);
+        httpURLConnection.setConnectTimeout(SetUp.getInstance().download.downloadConnectTimeout);
+        httpURLConnection.setReadTimeout(SetUp.getInstance().download.downloadReadTimeout);
         int responseCode = httpURLConnection.getResponseCode();
         if (responseCode == 200) {
             int totalSize = urlConnection.getContentLength();
-            long numberOfSegments = (long) Math.ceil(totalSize / SetUp.getInstance().multiThreadedDownloadAFileSegmentSize);
+            long numberOfSegments = (long) Math.ceil(totalSize / SetUp.getInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize);
             for (int i = 0; i <= numberOfSegments; i++) {
                 int finalI = i;
                 PublicVariable.multiThreadedDownloadExecutorService.execute(() -> {
@@ -73,14 +73,14 @@ public class Utils {
                         if (!file.exists() && !file.isDirectory()) file.createNewFile();
                         RandomAccessFile randomAccessFile = new RandomAccessFile(path, "rwd");
                         randomAccessFile.setLength(totalSize);
-                        randomAccessFile.seek((long) SetUp.getInstance().multiThreadedDownloadAFileSegmentSize * finalI);
+                        randomAccessFile.seek((long) SetUp.getInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * finalI);
                         byte[] bytes;
-                        for (int j = 0; j != SetUp.getInstance().downloadRetries; j++) {
+                        for (int j = 0; j != SetUp.getInstance().download.downloadRetries; j++) {
                             try {
-                                int start = SetUp.getInstance().multiThreadedDownloadAFileSegmentSize * finalI;
+                                int start = SetUp.getInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * finalI;
                                 int end;
                                 if (finalI != numberOfSegments) {
-                                    end = SetUp.getInstance().multiThreadedDownloadAFileSegmentSize * (finalI + 1) - 1;
+                                    end = SetUp.getInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * (finalI + 1) - 1;
                                 } else {
                                     end = totalSize;
                                 }
@@ -141,8 +141,8 @@ public class Utils {
             httpConnection.setDoOutput(true);
             httpConnection.setDoInput(true);
             httpConnection.setUseCaches(false);
-            httpConnection.setConnectTimeout(SetUp.getInstance().downloadConnectTimeout);
-            httpConnection.setReadTimeout(SetUp.getInstance().downloadReadTimeout);
+            httpConnection.setConnectTimeout(SetUp.getInstance().download.downloadConnectTimeout);
+            httpConnection.setReadTimeout(SetUp.getInstance().download.downloadReadTimeout);
             BufferedReader is = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
             StringBuilder body = new StringBuilder();
             String a;
@@ -164,8 +164,8 @@ public class Utils {
             httpConnection.setDoOutput(true);
             httpConnection.setDoInput(true);
             httpConnection.setUseCaches(false);
-            httpConnection.setConnectTimeout(SetUp.getInstance().downloadConnectTimeout);
-            httpConnection.setReadTimeout(SetUp.getInstance().downloadReadTimeout);
+            httpConnection.setConnectTimeout(SetUp.getInstance().download.downloadConnectTimeout);
+            httpConnection.setReadTimeout(SetUp.getInstance().download.downloadReadTimeout);
             httpConnection.setRequestProperty("Range", "bytes=" + start + "-" + end);
             if (httpConnection.getResponseCode() == 206) {
                 return getData(httpConnection.getInputStream());

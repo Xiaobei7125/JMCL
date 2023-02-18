@@ -3,7 +3,7 @@ public class Test {
         //BufferedReader mainPath = new BufferedReader(new InputStreamReader(System.in));
         //BufferedReader id = new BufferedReader(new InputStreamReader(System.in));
         String mainPath = "E:\\JavaTest\\JMCL\\.minecraft\\";
-        String id = "1.18.2";
+        String id = "1.19.3";
         //microsoftLogin();
         //MinecraftUtils.downloadMinecraft(new MinecraftAttribute(mainPath.readLine(), id.readLine()));
         MinecraftUtils.downloadMinecraft(new MinecraftAttribute(mainPath, id));

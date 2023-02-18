@@ -7,13 +7,25 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.security.SecureRandom;
 import java.time.Duration;
+import java.util.Base64;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
 
 public class HTTPOperation {
     public static String requestMicrosoftLoginCode() throws IOException, URISyntaxException {
-        URI uri = new URI("https://login.live.com/oauth20_authorize.srf?client_id=2119e5ac-e85d-467a-82bf-b5e8227cb900&scope=XboxLive.signin%20offline_access&redirect_uri=https://127.0.0.1&response_type=code");
+        SecureRandom sr = new SecureRandom();
+        byte[] code = new byte[32];
+        sr.nextBytes(code);
+        String verifier = Base64.getUrlEncoder().withoutPadding().encodeToString(code);
+        URI uri = new URI("https://login.live.com/oauth20_authorize.srf" +
+                "?client_id=2119e5ac-e85d-467a-82bf-b5e8227cb900" +
+                "&scope=XboxLive.signin%20offline_access" +
+                "&redirect_uri=https://127.0.0.1" +
+                //"&code_verifier=" + verifier +
+                //"code_challenge_method=plain" +
+                "&response_type=code");
         Desktop.getDesktop().browse(uri);
         System.out.println("Please enter redirection URL");
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));

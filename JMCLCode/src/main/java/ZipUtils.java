@@ -6,7 +6,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class ZipUtils {
-    public static void unzip(String zipFilePath, String desDirectory) throws Exception {
+    public static boolean unzip(String zipFilePath, String desDirectory) throws Exception {
 
         File desDir = new File(desDirectory);
         if (!desDir.exists()) {
@@ -15,6 +15,9 @@ public class ZipUtils {
         ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(zipFilePath));
         ZipEntry zipEntry = zipInputStream.getNextEntry();
         File file;
+        if (zipEntry == null) {
+            return false;
+        }
         while (zipEntry != null) {
             if (zipEntry.isDirectory()) {
                 String unzipFilePath = desDirectory + File.separator + zipEntry.getName();
@@ -36,6 +39,7 @@ public class ZipUtils {
             zipEntry = zipInputStream.getNextEntry();
         }
         zipInputStream.close();
+        return true;
 
     }
     private static void mkdir(File file){

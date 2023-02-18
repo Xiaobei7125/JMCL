@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 
 public class SetUp {
     private static SetUp set = new SetUp();
+    Download download = new Download();
 
     static {
         try {
@@ -20,35 +21,36 @@ public class SetUp {
         }
     }
 
-    int threadQuantity = 0;
-    int maxThreadsQuantity = 1024;
-    boolean ifMultiThreadedDownloadAFile = true;
-    int multiThreadedDownloadAFileSegmentSize = 5 * 1024 * 1024;
-    int downloadRetries = -1;
-    int downloadConnectTimeout = 1000;
-    int downloadReadTimeout = 1000;
-    boolean ifCheckFileSha1BeforeDownloading = true;
-    boolean ifDownloadAssetIndexCopy = true;
-    boolean ifUseMcbbsDownloadSource = false;
-    boolean ifUseBmclapiDownloadSource = true;
-    boolean ifUseOfficialDownloadSource = true;
-
     SetUp() {
     }
 
-    ;
+    class Download {
+        Threads threads = new Threads();
+        Source source = new Source();
+        int downloadRetries = -1;
+        int downloadConnectTimeout = 1000;
+        int downloadReadTimeout = 1000;
+        boolean ifCheckFileSha1BeforeDownloading = true;
+        boolean ifDownloadAssetIndexCopy = true;
+
+        class Threads {
+            MultiThreadedDownload multiThreadedDownload = new MultiThreadedDownload();
+            int maxThreadsQuantity = 1024;
+
+            class MultiThreadedDownload {
+                boolean ifMultiThreadedDownloadAFile = true;
+                int multiThreadedDownloadAFileSegmentSize = 5 * 1024 * 1024;
+            }
+        }
+
+        class Source {
+            boolean ifUseMcbbsDownloadSource = false;
+            boolean ifUseBmclapiDownloadSource = true;
+            boolean ifUseOfficialDownloadSource = true;
+        }
+    }
 
     public static SetUp getInstance() {
         return set;
-    }
-
-    public static void threadWait() {
-        SetUp set = getInstance();
-        for (; ; ) {
-            if (set.threadQuantity < set.maxThreadsQuantity || set.maxThreadsQuantity == 0) {
-                set.threadQuantity++;
-                return;
-            }
-        }
     }
 }

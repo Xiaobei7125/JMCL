@@ -112,7 +112,7 @@ public class DownloadURL {
     }
     enum DownloadSource {
 
-        official(SetUp.getInstance().ifUseOfficialDownloadSource), bmclapi(SetUp.getInstance().ifUseBmclapiDownloadSource), mcbbs(SetUp.getInstance().ifUseMcbbsDownloadSource);
+        official(SetUp.getInstance().download.source.ifUseOfficialDownloadSource), bmclapi(SetUp.getInstance().download.source.ifUseBmclapiDownloadSource), mcbbs(SetUp.getInstance().download.source.ifUseMcbbsDownloadSource);
         final boolean ifUse;
 
         DownloadSource(boolean ifUseDownloadSource) {
