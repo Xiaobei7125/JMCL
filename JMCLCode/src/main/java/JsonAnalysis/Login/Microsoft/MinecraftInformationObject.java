@@ -1,4 +1,4 @@
-package JsonAnalysis.MicrosoftLoginJsonAnalysis;
+package JsonAnalysis.Login.Microsoft;
 
 import java.net.URL;
 

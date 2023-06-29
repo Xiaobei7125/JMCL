@@ -1,3 +1,6 @@
+import Minecraft.MinecraftAttribute;
+import Minecraft.MinecraftUtils;
+
 public class Test {
     public static void main(String[] ages) throws Exception {
         //BufferedReader mainPath = new BufferedReader(new InputStreamReader(System.in));
@@ -5,7 +8,7 @@ public class Test {
         String mainPath = "E:\\JavaTest\\JMCL\\.minecraft\\";
         String id = "1.19.3";
         //microsoftLogin();
-        //MinecraftUtils.downloadMinecraft(new MinecraftAttribute(mainPath.readLine(), id.readLine()));
+        //Minecraft.MinecraftUtils.downloadMinecraft(new Minecraft.MinecraftAttribute(mainPath.readLine(), id.readLine()));
         MinecraftUtils.downloadMinecraft(new MinecraftAttribute(mainPath, id));
 
     }

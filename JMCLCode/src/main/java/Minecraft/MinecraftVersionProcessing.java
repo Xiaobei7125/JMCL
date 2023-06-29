@@ -1,12 +1,15 @@
-import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestObject;
+package Minecraft;
+
+import JsonAnalysis.Download.Minecraft.Library.MinecraftVersionManifestObject;
 
 import java.net.URL;
 
 public class MinecraftVersionProcessing {
-    /** 这个方法输入MC版本列表变量,版本id;
-     *  返回版本的type;
+    /**
+     * 这个方法输入MC版本列表变量,版本id;
+     * 返回版本的type;
      */
-    public static String getType(MinecraftVersionManifestObject MinecraftVersionManifestObject, String id){
+    public static String getType(MinecraftVersionManifestObject MinecraftVersionManifestObject, String id) {
         String[] idArray = MinecraftVersionManifestObject.getIdArray();
         String[] typeArray = MinecraftVersionManifestObject.getTypeArray();
         int i;

@@ -1,3 +1,7 @@
+package Other;
+
+import Utils.Utils;
+
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,13 +11,17 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.util.Base64;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
 
-public class HTTPOperation {
+public class NetOperation {
+    public NetOperation() {
+    }
+
     public static String requestMicrosoftLoginCode() throws IOException, URISyntaxException {
         SecureRandom sr = new SecureRandom();
         byte[] code = new byte[32];
@@ -28,7 +36,7 @@ public class HTTPOperation {
                 "&response_type=code");
         Desktop.getDesktop().browse(uri);
         System.out.println("Please enter redirection URL");
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
         String redirection = bufferedReader.readLine();
         return Utils.regexReplace(redirection, "https://127\\.0\\.0\\.1/\\?code=", "");
     }
@@ -120,6 +128,7 @@ public class HTTPOperation {
         HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
         return httpResponse.body();
     }
+
     public static String checkMinecraftOwnership(String MinecraftAuthenticationBody) throws IOException, InterruptedException, URISyntaxException {
         URI uri = new URI("https://api.minecraftservices.com/entitlements/mcstore");
         HttpRequest httpRequest = HttpRequest.newBuilder()

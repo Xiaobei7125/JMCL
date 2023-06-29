@@ -1,3 +1,7 @@
+package Minecraft;
+
+import Other.DownloadURL;
+
 import java.nio.file.Paths;
 
 public class MinecraftAttribute {
@@ -5,15 +9,18 @@ public class MinecraftAttribute {
     String id;
     DownloadURL.DownloadSource downloadSource;
     String runPath = Paths.get("").toAbsolutePath().toString();
-    public MinecraftAttribute(String mainPath,String id,DownloadURL.DownloadSource downloadSource){
+
+    public MinecraftAttribute(String mainPath, String id, DownloadURL.DownloadSource downloadSource) {
         this.downloadSource = downloadSource;
         this.id = id;
         this.mainPath = mainPath;
     }
-    public MinecraftAttribute(String mainPath,String id){
+
+    public MinecraftAttribute(String mainPath, String id) {
         this.id = id;
         this.mainPath = mainPath;
     }
+
     public String getMainPath() {
         return mainPath;
     }

@@ -1,6 +1,13 @@
-import JsonAnalysis.MicrosoftLoginJsonAnalysis.MinecraftInformationObject;
-import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestObject;
-import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionObject;
+package Minecraft;
+
+import Imformation.LauncherInformation;
+import Imformation.LoginInformation;
+import JsonAnalysis.Download.Minecraft.Library.MinecraftVersionManifestObject;
+import JsonAnalysis.Download.Minecraft.Library.MinecraftVersionObject;
+import JsonAnalysis.Login.Microsoft.MinecraftInformationObject;
+import Other.NetOperation;
+import Other.PublicVariable;
+import Utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,26 +15,27 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
-import static JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionObject.getGsonObject;
+import static JsonAnalysis.Download.Minecraft.Library.MinecraftVersionObject.getGsonObject;
 
 public class MinecraftUtils {
+    static NetOperation netOperation = new NetOperation();
     public static LoginInformation microsoftLogin() throws IOException, URISyntaxException, InterruptedException {
-        String MicrosoftLoginCode = HTTPOperation.requestMicrosoftLoginCode();
-        String MicrosoftLoginTokenBody = HTTPOperation.requestMicrosoftLogin(MicrosoftLoginCode);
+        String MicrosoftLoginCode = netOperation.requestMicrosoftLoginCode();
+        String MicrosoftLoginTokenBody = netOperation.requestMicrosoftLogin(MicrosoftLoginCode);
         String MicrosoftAccessToken = MicrosoftLogin.getMicrosoftAccessToken(MicrosoftLoginTokenBody);
         String microsoftRefreshToken = MicrosoftLogin.getMicrosoftRefreshToken(MicrosoftLoginTokenBody);
-        String XBLAuthenticationBody = HTTPOperation.requestXboxLiveAuthentication(MicrosoftAccessToken, Utils.xboxLiveType.XBL);
+        String XBLAuthenticationBody = netOperation.requestXboxLiveAuthentication(MicrosoftAccessToken, Utils.xboxLiveType.XBL);
         String XBLAuthenticationUserHash = MicrosoftLogin.getXboxLiveAuthenticationUserHash(XBLAuthenticationBody);
         String XBLAuthenticationToken = MicrosoftLogin.getXboxLiveAuthenticationToken(XBLAuthenticationBody);
-        String XSTSAuthenticationBody = HTTPOperation.requestXboxLiveAuthentication(XBLAuthenticationToken, Utils.xboxLiveType.XSTS);
+        String XSTSAuthenticationBody = netOperation.requestXboxLiveAuthentication(XBLAuthenticationToken, Utils.xboxLiveType.XSTS);
         String XSTSAuthenticationToken = MicrosoftLogin.getXboxLiveAuthenticationToken(XSTSAuthenticationBody);
         String XSTSAuthenticationUserHash = MicrosoftLogin.getXboxLiveAuthenticationUserHash(XSTSAuthenticationBody);
         if (XBLAuthenticationUserHash.equals(XSTSAuthenticationUserHash)) {
-            String MinecraftAuthenticationBody = HTTPOperation.requestMinecraftAuthentication(XSTSAuthenticationToken, XSTSAuthenticationUserHash);
+            String MinecraftAuthenticationBody = netOperation.requestMinecraftAuthentication(XSTSAuthenticationToken, XSTSAuthenticationUserHash);
             String MinecraftAuthenticationToken = MicrosoftLogin.getMinecraftAuthenticationToken(MinecraftAuthenticationBody);
-            String MinecraftOwnershipBody = HTTPOperation.checkMinecraftOwnership(MinecraftAuthenticationToken);
+            String MinecraftOwnershipBody = netOperation.checkMinecraftOwnership(MinecraftAuthenticationToken);
             if (MicrosoftLogin.ifMinecraftOwnership(MinecraftOwnershipBody)) {
-                String MinecraftInformationBody = HTTPOperation.receiveMinecraftInformation(MinecraftAuthenticationToken);
+                String MinecraftInformationBody = netOperation.receiveMinecraftInformation(MinecraftAuthenticationToken);
                 MinecraftInformationObject MinecraftAuthenticationObject = MicrosoftLogin.getMinecraftInformationObject(MinecraftInformationBody);
                 return new LoginInformation(MinecraftAuthenticationObject.getId(), MinecraftAuthenticationObject.getName(), MinecraftAuthenticationToken);
             }else {
@@ -95,7 +103,7 @@ public class MinecraftUtils {
                             " -XX:-OmitStackTraceInFastThrow";
             String classPath = " -cp ";
             getGsonObject().fromJson(new String(Utils.readToString(MinecraftAttribute.mainPath + "versions\\" + MinecraftAttribute.id + "\\" + MinecraftAttribute.id + ".json"), StandardCharsets.UTF_8),
-                    JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionObject.class);
+                    JsonAnalysis.Download.Minecraft.Library.MinecraftVersionObject.class);
             String a = "";
             for (int i = 0; i < MinecraftVersionObject.getLibraries().length; i++) {
                 if (MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers() == null) {

@@ -1,4 +1,4 @@
-package JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis;
+package JsonAnalysis.Download.Minecraft.Library;
 
 import com.google.gson.*;
 import com.google.gson.annotations.SerializedName;

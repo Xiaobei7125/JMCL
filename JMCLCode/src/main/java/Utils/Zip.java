@@ -1,3 +1,5 @@
+package Utils;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -5,7 +7,7 @@ import java.io.FileOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-public class ZipUtils {
+public class Zip {
     public static boolean unzip(String zipFilePath, String desDirectory) throws Exception {
 
         File desDir = new File(desDirectory);
@@ -42,6 +44,7 @@ public class ZipUtils {
         return true;
 
     }
+
     private static void mkdir(File file){
         if (null == file || file.exists()) {
             return;

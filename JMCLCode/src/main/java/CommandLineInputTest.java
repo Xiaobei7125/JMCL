@@ -1,3 +1,6 @@
+import JsonAnalysis.Setup.Setup;
+import Minecraft.MinecraftAttribute;
+import Minecraft.MinecraftUtils;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 
@@ -49,52 +52,53 @@ public class CommandLineInputTest {
         } else if (optionSet.has("s")) {
             String name;
             if (optionSet.has(name = "maxThreadsQuantity")) {
-                SetUp.getInstance().download.threads.maxThreadsQuantity = (int) optionSet.valueOf(name);
+                Setup.getSetupInstance().download.threads.maxThreadsQuantity = (int) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "ifMultiThreadedDownloadAFile")) {
-                SetUp.getInstance().download.threads.multiThreadedDownload.ifMultiThreadedDownloadAFile = (boolean) optionSet.valueOf(name);
+                Setup.getSetupInstance().download.threads.multiThreadedDownload.ifMultiThreadedDownloadAFile = (boolean) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "multiThreadedDownloadAFileSegmentSize")) {
-                SetUp.getInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize = (int) optionSet.valueOf(name);
+                Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize = (int) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "downloadRetries")) {
-                SetUp.getInstance().download.downloadRetries = (int) optionSet.valueOf(name);
+                Setup.getSetupInstance().download.downloadRetries = (int) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "downloadConnectTimeout")) {
-                SetUp.getInstance().download.downloadConnectTimeout = (int) optionSet.valueOf(name);
+                Setup.getSetupInstance().download.downloadConnectTimeout = (int) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "downloadReadTimeout")) {
-                SetUp.getInstance().download.downloadReadTimeout = (int) optionSet.valueOf(name);
+                Setup.getSetupInstance().download.downloadReadTimeout = (int) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "ifCheckFileSha1BeforeDownloading")) {
-                SetUp.getInstance().download.ifCheckFileSha1BeforeDownloading = (boolean) optionSet.valueOf(name);
+                Setup.getSetupInstance().download.ifCheckFileSha1BeforeDownloading = (boolean) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "ifDownloadAssetIndexCopy")) {
-                SetUp.getInstance().download.ifDownloadAssetIndexCopy = (boolean) optionSet.valueOf(name);
+                Setup.getSetupInstance().download.ifDownloadAssetIndexCopy = (boolean) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "ifUseOfficialDownloadSource")) {
-                SetUp.getInstance().download.source.ifUseOfficialDownloadSource = (boolean) optionSet.valueOf(name);
+                Setup.getSetupInstance().download.source.ifUseOfficialDownloadSource = (boolean) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "ifUseBmclapiDownloadSource")) {
-                SetUp.getInstance().download.source.ifUseBmclapiDownloadSource = (boolean) optionSet.valueOf(name);
+                Setup.getSetupInstance().download.source.ifUseBmclapiDownloadSource = (boolean) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "ifUseMcbbsDownloadSource")) {
-                SetUp.getInstance().download.source.ifUseMcbbsDownloadSource = (boolean) optionSet.valueOf(name);
+                Setup.getSetupInstance().download.source.ifUseMcbbsDownloadSource = (boolean) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
         }
 
     }
+
     public static <T> void export(String name, T to) {
         System.out.println("set " + name + " to " + to + " success");
     }

@@ -1,4 +1,4 @@
-package JsonAnalysis.MicrosoftLoginJsonAnalysis;
+package JsonAnalysis.Login.Microsoft;
 
 public class MinecraftOwnershipObject {
     private Items[] items;

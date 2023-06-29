@@ -1,10 +1,12 @@
-import JsonAnalysis.MicrosoftLoginJsonAnalysis.*;
+package Minecraft;
+
+import JsonAnalysis.Login.Microsoft.*;
 import com.google.gson.Gson;
 
 public class MicrosoftLogin {
     public static String getMicrosoftAccessToken(String microsoftLoginBody) {
         Gson gson = new Gson();
-        MicrosoftLoginObject microsoftLoginObject = gson.fromJson(microsoftLoginBody,MicrosoftLoginObject.class);
+        MicrosoftLoginObject microsoftLoginObject = gson.fromJson(microsoftLoginBody, MicrosoftLoginObject.class);
         return microsoftLoginObject.getAccessToken();
     }
 

@@ -1,15 +1,22 @@
-import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionManifestObject;
-import JsonAnalysis.MinecraftLibraryDownloadJsonAnalysis.MinecraftVersionObject;
+package Other;
+
+import JsonAnalysis.Download.Minecraft.Library.MinecraftVersionManifestObject;
+import JsonAnalysis.Download.Minecraft.Library.MinecraftVersionObject;
+import JsonAnalysis.Setup.Setup;
+import Minecraft.MinecraftVersionProcessing;
+import Utils.Utils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
 public class DownloadURL {
     static String bmclapi = "https://bmclapi2.bangbang93.com/";
     static String mcbbs = "https://download.mcbbs.net/";
-    public static URL versionManifestJsonURL(VersionManifest versionManifest,DownloadSource downloadSource) throws MalformedURLException {
+
+    public static URL versionManifestJsonURL(VersionManifest versionManifest, DownloadSource downloadSource) throws MalformedURLException {
         String v1 = "mc/game/version_manifest.json";
         String v2 = "mc/game/version_manifest_v2.json";
-        if (downloadSource == DownloadSource.official){
+        if (downloadSource == DownloadSource.official) {
             if (versionManifest == VersionManifest.v1){
                 return new URL("http://launchermeta.mojang.com/" + v1);
             }else{
@@ -110,9 +117,10 @@ public class DownloadURL {
             return new URL(mcbbs+url);
         }
     }
-    enum DownloadSource {
 
-        official(SetUp.getInstance().download.source.ifUseOfficialDownloadSource), bmclapi(SetUp.getInstance().download.source.ifUseBmclapiDownloadSource), mcbbs(SetUp.getInstance().download.source.ifUseMcbbsDownloadSource);
+    public enum DownloadSource {
+
+        official(Setup.getSetupInstance().download.source.ifUseOfficialDownloadSource), bmclapi(Setup.getSetupInstance().download.source.ifUseBmclapiDownloadSource), mcbbs(Setup.getSetupInstance().download.source.ifUseMcbbsDownloadSource);
         final boolean ifUse;
 
         DownloadSource(boolean ifUseDownloadSource) {
@@ -120,7 +128,7 @@ public class DownloadURL {
         }
     }
 
-    enum VersionManifest {
+    public enum VersionManifest {
         v1, v2
 
     }
