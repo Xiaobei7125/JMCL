@@ -1,5 +1,5 @@
-import Minecraft.MinecraftAttribute;
-import Minecraft.MinecraftUtils;
+import minecraft.Attribute;
+import minecraft.MinecraftUtils;
 
 public class Test {
     public static void main(String[] ages) throws Exception {
@@ -8,8 +8,8 @@ public class Test {
         String mainPath = "E:\\JavaTest\\JMCL\\.minecraft\\";
         String id = "1.19.3";
         //microsoftLogin();
-        //Minecraft.MinecraftUtils.downloadMinecraft(new Minecraft.MinecraftAttribute(mainPath.readLine(), id.readLine()));
-        MinecraftUtils.downloadMinecraft(new MinecraftAttribute(mainPath, id));
+        //minecraft.MinecraftUtils.downloadMinecraft(new minecraft.Attribute(mainPath.readLine(), id.readLine()));
+        MinecraftUtils.downloadMinecraft(new Attribute(mainPath, id));
 
     }
 }

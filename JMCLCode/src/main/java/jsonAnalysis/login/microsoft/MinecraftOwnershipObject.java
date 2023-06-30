@@ -1,10 +1,11 @@
-package JsonAnalysis.Login.Microsoft;
+package jsonAnalysis.login.microsoft;
 
 public class MinecraftOwnershipObject {
     private Items[] items;
     private String signature;
     private int keyId;
-    protected class Items{
+
+    protected static class Items {
         private String name;
         private String signature;
     }

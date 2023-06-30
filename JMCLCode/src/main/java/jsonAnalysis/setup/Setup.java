@@ -1,4 +1,4 @@
-package JsonAnalysis.Setup;
+package jsonAnalysis.setup;
 
 import Utils.Utils;
 import com.google.gson.Gson;
@@ -16,14 +16,14 @@ public class Setup {
             set = new Gson().fromJson(contents, Setup.class);
         } catch (IOException ignored) {
             try {
-                Utils.writeToString("JMCL.properties"
+                byte[] setup = Utils.writeToString("JMCL.properties"
                         , new GsonBuilder().setPrettyPrinting().create().toJson(getSetupInstance()));
             } catch (IOException ignored1) {
             }
         }
     }
 
-    public Download download = new Download();
+    public final Download download = new Download();
 
     public Setup() {
     }
@@ -32,9 +32,9 @@ public class Setup {
         return set;
     }
 
-    public class Download {
-        public Threads threads = new Threads();
-        public Source source = new Source();
+    public static class Download {
+        public final Threads threads = new Threads();
+        public final Source source = new Source();
         public int downloadRetries = -1;
         public int downloadConnectTimeout = 1000;
         public int downloadReadTimeout = 1000;
@@ -42,7 +42,7 @@ public class Setup {
         public boolean ifDownloadAssetIndexCopy = true;
 
         public class Threads {
-            public MultiThreadedDownload multiThreadedDownload = new MultiThreadedDownload();
+            public final MultiThreadedDownload multiThreadedDownload = new MultiThreadedDownload();
             public int maxThreadsQuantity = 1024;
 
             public class MultiThreadedDownload {

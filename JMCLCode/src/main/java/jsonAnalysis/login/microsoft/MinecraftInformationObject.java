@@ -1,4 +1,4 @@
-package JsonAnalysis.Login.Microsoft;
+package jsonAnalysis.login.microsoft;
 
 import java.net.URL;
 
@@ -7,7 +7,8 @@ public class MinecraftInformationObject {
     private String name;
     private SkinsAndCapes[] skins;
     private SkinsAndCapes[] capes;
-    protected class SkinsAndCapes{
+
+    protected static class SkinsAndCapes {
         private String id;
         private String state;
         private URL url;

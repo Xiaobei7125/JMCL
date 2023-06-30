@@ -1,6 +1,7 @@
 package Utils;
 
-import JsonAnalysis.Setup.Setup;
+
+import jsonAnalysis.setup.Setup;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -14,17 +15,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Utils {
-    static Setup setup = new Setup();
 
-    public static void deleteDirectory(String path) {
+    public static boolean deleteDirectory(String path) {
         File[] array = new File(path).listFiles();
         assert array != null;
         for (File file : array) {
             if (file.isDirectory()) {
                 deleteDirectory(file.getPath());
+            } else if (!file.delete()) {
+                return false;
             }
-            file.delete();
         }
+        return true;
     }
 
 
@@ -67,9 +69,9 @@ public class Utils {
             httpConnection.setDoOutput(true);
             httpConnection.setDoInput(true);
             httpConnection.setUseCaches(false);
-            httpConnection.setConnectTimeout(setup.getSetupInstance().download.downloadConnectTimeout);
-            httpConnection.setReadTimeout(setup.getSetupInstance().download.downloadReadTimeout);
-            BufferedReader is = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
+            httpConnection.setConnectTimeout(Setup.getSetupInstance().download.downloadConnectTimeout);
+            httpConnection.setReadTimeout(Setup.getSetupInstance().download.downloadReadTimeout);
+            BufferedReader is = new BufferedReader(new InputStreamReader(httpConnection.getInputStream(), StandardCharsets.UTF_8));
             StringBuilder body = new StringBuilder();
             String a;
             while ((a = is.readLine()) != null) {
@@ -90,8 +92,8 @@ public class Utils {
             httpConnection.setDoOutput(true);
             httpConnection.setDoInput(true);
             httpConnection.setUseCaches(false);
-            httpConnection.setConnectTimeout(setup.getSetupInstance().download.downloadConnectTimeout);
-            httpConnection.setReadTimeout(setup.getSetupInstance().download.downloadReadTimeout);
+            httpConnection.setConnectTimeout(Setup.getSetupInstance().download.downloadConnectTimeout);
+            httpConnection.setReadTimeout(Setup.getSetupInstance().download.downloadReadTimeout);
             httpConnection.setRequestProperty("Range", "bytes=" + start + "-" + end);
             if (httpConnection.getResponseCode() == 206) {
                 return getData(httpConnection.getInputStream());
@@ -128,7 +130,9 @@ public class Utils {
         if (!file.exists() && !file.isDirectory()) {
             return null;
         }else {
-            if (!file.canWrite()) file.setWritable(true);
+            if (!file.canWrite())
+                if (!file.setWritable(true))
+                    return null;
             byte[] input = readToString(String.valueOf(file));
             MessageDigest md = MessageDigest.getInstance("SHA-1");
             byte[] messageDigest = md.digest(input);

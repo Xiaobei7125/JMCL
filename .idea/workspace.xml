@@ -4,36 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52b5a912-3e1b-441c-ad53-0a299eb59686" name="变更" comment="变更">
-      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Utils/Download.java" afterDir="false" />
+    <list default="true" id="52b5a912-3e1b-441c-ad53-0a299eb59686" name="变更" comment="更改">
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/CommandLineInputTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/CommandLineInputTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/DownloadURL.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Other/DownloadURL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/HTTPOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Other/NetOperation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/MicrosoftLoginObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/Login/Microsoft/MicrosoftLoginObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/MinecraftAuthenticationObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/Login/Microsoft/MinecraftAuthenticationObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/MinecraftInformationObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/Login/Microsoft/MinecraftInformationObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/MinecraftOwnershipObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/Login/Microsoft/MinecraftOwnershipObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MicrosoftLoginJsonAnalysis/XboxLiveAuthenticationObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/Login/Microsoft/XboxLiveAuthenticationObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MinecraftLibraryDownloadJsonAnalysis/MinecraftVersionManifestObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/Download/Minecraft/Library/MinecraftVersionManifestObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/MinecraftLibraryDownloadJsonAnalysis/MinecraftVersionObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/Download/Minecraft/Library/MinecraftVersionObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/LauncherInformation.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Imformation/LauncherInformation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/LoginInformation.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Imformation/LoginInformation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/MicrosoftLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MicrosoftLogin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftAttribute.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftAttribute.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftDownload.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftDownload.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftDownloadsUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftDownloadsUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/MinecraftVersionProcessing.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftVersionProcessing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/PublicVariable.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Other/PublicVariable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/SetUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/Setup/Setup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/IThreadManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Other/IThreadManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Imformation/LauncherInformation.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/imformation/Launcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Imformation/LoginInformation.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/imformation/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/Download/Minecraft/Library/MinecraftVersionManifestObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/jsonAnalysis/download/minecraft/library/VersionManifest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/Download/Minecraft/Library/MinecraftVersionObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/jsonAnalysis/download/minecraft/library/VersionJson.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/Login/Microsoft/MicrosoftLoginObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/jsonAnalysis/login/microsoft/MicrosoftLoginObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/Login/Microsoft/MinecraftAuthenticationObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/jsonAnalysis/login/microsoft/MinecraftAuthenticationObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/Login/Microsoft/MinecraftInformationObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/jsonAnalysis/login/microsoft/MinecraftInformationObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/Login/Microsoft/MinecraftOwnershipObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/jsonAnalysis/login/microsoft/MinecraftOwnershipObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/Login/Microsoft/XboxLiveAuthenticationObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/jsonAnalysis/login/microsoft/XboxLiveAuthenticationObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/JsonAnalysis/Setup/Setup.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/jsonAnalysis/setup/Setup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MicrosoftLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftAttribute.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Attribute.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftDownload.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftDownload.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftDownloadsUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftDownloadsUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftVersionProcessing.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftVersionProcessing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Other/DownloadURL.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Other/DownloadURL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Other/PublicVariable.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Other/PublicVariable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Utils/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/ZipUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Utils/Zip.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Utils/Download.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Utils/Download.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Utils/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Utils/Zip.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Utils/Zip.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,11 +106,11 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -135,7 +134,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="2D7SJ3xh8HhU9PlhNh9KiGKGObB" />
   <component name="ProjectViewState">
@@ -147,16 +146,19 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
+    "extract.method.default.visibility": "private",
+    "git-widget-placeholder": "master",
     "last_directory_selection": "E:/JavaTest/JMCL/JMCLCode/src/main/java/JsonAnalysis",
     "last_opened_file_path": "E:/JavaTest/JMCL/JMCLCode/src/main/java/JsonAnalysis/DownloadJson",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "问题",
+    "project.structure.last.edited": "Facet",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "project.propDebugger",
     "two.files.diff.last.used.file": "E:/JavaTest/JMCL/filename.txt",
     "vue.rearranger.settings.migration": "true"
   },
@@ -181,7 +183,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.JMCL:JMCLCode [:JMCLCode:CommandLineInputTest.main()]">
+  <component name="RunManager" selected="应用程序.Test">
     <configuration name="CommandLineInputTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="18 (2)" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -193,7 +195,7 @@
       </method>
     </configuration>
     <configuration name="Test" type="Application" factoryName="Application">
-      <option name="ALTERNATIVE_JRE_PATH" value="16 (2)" />
+      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../exe/Java/jdk-18.0.1.1" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Test" />
       <module name="JMCL.JMCLCode.main" />
@@ -304,7 +306,9 @@
       <option name="presentableId" value="Default" />
       <updated>1660048559910</updated>
       <workItem from="1688019171531" duration="637000" />
-      <workItem from="1688031706059" duration="3540000" />
+      <workItem from="1688031706059" duration="4228000" />
+      <workItem from="1688111776956" duration="2109000" />
+      <workItem from="1688114562341" duration="2036000" />
     </task>
     <task id="LOCAL-00001" summary="2">
       <created>1660048873009</created>
@@ -523,7 +527,15 @@
       <option name="project" value="LOCAL" />
       <updated>1676769941177</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="更改">
+      <option name="closed" value="true" />
+      <created>1688035355104</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1688035355105</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -564,7 +576,8 @@
     <MESSAGE value="下载完工了！！" />
     <MESSAGE value="改一改" />
     <MESSAGE value="变更" />
-    <option name="LAST_COMMIT_MESSAGE" value="变更" />
+    <MESSAGE value="更改" />
+    <option name="LAST_COMMIT_MESSAGE" value="更改" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

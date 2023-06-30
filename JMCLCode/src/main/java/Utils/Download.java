@@ -1,7 +1,7 @@
 package Utils;
 
-import JsonAnalysis.Setup.Setup;
 import Other.PublicVariable;
+import jsonAnalysis.setup.Setup;
 
 import java.io.*;
 import java.net.HttpURLConnection;

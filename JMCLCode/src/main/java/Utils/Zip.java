@@ -8,12 +8,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class Zip {
-    public static boolean unzip(String zipFilePath, String desDirectory) throws Exception {
+    public static boolean unzip(String zipFilePath, String unzipTheDirectory) throws Exception {
 
-        File desDir = new File(desDirectory);
-        if (!desDir.exists()) {
-            desDir.mkdir();
-        }
+        File desDir = new File(unzipTheDirectory);
+        if (!desDir.exists()) if (!desDir.mkdir()) return false;
         ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(zipFilePath));
         ZipEntry zipEntry = zipInputStream.getNextEntry();
         File file;
@@ -22,10 +20,10 @@ public class Zip {
         }
         while (zipEntry != null) {
             if (zipEntry.isDirectory()) {
-                String unzipFilePath = desDirectory + File.separator + zipEntry.getName();
+                String unzipFilePath = unzipTheDirectory + File.separator + zipEntry.getName();
                 mkdir(new File(unzipFilePath));
             } else {
-                String unzipFilePath = desDirectory + File.separator + zipEntry.getName();
+                String unzipFilePath = unzipTheDirectory + File.separator + zipEntry.getName();
                 file = new File(unzipFilePath);
                 mkdir(file.getParentFile());
                 BufferedOutputStream bufferedOutputStream =

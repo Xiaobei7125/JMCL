@@ -1,9 +1,9 @@
-package Minecraft;
+package minecraft;
 
-import JsonAnalysis.Login.Microsoft.*;
 import com.google.gson.Gson;
+import jsonAnalysis.login.microsoft.*;
 
-public class MicrosoftLogin {
+public class Login {
     public static String getMicrosoftAccessToken(String microsoftLoginBody) {
         Gson gson = new Gson();
         MicrosoftLoginObject microsoftLoginObject = gson.fromJson(microsoftLoginBody, MicrosoftLoginObject.class);
@@ -12,7 +12,7 @@ public class MicrosoftLogin {
 
     public static String getMicrosoftRefreshToken(String microsoftLoginBody) {
         Gson gson = new Gson();
-        MicrosoftLoginObject microsoftLoginObject = gson.fromJson(microsoftLoginBody,MicrosoftLoginObject.class);
+        MicrosoftLoginObject microsoftLoginObject = gson.fromJson(microsoftLoginBody, MicrosoftLoginObject.class);
         return microsoftLoginObject.getRefreshToken();
     }
 

@@ -1,22 +1,23 @@
-package Minecraft;
+package minecraft;
+
 
 import Other.DownloadURL;
 
 import java.nio.file.Paths;
 
-public class MinecraftAttribute {
+public class Attribute {
     String mainPath;
     String id;
     DownloadURL.DownloadSource downloadSource;
     String runPath = Paths.get("").toAbsolutePath().toString();
 
-    public MinecraftAttribute(String mainPath, String id, DownloadURL.DownloadSource downloadSource) {
+    public Attribute(String mainPath, String id, DownloadURL.DownloadSource downloadSource) {
         this.downloadSource = downloadSource;
         this.id = id;
         this.mainPath = mainPath;
     }
 
-    public MinecraftAttribute(String mainPath, String id) {
+    public Attribute(String mainPath, String id) {
         this.id = id;
         this.mainPath = mainPath;
     }

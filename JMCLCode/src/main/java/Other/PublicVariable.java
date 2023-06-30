@@ -1,15 +1,15 @@
 package Other;
 
-import JsonAnalysis.Setup.Setup;
+
+import jsonAnalysis.setup.Setup;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class PublicVariable {
-    public static ExecutorService multiThreadedDownloadExecutorService = Executors.newCachedThreadPool();
-
-    static int threadQuantity = 0;
-    public static ExecutorService executorService = Executors.newFixedThreadPool(Setup.getSetupInstance().download.threads.maxThreadsQuantity);
+    public static final ExecutorService multiThreadedDownloadExecutorService = Executors.newCachedThreadPool();
+    public static final ExecutorService executorService = Executors.newFixedThreadPool(Setup.getSetupInstance().download.threads.maxThreadsQuantity);
+    public static int threadQuantity = 0;
 
     public PublicVariable() {
     }

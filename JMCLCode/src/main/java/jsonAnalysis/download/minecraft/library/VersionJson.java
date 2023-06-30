@@ -1,4 +1,4 @@
-package JsonAnalysis.Download.Minecraft.Library;
+package jsonAnalysis.download.minecraft.library;
 
 import com.google.gson.*;
 import com.google.gson.annotations.SerializedName;
@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.lang.reflect.Type;
 import java.net.URL;
 
-public class MinecraftVersionObject {
+public class VersionJson {
     private String minecraftArguments;
     private Arguments arguments;
     private AssetIndex assetIndex;
@@ -151,7 +151,8 @@ public class MinecraftVersionObject {
             }
         }
     }
-    public class AssetIndex {
+
+    public static class AssetIndex {
         private String id;
         private String sha1;
         private int size;
@@ -178,7 +179,8 @@ public class MinecraftVersionObject {
             return url;
         }
     }
-    public class Downloads{
+
+    public static class Downloads {
         private Client client;
         @SerializedName("client_mappings")
         private ClientMappings clientMappings;
@@ -268,7 +270,8 @@ public class MinecraftVersionObject {
             }
         }
     }
-    public class JavaVersion{
+
+    public static class JavaVersion {
         private String component;
         private int majorVersion;
 
@@ -280,7 +283,8 @@ public class MinecraftVersionObject {
             return component;
         }
     }
-    public class Libraries{
+
+    public static class Libraries {
         private Downloads downloads;
         private String name;
         private Natives natives;
@@ -380,14 +384,15 @@ public class MinecraftVersionObject {
             }
         }
     }
-    public class Logging{
+
+    public static class Logging {
         private Client client;
 
         public Client getClient() {
             return client;
         }
 
-        public class Client{
+        public class Client {
             private String argument;
             private File file;
             private String type;

@@ -1,60 +1,66 @@
-package Minecraft;
+package minecraft;
 
-import JsonAnalysis.Download.Minecraft.Library.MinecraftVersionManifestObject;
-import JsonAnalysis.Download.Minecraft.Library.MinecraftVersionObject;
+
 import Other.DownloadURL;
 import Utils.Utils;
 import com.google.gson.GsonBuilder;
+import jsonAnalysis.download.minecraft.library.VersionJson;
+import jsonAnalysis.download.minecraft.library.VersionManifest;
 
 import java.io.IOException;
 import java.util.Objects;
 
-import static JsonAnalysis.Download.Minecraft.Library.MinecraftVersionObject.getGsonObject;
+import static jsonAnalysis.download.minecraft.library.VersionJson.getGsonObject;
+
 
 public class MinecraftRequest {
-    private static MinecraftVersionManifestObject getMinecraftVersionManifestObject(DownloadURL.DownloadSource downloadSource) throws IOException {
-        String MinecraftVersionManifestJson = String.valueOf(Utils.getFileContent(DownloadURL.versionManifestJsonURL(DownloadURL.VersionManifest.v2, downloadSource)));
+    private static VersionManifest getMinecraftVersionManifestObject(DownloadURL.DownloadSource downloadSource) throws IOException {
+        String MinecraftVersionManifestJson = String.valueOf(Utils.getFileContent(DownloadURL.versionManifestJsonURL(DownloadURL.VersionJsonManifest.v2, downloadSource)));
         return new GsonBuilder().setVersion(2).create().fromJson(MinecraftVersionManifestJson,
-                MinecraftVersionManifestObject.class);
+                VersionManifest.class);
     }
-    private static MinecraftVersionObject getMinecraftVersionObject(MinecraftVersionManifestObject MinecraftVersionManifestObject, String id, DownloadURL.DownloadSource downloadSource) throws IOException {
-        String MinecraftVersionJson = String.valueOf(Utils.getFileContent(DownloadURL.versionJsonFileURL(MinecraftVersionManifestObject,id,downloadSource)));
+
+    private static VersionJson getMinecraftVersionObject(VersionManifest VersionManifest, String id, DownloadURL.DownloadSource downloadSource) throws IOException {
+        String MinecraftVersionJson = String.valueOf(Utils.getFileContent(DownloadURL.versionJsonFileURL(VersionManifest, id, downloadSource)));
         return getGsonObject().fromJson(MinecraftVersionJson,
-                MinecraftVersionObject.class);
+                VersionJson.class);
     }
-    private static String getMinecraftVersionAssetIndexJson(MinecraftVersionObject MinecraftVersionObject, DownloadURL.DownloadSource downloadSource) throws IOException {
-        return String.valueOf(Utils.getFileContent(Objects.requireNonNull(DownloadURL.assetIndexJsonURL(MinecraftVersionObject, downloadSource))));
+
+    private static String getMinecraftVersionAssetIndexJson(VersionJson VersionJson, DownloadURL.DownloadSource downloadSource) throws IOException {
+        return String.valueOf(Utils.getFileContent(Objects.requireNonNull(DownloadURL.assetIndexJsonURL(VersionJson, downloadSource))));
     }
-    public static String getMinecraftVersionAssetIndexJson(MinecraftVersionObject MinecraftVersionObject) throws IOException {
+
+    public static String getMinecraftVersionAssetIndexJson(VersionJson VersionJson) throws IOException {
         try {
-            return getMinecraftVersionAssetIndexJson(MinecraftVersionObject, DownloadURL.DownloadSource.official);
+            return getMinecraftVersionAssetIndexJson(VersionJson, DownloadURL.DownloadSource.official);
         } catch (IOException e) {
             try {
-                return getMinecraftVersionAssetIndexJson(MinecraftVersionObject, DownloadURL.DownloadSource.bmclapi);
+                return getMinecraftVersionAssetIndexJson(VersionJson, DownloadURL.DownloadSource.bmclapi);
             } catch (IOException f) {
-                return getMinecraftVersionAssetIndexJson(MinecraftVersionObject, DownloadURL.DownloadSource.mcbbs);
+                return getMinecraftVersionAssetIndexJson(VersionJson, DownloadURL.DownloadSource.mcbbs);
             }
         }
     }
 
-    public static MinecraftVersionObject getMinecraftVersionObject(MinecraftVersionManifestObject MinecraftVersionManifestObject, MinecraftAttribute MinecraftAttribute) throws IOException {
+    public static VersionJson getMinecraftVersionObject(VersionManifest VersionManifest, Attribute Attribute) throws IOException {
         try {
-            return getMinecraftVersionObject(MinecraftVersionManifestObject, MinecraftAttribute.id, DownloadURL.DownloadSource.official);
+            return getMinecraftVersionObject(VersionManifest, Attribute.id, DownloadURL.DownloadSource.official);
         } catch (IOException e) {
             try {
-                return getMinecraftVersionObject(MinecraftVersionManifestObject, MinecraftAttribute.id, DownloadURL.DownloadSource.bmclapi);
+                return getMinecraftVersionObject(VersionManifest, Attribute.id, DownloadURL.DownloadSource.bmclapi);
             } catch (IOException f) {
-                return getMinecraftVersionObject(MinecraftVersionManifestObject, MinecraftAttribute.id, DownloadURL.DownloadSource.mcbbs);
+                return getMinecraftVersionObject(VersionManifest, Attribute.id, DownloadURL.DownloadSource.mcbbs);
             }
         }
     }
-    public static MinecraftVersionManifestObject getMinecraftVersionManifestObject() throws IOException {
+
+    public static VersionManifest getMinecraftVersionManifestObject() throws IOException {
         try {
             return getMinecraftVersionManifestObject(DownloadURL.DownloadSource.official);
-        }catch (IOException e) {
+        } catch (IOException e) {
             try {
                 return getMinecraftVersionManifestObject(DownloadURL.DownloadSource.bmclapi);
-            }catch (IOException f){
+            } catch (IOException f) {
                 return getMinecraftVersionManifestObject(DownloadURL.DownloadSource.mcbbs);
             }
         }

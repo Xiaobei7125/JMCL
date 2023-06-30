@@ -1,10 +1,13 @@
-package Minecraft;
+package minecraft;
 
-import JsonAnalysis.Download.Minecraft.Library.MinecraftVersionManifestObject;
-import JsonAnalysis.Download.Minecraft.Library.MinecraftVersionObject;
-import JsonAnalysis.Setup.Setup;
+
+import Other.DownloadURL;
+import Other.IThreadManagement;
 import Other.PublicVariable;
 import Utils.Utils;
+import jsonAnalysis.download.minecraft.library.VersionJson;
+import jsonAnalysis.download.minecraft.library.VersionManifest;
+import jsonAnalysis.setup.Setup;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,79 +20,79 @@ public class MinecraftDownloadsUtils {
     static int end = 0;
     static int error = 0;
 
-    private static void downloadVersionFile(MinecraftVersionObject MinecraftVersionObject, DownloadURL.DownloadSource downloadSource, MinecraftAttribute MinecraftAttribute) throws Exception {
+    private static void downloadVersionFile(VersionJson VersionJson, DownloadURL.DownloadSource downloadSource, Attribute Attribute) throws Exception {
         if (downloadSource.ifUse) {
-            MinecraftDownload.downloadVersionFile(DownloadURL.versionJarFileURL(MinecraftVersionObject, downloadSource), MinecraftAttribute.mainPath, MinecraftAttribute.id, MinecraftDownload.VersionFile.jar);
+            MinecraftDownload.downloadVersionFile(DownloadURL.versionJarFileURL(VersionJson, downloadSource), Attribute.mainPath, Attribute.id, MinecraftDownload.VersionFile.jar);
         } else {
             throw new Exception();
         }
     }
 
-    private static void downloadVersionJson(MinecraftVersionManifestObject MinecraftVersionManifestObject, DownloadURL.DownloadSource downloadSource, MinecraftAttribute MinecraftAttribute) throws Exception {
+    private static void downloadVersionJson(VersionManifest VersionManifest, DownloadURL.DownloadSource downloadSource, Attribute Attribute) throws Exception {
         if (downloadSource.ifUse) {
-            MinecraftDownload.downloadVersionFile(DownloadURL.versionJsonFileURL(MinecraftVersionManifestObject, MinecraftAttribute.id, downloadSource), MinecraftAttribute.mainPath, MinecraftAttribute.id, MinecraftDownload.VersionFile.json);
+            MinecraftDownload.downloadVersionFile(DownloadURL.versionJsonFileURL(VersionManifest, Attribute.id, downloadSource), Attribute.mainPath, Attribute.id, MinecraftDownload.VersionFile.json);
         } else {
             throw new Exception();
         }
     }
 
-    private static void downloadNativesDllLibraries(MinecraftVersionObject MinecraftVersionObject, DownloadURL.DownloadSource downloadSource, MinecraftAttribute MinecraftAttribute, int i) throws Exception {
+    private static void downloadNativesDllLibraries(VersionJson VersionJson, DownloadURL.DownloadSource downloadSource, Attribute Attribute, int i) throws Exception {
         if (downloadSource.ifUse) {
-            MinecraftDownload.downloadNativesDllLibraries(DownloadURL.nativesJarURL(MinecraftVersionObject, downloadSource, i), MinecraftAttribute.mainPath, MinecraftAttribute.id, MinecraftAttribute.runPath);
+            MinecraftDownload.downloadNativesDllLibraries(DownloadURL.nativesJarURL(VersionJson, downloadSource, i), Attribute.mainPath, Attribute.id, Attribute.runPath);
         } else {
             throw new Exception();
         }
     }
 
-    private static void downloadOtherJarLibraries(MinecraftVersionObject MinecraftVersionObject, DownloadURL.DownloadSource downloadSource, MinecraftAttribute MinecraftAttribute, int i) throws Exception {
+    private static void downloadOtherJarLibraries(VersionJson VersionJson, DownloadURL.DownloadSource downloadSource, Attribute Attribute, int i) throws Exception {
         if (downloadSource.ifUse) {
-            MinecraftDownload.downloadOtherLibraries(DownloadURL.otherJarLibrariesURL(MinecraftVersionObject, downloadSource, i), MinecraftAttribute.mainPath, MinecraftVersionObject.getLibraries()[i].getDownloads().getArtifact().getPath());
+            MinecraftDownload.downloadOtherLibraries(DownloadURL.otherJarLibrariesURL(VersionJson, downloadSource, i), Attribute.mainPath, VersionJson.getLibraries()[i].getDownloads().getArtifact().getPath());
         } else {
             throw new Exception();
         }
     }
 
-    private static void downloadLog4jFile(MinecraftVersionObject MinecraftVersionObject, DownloadURL.DownloadSource downloadSource, MinecraftAttribute MinecraftAttribute) throws Exception {
+    private static void downloadLog4jFile(VersionJson VersionJson, DownloadURL.DownloadSource downloadSource, Attribute Attribute) throws Exception {
         if (downloadSource.ifUse) {
-            MinecraftDownload.downloadLog4jFile(DownloadURL.Log4jFileURL(MinecraftVersionObject, downloadSource), MinecraftAttribute.mainPath, MinecraftVersionObject.getLogging().getClient().getFile().getId());
+            MinecraftDownload.downloadLog4jFile(DownloadURL.Log4jFileURL(VersionJson, downloadSource), Attribute.mainPath, VersionJson.getLogging().getClient().getFile().getId());
         } else {
             throw new Exception();
         }
     }
 
-    private static void downloadAssetIndexJson(MinecraftVersionObject MinecraftVersionObject, DownloadURL.DownloadSource downloadSource, MinecraftAttribute MinecraftAttribute) throws Exception {
+    private static void downloadAssetIndexJson(VersionJson VersionJson, DownloadURL.DownloadSource downloadSource, Attribute Attribute) throws Exception {
         if (downloadSource.ifUse) {
-            MinecraftDownload.downloadAssetIndexJson(DownloadURL.assetIndexJsonURL(MinecraftVersionObject, downloadSource), MinecraftAttribute.mainPath, MinecraftVersionObject.getAssetIndex().getId());
+            MinecraftDownload.downloadAssetIndexJson(DownloadURL.assetIndexJsonURL(VersionJson, downloadSource), Attribute.mainPath, VersionJson.getAssetIndex().getId());
         } else {
             throw new Exception();
         }
     }
 
-    private static void downloadAssetIndexFile(MinecraftAttribute MinecraftAttribute, DownloadURL.DownloadSource downloadSource, String hash) throws Exception {
+    private static void downloadAssetIndexFile(Attribute Attribute, DownloadURL.DownloadSource downloadSource, String hash) throws Exception {
         if (downloadSource.ifUse) {
-            MinecraftDownload.downloadAssetIndexFile(DownloadURL.assetIndexFileURL(hash, downloadSource), MinecraftAttribute.mainPath, hash);
+            MinecraftDownload.downloadAssetIndexFile(DownloadURL.assetIndexFileURL(hash, downloadSource), Attribute.mainPath, hash);
         } else {
             throw new Exception();
         }
     }
 
-    private static void downloadAssetIndexCopyFile(MinecraftAttribute MinecraftAttribute, DownloadURL.DownloadSource downloadSource, String path, String hash) throws Exception {
+    private static void downloadAssetIndexCopyFile(Attribute Attribute, DownloadURL.DownloadSource downloadSource, String path, String hash) throws Exception {
         if (downloadSource.ifUse) {
-            MinecraftDownload.downloadAssetIndexCopyFile(DownloadURL.assetIndexFileURL(hash, downloadSource), MinecraftAttribute.mainPath, path);
+            MinecraftDownload.downloadAssetIndexCopyFile(DownloadURL.assetIndexFileURL(hash, downloadSource), Attribute.mainPath, path);
         } else {
             throw new Exception();
         }
     }
 
-    public static void downloadsVersionFileUtils(MinecraftVersionObject MinecraftVersionObject, MinecraftAttribute MinecraftAttribute) {
+    public static void downloadsVersionFileUtils(VersionJson VersionJson, Attribute Attribute) {
         IThreadManagement iThreadManagement = () -> {
-            String name = MinecraftAttribute.id + "." + MinecraftDownload.VersionFile.jar;
+            String name = Attribute.id + "." + MinecraftDownload.VersionFile.jar;
             PublicVariable.executorService.execute(() -> {
                 //下载路径
-                String path = MinecraftAttribute.mainPath + "versions\\" + MinecraftAttribute.id + "\\";
+                String path = Attribute.mainPath + "versions\\" + Attribute.id + "\\";
                 //从下载处获得的sha1
-                String standardSha1 = MinecraftVersionObject.getDownloads().getClient().getSha1();
-                int standardSize = MinecraftVersionObject.getDownloads().getClient().getSize();
+                String standardSha1 = VersionJson.getDownloads().getClient().getSha1();
+                int standardSize = VersionJson.getDownloads().getClient().getSize();
                 File file = new File(path + name);
                 try {
                     if (Objects.equals(standardSha1, Utils.fileSha1(file)) && standardSize == file.length() && Setup.getSetupInstance().download.ifCheckFileSha1BeforeDownloading) {
@@ -102,12 +105,12 @@ public class MinecraftDownloadsUtils {
                             try {
                                 System.out.println("DL-VF-0-" + j + " downloading '" + name + "'");
                                 try {
-                                    downloadVersionFile(MinecraftVersionObject, DownloadURL.DownloadSource.official, MinecraftAttribute);
+                                    downloadVersionFile(VersionJson, DownloadURL.DownloadSource.official, Attribute);
                                 } catch (Exception e) {
                                     try {
-                                        downloadVersionFile(MinecraftVersionObject, DownloadURL.DownloadSource.bmclapi, MinecraftAttribute);
+                                        downloadVersionFile(VersionJson, DownloadURL.DownloadSource.bmclapi, Attribute);
                                     } catch (Exception f) {
-                                        downloadVersionFile(MinecraftVersionObject, DownloadURL.DownloadSource.mcbbs, MinecraftAttribute);
+                                        downloadVersionFile(VersionJson, DownloadURL.DownloadSource.mcbbs, Attribute);
                                     }
                                 }
                                 System.out.println(standardSha1 + "," + Utils.fileSha1(file));
@@ -132,12 +135,12 @@ public class MinecraftDownloadsUtils {
         iThreadManagement.run();
     }
 
-    public static void downloadsVersionJsonUtils(MinecraftVersionManifestObject MinecraftVersionManifestObject, MinecraftAttribute MinecraftAttribute) {
+    public static void downloadsVersionJsonUtils(VersionManifest VersionManifest, Attribute Attribute) {
         IThreadManagement iThreadManagement = () -> {
-            String name = MinecraftAttribute.id + "." + MinecraftDownload.VersionFile.json;
+            String name = Attribute.id + "." + MinecraftDownload.VersionFile.json;
             PublicVariable.executorService.execute(() -> {
-                String path = MinecraftAttribute.mainPath + "versions\\" + MinecraftAttribute.id + "\\";
-                String standardSha1 = MinecraftVersionManifestObject.getSha1(MinecraftAttribute.id);
+                String path = Attribute.mainPath + "versions\\" + Attribute.id + "\\";
+                String standardSha1 = VersionManifest.getSha1(Attribute.id);
                 File file = new File(path + name);
                 try {
                     if (Objects.equals(standardSha1, Utils.fileSha1(file)) && Setup.getSetupInstance().download.ifCheckFileSha1BeforeDownloading) {
@@ -150,12 +153,12 @@ public class MinecraftDownloadsUtils {
                             try {
                                 System.out.println("DL-VJ-0-" + j + " downloading '" + name + "'");
                                 try {
-                                    downloadVersionJson(MinecraftVersionManifestObject, DownloadURL.DownloadSource.official, MinecraftAttribute);
+                                    downloadVersionJson(VersionManifest, DownloadURL.DownloadSource.official, Attribute);
                                 } catch (Exception e) {
                                     try {
-                                        downloadVersionJson(MinecraftVersionManifestObject, DownloadURL.DownloadSource.bmclapi, MinecraftAttribute);
+                                        downloadVersionJson(VersionManifest, DownloadURL.DownloadSource.bmclapi, Attribute);
                                     } catch (Exception f) {
-                                        downloadVersionJson(MinecraftVersionManifestObject, DownloadURL.DownloadSource.mcbbs, MinecraftAttribute);
+                                        downloadVersionJson(VersionManifest, DownloadURL.DownloadSource.mcbbs, Attribute);
                                     }
                                 }
                                 if (Objects.equals(standardSha1, Utils.fileSha1(file))) {
@@ -179,16 +182,16 @@ public class MinecraftDownloadsUtils {
         iThreadManagement.run();
     }
 
-    public static void downloadLog4jFileUtils(MinecraftVersionObject MinecraftVersionObject, MinecraftAttribute MinecraftAttribute) {
+    public static void downloadLog4jFileUtils(VersionJson VersionJson, Attribute Attribute) {
         IThreadManagement iThreadManagement = () -> {
-            if (MinecraftVersionObject.getLogging() == null) {
+            if (VersionJson.getLogging() == null) {
                 return;
             }
-            String name = MinecraftVersionObject.getLogging().getClient().getFile().getId();
+            String name = VersionJson.getLogging().getClient().getFile().getId();
             PublicVariable.executorService.execute(() -> {
-                String path = MinecraftAttribute.mainPath + "assets\\log_configs\\";
-                String standardSha1 = MinecraftVersionObject.getLogging().getClient().getFile().getSha1();
-                int standardSize = MinecraftVersionObject.getLogging().getClient().getFile().getSize();
+                String path = Attribute.mainPath + "assets\\log_configs\\";
+                String standardSha1 = VersionJson.getLogging().getClient().getFile().getSha1();
+                int standardSize = VersionJson.getLogging().getClient().getFile().getSize();
                 File file = new File(path + name);
                 try {
                     if (Objects.equals(standardSha1, Utils.fileSha1(new File(path + name))) && standardSize == file.length() && Setup.getSetupInstance().download.ifCheckFileSha1BeforeDownloading) {
@@ -201,12 +204,12 @@ public class MinecraftDownloadsUtils {
                             try {
                                 System.out.println("DL-LF-" + j + " downloading: '" + name + "'");
                                 try {
-                                    downloadLog4jFile(MinecraftVersionObject, DownloadURL.DownloadSource.official, MinecraftAttribute);
+                                    downloadLog4jFile(VersionJson, DownloadURL.DownloadSource.official, Attribute);
                                 } catch (Exception e) {
                                     try {
-                                        downloadLog4jFile(MinecraftVersionObject, DownloadURL.DownloadSource.bmclapi, MinecraftAttribute);
+                                        downloadLog4jFile(VersionJson, DownloadURL.DownloadSource.bmclapi, Attribute);
                                     } catch (Exception f) {
-                                        downloadLog4jFile(MinecraftVersionObject, DownloadURL.DownloadSource.mcbbs, MinecraftAttribute);
+                                        downloadLog4jFile(VersionJson, DownloadURL.DownloadSource.mcbbs, Attribute);
                                     }
                                 }
                                 if (Objects.equals(standardSha1, Utils.fileSha1(file)) && standardSize == file.length() && Setup.getSetupInstance().download.ifCheckFileSha1BeforeDownloading) {
@@ -231,13 +234,13 @@ public class MinecraftDownloadsUtils {
         iThreadManagement.run();
     }
 
-    public static void downloadAssetIndexJsonUtils(MinecraftVersionObject MinecraftVersionObject, MinecraftAttribute MinecraftAttribute) {
+    public static void downloadAssetIndexJsonUtils(VersionJson VersionJson, Attribute Attribute) {
         IThreadManagement iThreadManagement = () -> {
-            String name = MinecraftVersionObject.getAssetIndex().getId() + ".json";
+            String name = VersionJson.getAssetIndex().getId() + ".json";
             PublicVariable.executorService.execute(() -> {
-                String path = MinecraftAttribute.mainPath + "assets\\indexes\\";
-                String standardSha1 = MinecraftVersionObject.getAssetIndex().getSha1();
-                int standardSize = MinecraftVersionObject.getAssetIndex().getSize();
+                String path = Attribute.mainPath + "assets\\indexes\\";
+                String standardSha1 = VersionJson.getAssetIndex().getSha1();
+                int standardSize = VersionJson.getAssetIndex().getSize();
                 File file = new File(path + name);
                 try {
                     if (Objects.equals(standardSha1, Utils.fileSha1(file)) && standardSize == file.length() && Setup.getSetupInstance().download.ifCheckFileSha1BeforeDownloading) {
@@ -250,12 +253,12 @@ public class MinecraftDownloadsUtils {
                             try {
                                 System.out.println("DL-AJ-" + j + " downloading '" + name + "'");
                                 try {
-                                    downloadAssetIndexJson(MinecraftVersionObject, DownloadURL.DownloadSource.official, MinecraftAttribute);
+                                    downloadAssetIndexJson(VersionJson, DownloadURL.DownloadSource.official, Attribute);
                                 } catch (Exception e) {
                                     try {
-                                        downloadAssetIndexJson(MinecraftVersionObject, DownloadURL.DownloadSource.bmclapi, MinecraftAttribute);
+                                        downloadAssetIndexJson(VersionJson, DownloadURL.DownloadSource.bmclapi, Attribute);
                                     } catch (Exception f) {
-                                        downloadAssetIndexJson(MinecraftVersionObject, DownloadURL.DownloadSource.mcbbs, MinecraftAttribute);
+                                        downloadAssetIndexJson(VersionJson, DownloadURL.DownloadSource.mcbbs, Attribute);
                                     }
                                 }
                                 System.out.println(standardSha1 + "," + Utils.fileSha1(file));
@@ -281,33 +284,33 @@ public class MinecraftDownloadsUtils {
         iThreadManagement.run();
     }
 
-    public static void downloadsLibrariesUtils(MinecraftVersionObject MinecraftVersionObject, MinecraftAttribute MinecraftAttribute) throws Exception {
+    public static void downloadsLibrariesUtils(VersionJson VersionJson, Attribute Attribute) throws Exception {
         AtomicInteger DLEnd = new AtomicInteger();
         AtomicInteger DLError = new AtomicInteger();
         AtomicInteger DLAdd = new AtomicInteger();
         int sumOfDL = 0;
-        for (int i = 0; i < MinecraftVersionObject.getLibraries().length; i++) {
-            if ((MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers() != null &&
-                    MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers().getNativesWindows() != null)
-                    || MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers() == null) sumOfDL++;
+        for (int i = 0; i < VersionJson.getLibraries().length; i++) {
+            if ((VersionJson.getLibraries()[i].getDownloads().getClassifiers() != null &&
+                    VersionJson.getLibraries()[i].getDownloads().getClassifiers().getNativesWindows() != null)
+                    || VersionJson.getLibraries()[i].getDownloads().getClassifiers() == null) sumOfDL++;
         }
-        for (int i = 0; i < MinecraftVersionObject.getLibraries().length; i++) {
+        for (int i = 0; i < VersionJson.getLibraries().length; i++) {
             int finalI = i;
-            if (MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers() != null &&
-                    MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers().getNativesWindows() != null) {
-                String name = new File(DownloadURL.nativesJarURL(MinecraftVersionObject, DownloadURL.DownloadSource.official, i).getPath()).getName();
+            if (VersionJson.getLibraries()[i].getDownloads().getClassifiers() != null &&
+                    VersionJson.getLibraries()[i].getDownloads().getClassifiers().getNativesWindows() != null) {
+                String name = new File(DownloadURL.nativesJarURL(VersionJson, DownloadURL.DownloadSource.official, i).getPath()).getName();
                 int finalSumOfDL = sumOfDL;
                 IThreadManagement iThreadManagement = () -> PublicVariable.executorService.execute(() -> {
                     for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; j++) {
                         try {
                             System.out.println("DL-ND-" + finalI + "-" + j + " downloading '" + name + "'");
                             try {
-                                downloadNativesDllLibraries(MinecraftVersionObject, DownloadURL.DownloadSource.official, MinecraftAttribute, finalI);
+                                downloadNativesDllLibraries(VersionJson, DownloadURL.DownloadSource.official, Attribute, finalI);
                             } catch (Exception e) {
                                 try {
-                                    downloadNativesDllLibraries(MinecraftVersionObject, DownloadURL.DownloadSource.bmclapi, MinecraftAttribute, finalI);
+                                    downloadNativesDllLibraries(VersionJson, DownloadURL.DownloadSource.bmclapi, Attribute, finalI);
                                 } catch (Exception f) {
-                                    downloadNativesDllLibraries(MinecraftVersionObject, DownloadURL.DownloadSource.mcbbs, MinecraftAttribute, finalI);
+                                    downloadNativesDllLibraries(VersionJson, DownloadURL.DownloadSource.mcbbs, Attribute, finalI);
                                 }
                             }
                             System.out.println("DL-ND-" + finalI + " Download '" + name + "' end");
@@ -346,7 +349,7 @@ public class MinecraftDownloadsUtils {
                 new Thread(()-> {
                     try {
                         System.out.println("DL-ND-" + finalI + " downloading AssetIndex: '" + name + "'");
-                        Minecraft.MinecraftDownloadsUtils.downloadsNativesDllLibrariesUtils(MinecraftVersionObject, Minecraft.MinecraftAttribute, finalI);
+                        minecraft.MinecraftDownloadsUtils.downloadsNativesDllLibrariesUtils(VersionJson, minecraft.Attribute, finalI);
                         System.out.println("DL-ND-" + finalI + " Download '" + name + "' end");
                         synchronized (DLNDEnd) {
                             System.out.println("DL-ND " + DLNDEnd.addAndGet(1) + "/" + sumOfDL);
@@ -359,14 +362,14 @@ public class MinecraftDownloadsUtils {
                     }
                 },"DL-ND-"+i).start();
                 */
-            } else if (MinecraftVersionObject.getLibraries()[i].getDownloads().getClassifiers() == null) {
-                String name = new File(DownloadURL.otherJarLibrariesURL(MinecraftVersionObject, DownloadURL.DownloadSource.official, i).getPath()).getName();
+            } else if (VersionJson.getLibraries()[i].getDownloads().getClassifiers() == null) {
+                String name = new File(DownloadURL.otherJarLibrariesURL(VersionJson, DownloadURL.DownloadSource.official, i).getPath()).getName();
                 int finalSumOfDL = sumOfDL;
                 IThreadManagement iThreadManagement = () -> {
                     PublicVariable.executorService.execute(() -> {
-                        String path = MinecraftAttribute.mainPath + "libraries\\" + Utils.regexReplace(MinecraftVersionObject.getLibraries()[finalI].getDownloads().getArtifact().getPath(), name, "");
-                        String standardSha1 = MinecraftVersionObject.getLibraries()[finalI].getDownloads().getArtifact().getSha1();
-                        int standardSize = MinecraftVersionObject.getLibraries()[finalI].getDownloads().getArtifact().getSize();
+                        String path = Attribute.mainPath + "libraries\\" + Utils.regexReplace(VersionJson.getLibraries()[finalI].getDownloads().getArtifact().getPath(), name, "");
+                        String standardSha1 = VersionJson.getLibraries()[finalI].getDownloads().getArtifact().getSha1();
+                        int standardSize = VersionJson.getLibraries()[finalI].getDownloads().getArtifact().getSize();
                         File file = new File(path + name);
                         try {
                             if (Objects.equals(standardSha1, Utils.fileSha1(file)) && standardSize == file.length() && Setup.getSetupInstance().download.ifCheckFileSha1BeforeDownloading) {
@@ -388,12 +391,12 @@ public class MinecraftDownloadsUtils {
                                     try {
                                         System.out.println("DL-OJ-" + finalI + "-" + j + " downloading '" + name + "'");
                                         try {
-                                            downloadOtherJarLibraries(MinecraftVersionObject, DownloadURL.DownloadSource.official, MinecraftAttribute, finalI);
+                                            downloadOtherJarLibraries(VersionJson, DownloadURL.DownloadSource.official, Attribute, finalI);
                                         } catch (Exception e) {
                                             try {
-                                                downloadOtherJarLibraries(MinecraftVersionObject, DownloadURL.DownloadSource.bmclapi, MinecraftAttribute, finalI);
+                                                downloadOtherJarLibraries(VersionJson, DownloadURL.DownloadSource.bmclapi, Attribute, finalI);
                                             } catch (Exception f) {
-                                                downloadOtherJarLibraries(MinecraftVersionObject, DownloadURL.DownloadSource.mcbbs, MinecraftAttribute, finalI);
+                                                downloadOtherJarLibraries(VersionJson, DownloadURL.DownloadSource.mcbbs, Attribute, finalI);
                                             }
                                         }
                                         if (Objects.equals(standardSha1, Utils.fileSha1(file)) & file.length() == standardSize) {
@@ -435,7 +438,7 @@ public class MinecraftDownloadsUtils {
                 new Thread(()-> {
                     try {
                         System.out.println("DL-OJ-" + finalI + " downloading AssetIndex: '" + name + "'");
-                        Minecraft.MinecraftDownloadsUtils.downloadOtherJarLibrariesUtils(MinecraftVersionObject,Minecraft.MinecraftAttribute, finalI);
+                        minecraft.MinecraftDownloadsUtils.downloadOtherJarLibrariesUtils(VersionJson,minecraft.Attribute, finalI);
                         System.out.println("DL-OJ-" + finalI + " Download '" + name + "' end");
                         synchronized (DLOJEnd) {
                             System.out.println("DL-OJ " + DLOJEnd.addAndGet(1) + "/" + sumOfDL);
@@ -454,8 +457,8 @@ public class MinecraftDownloadsUtils {
         }
     }
 
-    public static void downloadsAssetIndexUtils(MinecraftVersionObject MinecraftVersionObject, MinecraftAttribute MinecraftAttribute) throws IOException {
-        String b = String.valueOf(Utils.deleteSymbol(MinecraftRequest.getMinecraftVersionAssetIndexJson(MinecraftVersionObject), "{"));
+    public static void downloadsAssetIndexUtils(VersionJson VersionJson, Attribute Attribute) throws IOException {
+        String b = String.valueOf(Utils.deleteSymbol(MinecraftRequest.getMinecraftVersionAssetIndexJson(VersionJson), "{"));
         String[] hashArray = Utils.regexMatching(b, "\\w{40}");
         String[] pathArray = Utils.regexMatching(b, "[\\w/]+[.]{1}\\w+");
         String[] sizeArray = Utils.regexMatching(b, "\"size\": \\w+");
@@ -474,7 +477,7 @@ public class MinecraftDownloadsUtils {
             int size = Integer.parseInt(sizeArray[i]);
             int finalI = i;
             IThreadManagement iThreadManagement = () -> PublicVariable.executorService.execute(() -> {
-                String path1 = MinecraftAttribute.mainPath + "assets\\objects\\" + hash.substring(0, 2) + "\\";
+                String path1 = Attribute.mainPath + "assets\\objects\\" + hash.substring(0, 2) + "\\";
                 File file = new File(path1 + hash);
                 try {
                     if (Objects.equals(hash, Utils.fileSha1(file)) && size == file.length() && Setup.getSetupInstance().download.ifCheckFileSha1BeforeDownloading) {
@@ -496,12 +499,12 @@ public class MinecraftDownloadsUtils {
                             try {
                                 System.out.println("DA-AI-" + finalI + "-" + j + " downloading '" + hash + "'");
                                 try {
-                                    downloadAssetIndexFile(MinecraftAttribute, DownloadURL.DownloadSource.official, hash);
+                                    downloadAssetIndexFile(Attribute, DownloadURL.DownloadSource.official, hash);
                                 } catch (Exception e) {
                                     try {
-                                        downloadAssetIndexFile(MinecraftAttribute, DownloadURL.DownloadSource.bmclapi, hash);
+                                        downloadAssetIndexFile(Attribute, DownloadURL.DownloadSource.bmclapi, hash);
                                     } catch (Exception f) {
-                                        downloadAssetIndexFile(MinecraftAttribute, DownloadURL.DownloadSource.mcbbs, hash);
+                                        downloadAssetIndexFile(Attribute, DownloadURL.DownloadSource.mcbbs, hash);
                                     }
                                 }
                                 if (Objects.equals(hash, Utils.fileSha1(file)) & file.length() == size) {
@@ -544,7 +547,7 @@ public class MinecraftDownloadsUtils {
                 if (!Setup.getSetupInstance().download.ifDownloadAssetIndexCopy) {
                     return;
                 }
-                String path1 = MinecraftAttribute.mainPath + "assets\\virtual\\legacy\\" + Utils.regexReplace(path, Utils.regexReplace(path, "[\\w/]+/", ""), "");
+                String path1 = Attribute.mainPath + "assets\\virtual\\legacy\\" + Utils.regexReplace(path, Utils.regexReplace(path, "[\\w/]+/", ""), "");
                 File file = new File(path1 + Utils.regexReplace(path, "[\\w/]+/", ""));
                 try {
                     if (Objects.equals(hash, Utils.fileSha1(file)) && size == file.length() && Setup.getSetupInstance().download.ifCheckFileSha1BeforeDownloading) {
@@ -566,12 +569,12 @@ public class MinecraftDownloadsUtils {
                             try {
                                 System.out.println("DA-AC-" + finalI + "-" + j + " downloading '" + path + "'");
                                 try {
-                                    downloadAssetIndexCopyFile(MinecraftAttribute, DownloadURL.DownloadSource.official, path, hash);
+                                    downloadAssetIndexCopyFile(Attribute, DownloadURL.DownloadSource.official, path, hash);
                                 } catch (Exception e) {
                                     try {
-                                        downloadAssetIndexCopyFile(MinecraftAttribute, DownloadURL.DownloadSource.bmclapi, path, hash);
+                                        downloadAssetIndexCopyFile(Attribute, DownloadURL.DownloadSource.bmclapi, path, hash);
                                     } catch (Exception f) {
-                                        downloadAssetIndexCopyFile(MinecraftAttribute, DownloadURL.DownloadSource.mcbbs, path, hash);
+                                        downloadAssetIndexCopyFile(Attribute, DownloadURL.DownloadSource.mcbbs, path, hash);
                                     }
                                 }
                                 if (Objects.equals(hash, Utils.fileSha1(file)) & file.length() == size) {
@@ -613,7 +616,7 @@ public class MinecraftDownloadsUtils {
             /*new Thread(()-> {
                 try {
                     System.out.println("DL-AI-"+ finalI +" downloading AssetIndex:"+hash+"'");
-                    Minecraft.MinecraftDownloadsUtils.downloadAssetIndexFileUtils(Minecraft.MinecraftAttribute,hash);
+                    minecraft.MinecraftDownloadsUtils.downloadAssetIndexFileUtils(minecraft.Attribute,hash);
                     System.out.println("DL-AI-"+ finalI +" Download '"+ hash + "' end");
                     synchronized (DAIFEnd) {
                         System.out.println("DL-AI " + DAIFEnd.addAndGet(1) + "/" + hashArray.length);
@@ -628,7 +631,7 @@ public class MinecraftDownloadsUtils {
             new Thread(()-> {
                 try {
                     System.out.println("DACL-"+ finalI +" downloading AssetIndex: '"+path+"'");
-                    Minecraft.MinecraftDownloadsUtils.downloadAssetIndexCopyFileUtils(Minecraft.MinecraftAttribute,path,hash);
+                    minecraft.MinecraftDownloadsUtils.downloadAssetIndexCopyFileUtils(minecraft.Attribute,path,hash);
                     System.out.println("DACL-"+ finalI +" Download '"+ path + "' end");
                     synchronized (DACFEnd) {
                         System.out.println("DACL " + DACFEnd.addAndGet(1) + "/" + pathArray.length);
@@ -644,8 +647,8 @@ public class MinecraftDownloadsUtils {
         }
     }
 
-    public static void downloadstestUtils(MinecraftVersionObject MinecraftVersionObject, MinecraftAttribute MinecraftAttribute) throws IOException {
-        String b = String.valueOf(Utils.deleteSymbol(MinecraftRequest.getMinecraftVersionAssetIndexJson(MinecraftVersionObject), "{"));
+    public static void downloadstestUtils(VersionJson VersionJson, Attribute Attribute) throws IOException {
+        String b = String.valueOf(Utils.deleteSymbol(MinecraftRequest.getMinecraftVersionAssetIndexJson(VersionJson), "{"));
         String[] hashArray = Utils.regexMatching(b, "\\w{40}");
         String[] pathArray = Utils.regexMatching(b, "[\\w/]+[.]{1}\\w+");
         String[] sizeArray = Utils.regexMatching(b, "\"size\": \\w+");
@@ -664,7 +667,7 @@ public class MinecraftDownloadsUtils {
             int size = Integer.parseInt(sizeArray[i]);
             int finalI = i;
             IThreadManagement iThreadManagement = () -> PublicVariable.executorService.execute(() -> {
-                String path1 = MinecraftAttribute.mainPath + "assets\\objects\\" + hash.substring(0, 2) + "\\";
+                String path1 = Attribute.mainPath + "assets\\objects\\" + hash.substring(0, 2) + "\\";
                 File file = new File(path1 + hash);
                 try {
                     if (Objects.equals(hash, Utils.fileSha1(file)) && size == file.length() && Setup.getSetupInstance().download.ifCheckFileSha1BeforeDownloading) {
@@ -688,7 +691,7 @@ public class MinecraftDownloadsUtils {
                                 System.out.println("DA-AI-" + finalI + "-" + j + " downloading '" + hash + "'");
                             }
                             try {
-                                downloadAssetIndexFile(MinecraftAttribute, DownloadURL.DownloadSource.values()[k], hash);
+                                downloadAssetIndexFile(Attribute, DownloadURL.DownloadSource.values()[k], hash);
                                 if (Objects.equals(hash, Utils.fileSha1(file)) & file.length() == size) {
                                     System.out.println("DA-AI-" + finalI + " Download '" + hash + "' end");
                                     end++;

@@ -1,17 +1,19 @@
-package JsonAnalysis.Login.Microsoft;
+package jsonAnalysis.login.microsoft;
 
 public class XboxLiveAuthenticationObject {
     private String IssueInstant;
     private String NotAfter;
     private String Token;
     private DisplayClaims DisplayClaims;
-    protected class DisplayClaims{
+
+    protected static class DisplayClaims {
         private Xui[] xui;
 
         public Xui[] getXui() {
             return xui;
         }
-        protected class Xui{
+
+        protected class Xui {
             private String uhs;
 
             public String getUserHash() {

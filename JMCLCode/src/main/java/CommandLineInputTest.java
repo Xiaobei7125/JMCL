@@ -1,8 +1,9 @@
-import JsonAnalysis.Setup.Setup;
-import Minecraft.MinecraftAttribute;
-import Minecraft.MinecraftUtils;
+
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
+import jsonAnalysis.setup.Setup;
+import minecraft.Attribute;
+import minecraft.MinecraftUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -27,7 +28,7 @@ public class CommandLineInputTest {
             String[] loginOption = {"l", "login"};
             optionParser.acceptsAll(Arrays.asList(loginOption), "Login");
             String[] startOption = {"st", "start"};
-            optionParser.acceptsAll(Arrays.asList(startOption), "Start Minecraft");
+            optionParser.acceptsAll(Arrays.asList(startOption), "Start minecraft");
             {
                 optionParser.accepts("maxThreadsQuantity").withOptionalArg().ofType(Integer.class);
                 optionParser.accepts("ifMultiThreadedDownloadAFile").withOptionalArg().ofType(Boolean.class);
@@ -44,11 +45,11 @@ public class CommandLineInputTest {
         }
         OptionSet optionSet = optionParser.parse(args);
         if (optionSet.has("d")) {
-            MinecraftUtils.downloadMinecraft(new MinecraftAttribute((String) optionSet.valueOf("p"), (String) optionSet.valueOf("id")));
+            MinecraftUtils.downloadMinecraft(new Attribute((String) optionSet.valueOf("p"), (String) optionSet.valueOf("id")));
         } else if (optionSet.has("l")) {
             MinecraftUtils.microsoftLogin();
         } else if (optionSet.has("st")) {
-            MinecraftUtils.startMinecraft(new MinecraftAttribute((String) optionSet.valueOf("p"), (String) optionSet.valueOf("id")));
+            MinecraftUtils.startMinecraft(new Attribute((String) optionSet.valueOf("p"), (String) optionSet.valueOf("id")));
         } else if (optionSet.has("s")) {
             String name;
             if (optionSet.has(name = "maxThreadsQuantity")) {
