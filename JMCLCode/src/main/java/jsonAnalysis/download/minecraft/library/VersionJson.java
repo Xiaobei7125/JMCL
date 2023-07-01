@@ -204,7 +204,7 @@ public class VersionJson {
             return serverMappings;
         }
 
-        public class Client{
+        public static class Client {
             private String sha1;
             private int size;
             private URL url;
@@ -221,10 +221,12 @@ public class VersionJson {
                 return size;
             }
         }
-        public class ClientMappings{
+
+        public static class ClientMappings {
             private String sha1;
             private int size;
             private URL url;
+
             public String getSha1() {
                 return sha1;
             }
@@ -237,10 +239,12 @@ public class VersionJson {
                 return size;
             }
         }
-        public class Server{
+
+        public static class Server {
             private String sha1;
             private int size;
             private URL url;
+
             public String getSha1() {
                 return sha1;
             }
@@ -253,10 +257,12 @@ public class VersionJson {
                 return size;
             }
         }
-        public class ServerMappings{
+
+        public static class ServerMappings {
             private String sha1;
             private int size;
             private URL url;
+
             public String getSha1() {
                 return sha1;
             }
@@ -301,13 +307,14 @@ public class VersionJson {
         public String getName() {
             return name;
         }
-        public class Natives{
+
+        public static class Natives {
             private String osx;
             private String linux;
             private String windows;
         }
 
-        public class Rules{
+        public static class Rules {
             private String action;
             private Os os;
 
@@ -319,7 +326,7 @@ public class VersionJson {
                 return os;
             }
 
-            public class Os{
+            public static class Os {
                 private String name;
 
                 public String getName() {
@@ -328,7 +335,7 @@ public class VersionJson {
             }
         }
 
-        public class Downloads{
+        public static class Downloads {
             private ArtifactAndNatives artifact;
             private Classifiers classifiers;
 
@@ -340,7 +347,7 @@ public class VersionJson {
                 return classifiers;
             }
 
-            public class ArtifactAndNatives{
+            public static class ArtifactAndNatives {
                 private String path;
                 private String sha1;
                 private int size;
@@ -362,7 +369,8 @@ public class VersionJson {
                     return path;
                 }
             }
-            public class Classifiers{
+
+            public static class Classifiers {
                 @SerializedName("natives-macos")
                 private ArtifactAndNatives nativesMacos;
                 @SerializedName("natives-linux")
@@ -392,7 +400,7 @@ public class VersionJson {
             return client;
         }
 
-        public class Client {
+        public static class Client {
             private String argument;
             private File file;
             private String type;
@@ -409,7 +417,7 @@ public class VersionJson {
                 return argument;
             }
 
-            public class File{
+            public static class File {
                 private String id;
                 private String sha1;
                 private int size;

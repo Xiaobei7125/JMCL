@@ -1,6 +1,6 @@
-package Other;
+package other;
 
-import Utils.Utils;
+import utils.Utils;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -89,7 +89,7 @@ public class NetOperation {
         if (type.equals(Utils.xboxLiveType.XBL)) {
             uri = new URI("https://user.auth.xboxlive.com/user/authenticate");
             body = "{\"Properties\":{\"AuthMethod\":\"RPS\",\"SiteName\":\"user.auth.xboxlive.com\",\"RpsTicket\":\"d=" +
-                    xboxLiveToken + "\"},\"RelyingParty\":\"http://auth.xboxlive.com\",\"TokenType\":\"JWT\"}";
+                    xboxLiveToken + "\"},\"RelyingParty\":\"https://auth.xboxlive.com\",\"TokenType\":\"JWT\"}";
         }
         if (type.equals(Utils.xboxLiveType.XSTS)) {
             uri = new URI("https://xsts.auth.xboxlive.com/xsts/authorize");

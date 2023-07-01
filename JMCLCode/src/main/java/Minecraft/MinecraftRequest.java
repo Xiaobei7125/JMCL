@@ -1,11 +1,11 @@
 package minecraft;
 
 
-import Other.DownloadURL;
-import Utils.Utils;
 import com.google.gson.GsonBuilder;
 import jsonAnalysis.download.minecraft.library.VersionJson;
 import jsonAnalysis.download.minecraft.library.VersionManifest;
+import other.DownloadURL;
+import utils.Utils;
 
 import java.io.IOException;
 import java.util.Objects;

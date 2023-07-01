@@ -13,7 +13,7 @@ public class XboxLiveAuthenticationObject {
             return xui;
         }
 
-        protected class Xui {
+        protected static class Xui {
             private String uhs;
 
             public String getUserHash() {

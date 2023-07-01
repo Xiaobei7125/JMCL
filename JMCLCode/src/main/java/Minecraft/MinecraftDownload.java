@@ -1,9 +1,9 @@
 package minecraft;
 
-import Utils.Download;
-import Utils.Utils;
-import Utils.Zip;
 import jsonAnalysis.setup.Setup;
+import utils.Download;
+import utils.Utils;
+import utils.Zip;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,7 +57,7 @@ public class MinecraftDownload {
 
     /*
     if (JsonAnalysis.Setup.Setup.getSetupInstance().ifMultiThreadedDownloadAFile){
-        Utils.Utils.MultiThreadedDownloadAFile(url,);
+        utils.utils.MultiThreadedDownloadAFile(url,);
     }else {
 
     }

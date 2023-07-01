@@ -1,12 +1,12 @@
 package minecraft;
 
-import Other.DownloadURL;
-import Other.NetOperation;
-import Other.PublicVariable;
-import Utils.Utils;
 import jsonAnalysis.download.minecraft.library.VersionJson;
 import jsonAnalysis.download.minecraft.library.VersionManifest;
 import jsonAnalysis.login.microsoft.MinecraftInformationObject;
+import other.DownloadURL;
+import other.NetOperation;
+import other.PublicVariable;
+import utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -100,7 +100,7 @@ public class MinecraftUtils {
                             " -XX:G1HeapRegionSize=32M" +
                             " -XX:-UseAdaptiveSizePolicy" +
                             " -XX:-OmitStackTraceInFastThrow";
-            String classPath = " -cp ";
+            StringBuilder classPath = new StringBuilder(" -cp ");
             getGsonObject().fromJson(new String(Utils.readToString(Attribute.mainPath + "versions\\" + Attribute.id + "\\" + Attribute.id + ".json"), StandardCharsets.UTF_8),
                     VersionJson.class);
             String a = "";
@@ -108,26 +108,26 @@ public class MinecraftUtils {
                 if (VersionJson.getLibraries()[i].getDownloads().getClassifiers() == null) {
                     String name = new File(DownloadURL.otherJarLibrariesURL(VersionJson, DownloadURL.DownloadSource.official, i).getPath()).getName();
                     String path = Attribute.mainPath + "libraries\\" + Utils.regexReplace(VersionJson.getLibraries()[i].getDownloads().getArtifact().getPath(), name, "");
-                    classPath = classPath + a + path + name;
+                    classPath.append(a).append(path).append(name);
                     a = ";";
                 }
             }
-            classPath = classPath + ";" + Attribute.mainPath + "versions\\" + Attribute.id + "\\" + Attribute.id + ".jar";
+            classPath.append(";").append(Attribute.mainPath).append("versions\\").append(Attribute.id).append("\\").append(Attribute.id).append(".jar");
             String mainClass = " " + VersionJson.getMainClass();
             assert login != null;
-            String username = " --username " + login.name;
+            String username = " --username " + login.name();
             String version = " --version " + Attribute.id;
             String gameDir = " --gameDir " + Attribute.mainPath;
             String assetsDir = " --assetsDir " + Attribute.mainPath + "assets";
             String assetIndex = " --assetIndex " + VersionJson.getAssetIndex().getId();
-            String uuid = " --uuid " + login.UUID;
-            String accessToken = " --accessToken " + login.accessToken;
+            String uuid = " --uuid " + login.UUID();
+            String accessToken = " --accessToken " + login.accessToken();
             String userType = " --userType " + "Mojang";
             String versionType = " --versionType " + imformation.Launcher.name;
-            Runtime.getRuntime().exec(javaPath + launcherBrand + launcherVersion + jvm + natives + log4j + other + classPath
-                    + mainClass + username + version + gameDir + assetsDir + assetIndex + uuid + accessToken + userType + versionType);
-            System.out.println(javaPath + launcherBrand + launcherVersion + jvm + natives + log4j + other + classPath
-                    + mainClass + username + version + gameDir + assetsDir + assetIndex + uuid + accessToken + userType + versionType);
+            String command = javaPath + launcherBrand + launcherVersion + jvm + natives + log4j + other + classPath
+                    + mainClass + username + version + gameDir + assetsDir + assetIndex + uuid + accessToken + userType + versionType;
+            Runtime.getRuntime().exec(command);
+            System.out.println(command);
         }
     }
 }

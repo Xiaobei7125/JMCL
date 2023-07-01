@@ -1,7 +1,7 @@
 package minecraft;
 
 
-import Other.DownloadURL;
+import other.DownloadURL;
 
 import java.nio.file.Paths;
 

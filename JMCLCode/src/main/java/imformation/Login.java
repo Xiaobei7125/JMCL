@@ -1,13 +1,18 @@
 package imformation;
 
-public class Login {
-    public final String UUID;
-    public final String name;
-    public final String accessToken;
+public record Login(String UUID, String name, String accessToken) {
+    @Override
+    public String name() {
+        return name;
+    }
 
-    public Login(String UUID, String name, String accessToken) {
-        this.accessToken = accessToken;
-        this.UUID = UUID;
-        this.name = name;
+    @Override
+    public String UUID() {
+        return UUID;
+    }
+
+    @Override
+    public String accessToken() {
+        return accessToken;
     }
 }

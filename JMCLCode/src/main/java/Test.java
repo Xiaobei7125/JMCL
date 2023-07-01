@@ -2,7 +2,7 @@ import minecraft.Attribute;
 import minecraft.MinecraftUtils;
 
 public class Test {
-    public static void main(String[] ages) throws Exception {
+    public static void main(String[] ages) {
         //BufferedReader mainPath = new BufferedReader(new InputStreamReader(System.in));
         //BufferedReader id = new BufferedReader(new InputStreamReader(System.in));
         String mainPath = "E:\\JavaTest\\JMCL\\.minecraft\\";

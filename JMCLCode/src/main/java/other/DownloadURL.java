@@ -1,11 +1,11 @@
-package Other;
+package other;
 
 
-import Utils.Utils;
 import jsonAnalysis.download.minecraft.library.VersionJson;
 import jsonAnalysis.download.minecraft.library.VersionManifest;
 import jsonAnalysis.setup.Setup;
 import minecraft.MinecraftVersionProcessing;
+import utils.Utils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,9 +19,9 @@ public class DownloadURL {
         String v2 = "mc/game/version_manifest_v2.json";
         if (downloadSource == DownloadSource.official) {
             if (versionJsonManifest == VersionJsonManifest.v1) {
-                return new URL("http://launchermeta.mojang.com/" + v1);
+                return new URL("https://launchermeta.mojang.com/" + v1);
             } else {
-                return new URL("http://launchermeta.mojang.com/" + v2);
+                return new URL("https://launchermeta.mojang.com/" + v2);
             }
         } else if (downloadSource == DownloadSource.bmclapi) {
             if (versionJsonManifest == VersionJsonManifest.v1) {

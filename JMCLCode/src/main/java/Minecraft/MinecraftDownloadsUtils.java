@@ -1,13 +1,13 @@
 package minecraft;
 
 
-import Other.DownloadURL;
-import Other.IThreadManagement;
-import Other.PublicVariable;
-import Utils.Utils;
 import jsonAnalysis.download.minecraft.library.VersionJson;
 import jsonAnalysis.download.minecraft.library.VersionManifest;
 import jsonAnalysis.setup.Setup;
+import other.DownloadURL;
+import other.IThreadManagement;
+import other.PublicVariable;
+import utils.Utils;
 
 import java.io.File;
 import java.io.IOException;

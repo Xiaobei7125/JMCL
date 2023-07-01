@@ -71,7 +71,7 @@ public class VersionManifest {
         private String complianceLevel;
     }
 
-    protected class Latest {
+    protected static class Latest {
         @Since(1)
         private String release;
         @Since(1)
