@@ -2,6 +2,6 @@ package other;
 
 public interface IThreadManagement {
 
-    void run();
+    boolean run();
 
 }

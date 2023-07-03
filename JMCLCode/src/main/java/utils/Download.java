@@ -1,6 +1,7 @@
 package utils;
 
 import jsonAnalysis.setup.Setup;
+import other.IThreadManagement;
 import other.PublicVariable;
 
 import java.io.*;
@@ -10,6 +11,7 @@ import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static utils.Utils.getPartOfTheFileContent;
 
@@ -53,42 +55,43 @@ public class Download {
         if (responseCode == 200) {
             int totalSize = urlConnection.getContentLength();
             long numberOfSegments = (long) Math.ceil((double) totalSize / Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize);
-            for (int i = 0; i <= numberOfSegments; i++) {
+            for (int i = 0; i < numberOfSegments; i++) {
                 int finalI = i;
-                PublicVariable.multiThreadedDownloadExecutorService.execute(() -> {
-                    try {
-                        if (!file.getParentFile().exists()) if (file.getParentFile().mkdirs()) return;
-                        if (!file.exists() && !file.isDirectory()) if (file.createNewFile()) return;
-                        RandomAccessFile randomAccessFile = new RandomAccessFile(path, "rwd");
-                        randomAccessFile.setLength(totalSize);
-                        randomAccessFile.seek((long) Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * finalI);
-                        byte[] bytes;
-                        for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; j++) {
-                            try {
-                                int start = Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * finalI;
-                                int end;
-                                if (finalI != numberOfSegments) {
-                                    end = Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * (finalI + 1) - 1;
-                                } else {
-                                    end = totalSize;
-                                }
-                                bytes = getPartOfTheFileContent(url, start, end);
-                                assert bytes != null;
-                                randomAccessFile.write(bytes);
-                                randomAccessFile.close();
-                                if (file.length() == 0)
-                                    if (file.delete()) return;
-                                break;
-                            } catch (Throwable ignored) {
+                IThreadManagement iThreadManagement = () -> {
+                    AtomicBoolean r = new AtomicBoolean();
+                    PublicVariable.multiThreadedDownloadExecutorService.execute(() -> {
+                        try {
+                            //如果父目录不存在，就创建;                     如果创建失败，就结束此进程;
+                            if (!file.getParentFile().exists()) if (!file.getParentFile().mkdirs()) return;
+                            //如果文件不存在或文件是文件夹，就创建;           如果创建失败，就结束此进程;
+                            if (!file.exists() || file.isDirectory()) if (!file.createNewFile()) return;
+                            RandomAccessFile randomAccessFile = new RandomAccessFile(path, "rwd");
+                            randomAccessFile.setLength(totalSize);
+                            randomAccessFile.seek((long) Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * finalI);
+                            byte[] bytes;
+                            int start = Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * finalI;
+                            int end;
+                            if (finalI != numberOfSegments) {
+                                end = Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * (finalI + 1) - 1;
+                            } else {
+                                end = totalSize;
                             }
+                            bytes = getPartOfTheFileContent(url, start, end);
+                            //assert bytes != null;
+                            randomAccessFile.write(bytes);
+                            randomAccessFile.close();
+                            r.set(true);
+                        } catch (IOException ignored) {
                         }
-                        randomAccessFile.close();
-                    } catch (IOException ignored) {
-                    }
-                });
+                    });
+                    return r.get();
+                };
+                return iThreadManagement.run();
             }
+        } else {
+            System.out.println(responseCode);
+            return false;
         }
-        if (file.length() == 0) return !file.delete();
-        return true;
+        return false;
     }
 }

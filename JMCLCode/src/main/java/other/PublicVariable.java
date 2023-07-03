@@ -8,12 +8,8 @@ import java.util.concurrent.Executors;
 
 public class PublicVariable {
     public static final ExecutorService multiThreadedDownloadExecutorService = Executors.newCachedThreadPool();
-    public static final ExecutorService executorService = Executors.newFixedThreadPool(Setup.getSetupInstance().download.threads.maxThreadsQuantity);
+    public static final ExecutorService executorService = Executors.newFixedThreadPool(1);
     public static int threadQuantity = 0;
-
-    public PublicVariable() {
-    }
-
     public static void threadWait() {
         Setup set = Setup.getSetupInstance();
         for (; ; ) {

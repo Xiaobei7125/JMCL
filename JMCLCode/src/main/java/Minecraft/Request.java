@@ -4,7 +4,6 @@ package minecraft;
 import com.google.gson.GsonBuilder;
 import jsonAnalysis.download.minecraft.library.VersionJson;
 import jsonAnalysis.download.minecraft.library.VersionManifest;
-import other.DownloadURL;
 import utils.Utils;
 
 import java.io.IOException;
@@ -13,7 +12,7 @@ import java.util.Objects;
 import static jsonAnalysis.download.minecraft.library.VersionJson.getGsonObject;
 
 
-public class MinecraftRequest {
+public class Request {
     private static VersionManifest getMinecraftVersionManifestObject(DownloadURL.DownloadSource downloadSource) throws IOException {
         String MinecraftVersionManifestJson = String.valueOf(Utils.getFileContent(DownloadURL.versionManifestJsonURL(DownloadURL.VersionJsonManifest.v2, downloadSource)));
         return new GsonBuilder().setVersion(2).create().fromJson(MinecraftVersionManifestJson,

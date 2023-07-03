@@ -5,7 +5,7 @@ import jsonAnalysis.download.minecraft.library.VersionManifest;
 
 import java.net.URL;
 
-public class MinecraftVersionProcessing {
+public class VersionProcessing {
     /**
      * 这个方法输入MC版本列表变量,版本id;
      * 返回版本的type;

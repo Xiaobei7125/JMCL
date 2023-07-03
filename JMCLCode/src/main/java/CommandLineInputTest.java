@@ -3,7 +3,7 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import jsonAnalysis.setup.Setup;
 import minecraft.Attribute;
-import minecraft.MinecraftUtils;
+import minecraft.Utils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -45,11 +45,11 @@ public class CommandLineInputTest {
         }
         OptionSet optionSet = optionParser.parse(args);
         if (optionSet.has("d")) {
-            MinecraftUtils.downloadMinecraft(new Attribute((String) optionSet.valueOf("p"), (String) optionSet.valueOf("id")));
+            Utils.downloadMinecraft(new Attribute((String) optionSet.valueOf("p"), (String) optionSet.valueOf("id")));
         } else if (optionSet.has("l")) {
-            MinecraftUtils.microsoftLogin();
+            Utils.microsoftLogin();
         } else if (optionSet.has("st")) {
-            MinecraftUtils.startMinecraft(new Attribute((String) optionSet.valueOf("p"), (String) optionSet.valueOf("id")));
+            Utils.startMinecraft(new Attribute((String) optionSet.valueOf("p"), (String) optionSet.valueOf("id")));
         } else if (optionSet.has("s")) {
             String name;
             if (optionSet.has(name = "maxThreadsQuantity")) {

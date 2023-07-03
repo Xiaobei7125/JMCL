@@ -95,10 +95,18 @@ public class Utils {
             httpConnection.setConnectTimeout(Setup.getSetupInstance().download.downloadConnectTimeout);
             httpConnection.setReadTimeout(Setup.getSetupInstance().download.downloadReadTimeout);
             httpConnection.setRequestProperty("Range", "bytes=" + start + "-" + end);
-            if (httpConnection.getResponseCode() == 206) {
-                return getData(httpConnection.getInputStream());
+            for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; j++) {
+                try {
+                    if (httpConnection.getResponseCode() == 206) {
+                        //System.out.println(Thread.currentThread().getName() + httpConnection.getResponseCode());
+                        return getData(httpConnection.getInputStream());
+                    }
+                    //System.out.println(Thread.currentThread().getName() + httpConnection.getResponseCode());
+                    //System.out.println(Thread.currentThread().getName() + "Request failed");
+                } catch (Throwable e) {
+                    //System.out.println(Thread.currentThread().getName()+e);
+                }
             }
-            System.out.println("Request failed");
         } else {
             System.out.println("The URL is null");
         }

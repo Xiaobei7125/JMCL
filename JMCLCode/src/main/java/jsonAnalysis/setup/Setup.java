@@ -52,9 +52,9 @@ public class Setup {
         }
 
         public static class Source {
-            public boolean ifUseMcbbsDownloadSource = false;
+            public boolean ifUseMcbbsDownloadSource = true;
             public boolean ifUseBmclapiDownloadSource = true;
-            public boolean ifUseOfficialDownloadSource = true;
+            public boolean ifUseOfficialDownloadSource = false;
         }
     }
 }

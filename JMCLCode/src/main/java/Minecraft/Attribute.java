@@ -1,8 +1,6 @@
 package minecraft;
 
 
-import other.DownloadURL;
-
 import java.nio.file.Paths;
 
 public class Attribute {
