@@ -335,16 +335,7 @@ public class DownloadsUtils {
                                     }
                                 }
                                 System.out.println("DL-ND-" + finalI + " Download '" + name + "' end");
-                                end++;
-                                synchronized (DLEnd) {
-                                    synchronized ((DLError)) {
-                                        synchronized ((DLAdd)) {
-                                            DLEnd.addAndGet(1);
-                                            DLAdd.set(DLEnd.get() + DLError.get());
-                                            System.out.println("DL-ND " + DLEnd + "/" + DLAdd + "/" + finalSumOfDL);
-                                        }
-                                    }
-                                }
+                                count("DL-ND", DLEnd, DLError, DLAdd, finalSumOfDL, r, true);
                                 PublicVariable.threadQuantity--;
                                 r.set(true);
                                 return;
@@ -352,40 +343,12 @@ public class DownloadsUtils {
                                 System.out.println("DL-ND-" + finalI + "-" + j + " Download '" + name + "' error");
                             }
                         }
-                        //}
                         System.out.println("DL-ND-" + finalI + " Download '" + name + "' error");
-                        error++;
-                        synchronized (DLEnd) {
-                            synchronized ((DLError)) {
-                                synchronized ((DLAdd)) {
-                                    DLError.addAndGet(1);
-                                    DLAdd.set(DLEnd.get() + DLError.get());
-                                    System.out.println("DL-ND " + DLError + "/" + DLAdd + "/" + " error");
-                                }
-                            }
-                        }
-                        PublicVariable.threadQuantity--;
+                        count("DL-ND", DLEnd, DLError, DLAdd, finalSumOfDL, r, false);
                     });
                     return r.get();
                 };
                 iThreadManagement.run();
-                /*
-                new Thread(()-> {
-                    try {
-                        System.out.println("DL-ND-" + finalI + " downloading AssetIndex: '" + name + "'");
-                        minecraft.DownloadsUtils.downloadsNativesDllLibrariesUtils(VersionJson, minecraft.Attribute, finalI);
-                        System.out.println("DL-ND-" + finalI + " Download '" + name + "' end");
-                        synchronized (DLNDEnd) {
-                            System.out.println("DL-ND " + DLNDEnd.addAndGet(1) + "/" + sumOfDL);
-                        }
-                    } catch (Exception e) {
-                        System.out.println("DL-ND-" + finalI + " Download '" + name + "' error");
-                        synchronized (DLNDError) {
-                            System.out.println("DL-ND " + DLNDError.addAndGet(1));
-                        }
-                    }
-                },"DL-ND-"+i).start();
-                */
             } else if (VersionJson.getLibraries()[i].getDownloads().getClassifiers() == null) {
                 String name = new File(DownloadURL.otherJarLibrariesURL(VersionJson, DownloadURL.DownloadSource.official, i).getPath()).getName();
                 String path = Attribute.mainPath + "libraries\\" + Utils.regexReplace(VersionJson.getLibraries()[finalI].getDownloads().getArtifact().getPath(), name, "");
@@ -399,18 +362,7 @@ public class DownloadsUtils {
                         try {
                             if (Objects.equals(standardSha1, Utils.fileSha1(file)) && standardSize == file.length() && Setup.getSetupInstance().download.ifCheckFileSha1BeforeDownloading) {
                                 System.out.println("DL-OJ '" + name + "' File already exists and SHA-1 is the same");
-                                end++;
-                                synchronized (DLEnd) {
-                                    synchronized ((DLError)) {
-                                        synchronized ((DLAdd)) {
-                                            DLEnd.addAndGet(1);
-                                            DLAdd.set(DLEnd.get() + DLError.get());
-                                            System.out.println("DL-OJ " + DLEnd + "/" + DLAdd + "/" + finalSumOfDL);
-                                        }
-                                    }
-                                }
-                                PublicVariable.threadQuantity--;
-                                r.set(true);
+                                count("DL-OJ", DLEnd, DLError, DLAdd, finalSumOfDL, r, true);
                                 return;
                             } else {
                                 for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; j++) {
@@ -427,19 +379,7 @@ public class DownloadsUtils {
                                         }
                                         if (Objects.equals(standardSha1, Utils.fileSha1(file)) & file.length() == standardSize) {
                                             System.out.println("DL-OJ-" + finalI + " Download '" + name + "' end");
-                                            end++;
-                                            synchronized (DLEnd) {
-                                                synchronized ((DLError)) {
-                                                    synchronized ((DLAdd)) {
-                                                        DLEnd.addAndGet(1);
-                                                        DLAdd.set(DLEnd.get() + DLError.get());
-                                                        System.out.println("DL-OJ " + DLEnd + "/" + DLAdd + "/" + finalSumOfDL);
-                                                    }
-                                                }
-                                            }
-                                            PublicVariable.threadQuantity--;
-                                            r.set(true);
-                                            return;
+                                            count("DL-OJ", DLEnd, DLError, DLAdd, finalSumOfDL, r, true);
                                         }
                                     } catch (Exception e) {
                                         System.out.println("DL-OJ-" + finalI + "-" + j + " Download '" + name + "' error");
@@ -449,40 +389,27 @@ public class DownloadsUtils {
                         } catch (NoSuchAlgorithmException | IOException ignored) {
                         }
                         System.out.println("DL-OJ-" + finalI + " Download '" + name + "' error");
-                        error++;
-                        synchronized (DLEnd) {
-                            synchronized ((DLError)) {
-                                synchronized ((DLAdd)) {
-                                    DLError.addAndGet(1);
-                                    DLAdd.set(DLEnd.get() + DLError.get());
-                                    System.out.println("DL-OJ " + DLError + "/" + DLAdd + "/" + " error");
-                                }
-                            }
-                        }
-                        PublicVariable.threadQuantity--;
+                        count("DL-OJ", DLEnd, DLError, DLAdd, finalSumOfDL, r, false);
                     });
-                /*
-                new Thread(()-> {
-                    try {
-                        System.out.println("DL-OJ-" + finalI + " downloading AssetIndex: '" + name + "'");
-                        minecraft.DownloadsUtils.downloadOtherJarLibrariesUtils(VersionJson,minecraft.Attribute, finalI);
-                        System.out.println("DL-OJ-" + finalI + " Download '" + name + "' end");
-                        synchronized (DLOJEnd) {
-                            System.out.println("DL-OJ " + DLOJEnd.addAndGet(1) + "/" + sumOfDL);
-                        }
-                    } catch (Exception e) {
-                        System.out.println("DL-OJ-" + finalI + " Download '" + name + "' error");
-                        synchronized (DLOJError) {
-                            System.out.println("DL-OJ " + DLOJError.addAndGet(1));
-                        }
-                    }
-                },"DL-OJ-"+i).start();
-                */
                     return r.get();
                 };
                 iThreadManagement.run();
             }
         }
+    }
+
+    private static synchronized void count(String ThreadName, AtomicInteger End, AtomicInteger Error, AtomicInteger Add, int totalQuantity, AtomicBoolean r, boolean ifSucceed) {
+        if (ifSucceed) {
+            end++;
+            End.addAndGet(1);
+        } else {
+            error++;
+            Error.addAndGet(1);
+        }
+        Add.set(End.get() + Error.get());
+        Output.output(Output.OutputLevel.Debug, ThreadName, End + "/" + Add + "/" + totalQuantity);
+        PublicVariable.threadQuantity--;
+        r.set(ifSucceed);
     }
 
     public static void downloadsAssetIndexUtils(VersionJson VersionJson, Attribute Attribute) throws IOException {
@@ -513,18 +440,7 @@ public class DownloadsUtils {
                     try {
                         if (Objects.equals(hash, Utils.fileSha1(finalFile)) && size == finalFile.length() && Setup.getSetupInstance().download.ifCheckFileSha1BeforeDownloading) {
                             System.out.println("DA-AI '" + hash + "' File already exists and SHA-1 is the same");
-                            end++;
-                            synchronized (DAIFEnd) {
-                                synchronized ((DAIFError)) {
-                                    synchronized ((DAIFadd)) {
-                                        DAIFEnd.addAndGet(1);
-                                        DAIFadd.set(DAIFEnd.get() + DAIFError.get());
-                                        System.out.println("DA-AI " + DAIFEnd + "/" + DAIFadd + "/" + hashArray.length);
-                                    }
-                                }
-                            }
-                            PublicVariable.threadQuantity--;
-                            r.set(true);
+                            count("DA-AI", DAIFEnd, DAIFError, DAIFadd, hashArray.length, r, true);
                             return;
                         } else {
                             for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; j++) {
@@ -541,19 +457,7 @@ public class DownloadsUtils {
                                     }
                                     if (Objects.equals(hash, Utils.fileSha1(finalFile)) & finalFile.length() == size) {
                                         System.out.println("DA-AI-" + finalI + " Download '" + hash + "' end");
-                                        end++;
-                                        synchronized (DAIFEnd) {
-                                            synchronized ((DAIFError)) {
-                                                synchronized ((DAIFadd)) {
-                                                    DAIFEnd.addAndGet(1);
-                                                    DAIFadd.set(DAIFEnd.get() + DAIFError.get());
-                                                    System.out.println("DA-AI " + DAIFEnd + "/" + DAIFadd + "/" + hashArray.length);
-                                                }
-                                            }
-                                        }
-                                        PublicVariable.threadQuantity--;
-                                        r.set(true);
-                                        return;
+                                        count("DA-AI", DAIFEnd, DAIFError, DAIFadd, hashArray.length, r, true);
                                     }
                                 } catch (Exception e) {
                                     System.out.println("DA-AI-" + finalI + "-" + j + " Download '" + hash + "' error");
@@ -563,17 +467,7 @@ public class DownloadsUtils {
                     } catch (NoSuchAlgorithmException | IOException ignored) {
                     }
                     System.out.println("DA-AI-" + finalI + " Download '" + hash + "' error");
-                    error++;
-                    synchronized (DAIFEnd) {
-                        synchronized ((DAIFError)) {
-                            synchronized ((DAIFadd)) {
-                                DAIFError.addAndGet(1);
-                                DAIFadd.set(DAIFEnd.get() + DAIFError.get());
-                                System.out.println("DA-AI " + DAIFError + "/" + DAIFadd + "/" + " error");
-                            }
-                        }
-                    }
-                    PublicVariable.threadQuantity--;
+                    count("DA-AI", DAIFEnd, DAIFError, DAIFadd, hashArray.length, r, false);
                 });
                 return r.get();
             };
@@ -589,18 +483,7 @@ public class DownloadsUtils {
                     try {
                         if (Objects.equals(hash, Utils.fileSha1(finalFile)) && size == finalFile.length() && Setup.getSetupInstance().download.ifCheckFileSha1BeforeDownloading) {
                             System.out.println("DA-AC '" + hash + "' File already exists and SHA-1 is the same");
-                            end++;
-                            synchronized (DACFEnd) {
-                                synchronized ((DACFError)) {
-                                    synchronized ((DACFadd)) {
-                                        DACFEnd.addAndGet(1);
-                                        DACFadd.set(DACFEnd.get() + DACFError.get());
-                                        System.out.println("DA-AC " + DACFEnd + "/" + DACFadd + "/" + hashArray.length);
-                                    }
-                                }
-                            }
-                            PublicVariable.threadQuantity--;
-                            r.set(true);
+                            count("DA-AC", DACFEnd, DACFError, DACFadd, hashArray.length, r, true);
                             return;
                         } else {
                             for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; j++) {
@@ -617,19 +500,7 @@ public class DownloadsUtils {
                                     }
                                     if (Objects.equals(hash, Utils.fileSha1(finalFile)) & finalFile.length() == size) {
                                         System.out.println("DA-AC-" + finalI + " Download '" + path + "' end");
-                                        end++;
-                                        synchronized (DACFEnd) {
-                                            synchronized ((DACFError)) {
-                                                synchronized ((DACFadd)) {
-                                                    DACFEnd.addAndGet(1);
-                                                    DACFadd.set(DACFEnd.get() + DACFError.get());
-                                                    System.out.println("DA-AC " + DACFEnd + "/" + DACFadd + "/" + hashArray.length);
-                                                }
-                                            }
-                                        }
-                                        PublicVariable.threadQuantity--;
-                                        r.set(true);
-                                        return;
+                                        count("DA-AC", DACFEnd, DACFError, DACFadd, hashArray.length, r, true);
                                     }
                                 } catch (Exception e) {
                                     System.out.println("DA-AC-" + finalI + "-" + j + " Download '" + hash + "' error");
@@ -639,56 +510,15 @@ public class DownloadsUtils {
                     } catch (NoSuchAlgorithmException | IOException ignored) {
                     }
                     System.out.println("DA-AC-" + finalI + " Download '" + path + "' error");
-                    error++;
-                    synchronized (DACFEnd) {
-                        synchronized ((DACFError)) {
-                            synchronized ((DACFadd)) {
-                                DACFError.addAndGet(1);
-                                DACFadd.set(DACFEnd.get() + DACFError.get());
-                                System.out.println("DA-AC " + DACFError + "/" + DACFadd + "/" + " error");
-                            }
-                        }
-                    }
-                    PublicVariable.threadQuantity--;
+                    count("DA-AC", DACFEnd, DACFError, DACFadd, hashArray.length, r, false);
                 });
                 return r.get();
             };
             iThreadManagement.run();
-            /*new Thread(()-> {
-                try {
-                    System.out.println("DL-AI-"+ finalI +" downloading AssetIndex:"+hash+"'");
-                    minecraft.DownloadsUtils.downloadAssetIndexFileUtils(minecraft.Attribute,hash);
-                    System.out.println("DL-AI-"+ finalI +" Download '"+ hash + "' end");
-                    synchronized (DAIFEnd) {
-                        System.out.println("DL-AI " + DAIFEnd.addAndGet(1) + "/" + hashArray.length);
-                    }
-                } catch (Exception e) {
-                    System.out.println("DL-AI-"+ finalI +" Download '"+ hash + "' error");
-                    synchronized (DAIFError) {
-                        System.out.println("DL-AI " + DAIFError.addAndGet(1));
-                    }
-                }
-            },"DL-AI-"+i).start();
-            new Thread(()-> {
-                try {
-                    System.out.println("DACL-"+ finalI +" downloading AssetIndex: '"+path+"'");
-                    minecraft.DownloadsUtils.downloadAssetIndexCopyFileUtils(minecraft.Attribute,path,hash);
-                    System.out.println("DACL-"+ finalI +" Download '"+ path + "' end");
-                    synchronized (DACFEnd) {
-                        System.out.println("DACL " + DACFEnd.addAndGet(1) + "/" + pathArray.length);
-                    }
-                } catch (Exception e) {
-                    System.out.println("DACF-"+ finalI +" Download '"+ hash + "' error");
-                    synchronized (DACFError) {
-                        System.out.println("DACF " + DACFError.addAndGet(1));
-                    }
-                }
-            },"DACF-"+i).start();
-            */
         }
     }
 
-    public static void downloadTestUtils(URL url, String ThreadName, String theoreticalFileHash, File file, int theoreticalFileSize, Attribute Attribute) {
+    public static boolean downloadUtils(URL url, String ThreadName, String theoreticalFileHash, File file, int theoreticalFileSize) {
         IThreadManagement iThreadManagement = () -> {
             AtomicBoolean r = new AtomicBoolean();
             PublicVariable.executorService.execute(() -> {
@@ -708,7 +538,7 @@ public class DownloadsUtils {
                                 Output.output(Output.OutputLevel.Ordinary, ThreadName, "The " + j + " attempt to download the file downloading '" + name + "'");
                             }
                             try {
-                                downloadTestFile(url, DownloadURL.DownloadSource.values()[k], file);
+                                downloadFile(url, DownloadURL.DownloadSource.values()[k], file);
                                 if (Objects.equals(theoreticalFileHash, Utils.fileSha1(file)) & file.length() == theoreticalFileSize) {
                                     Output.output(Output.OutputLevel.Debug, ThreadName, " Download '" + name + "' succeed");
                                     end++;
@@ -735,10 +565,10 @@ public class DownloadsUtils {
             });
             return r.get();
         };
-        iThreadManagement.run();
+        return iThreadManagement.run();
     }
 
-    private static void downloadTestFile(URL url, DownloadURL.DownloadSource downloadSource, File file) throws Exception {
+    private static void downloadFile(URL url, DownloadURL.DownloadSource downloadSource, File file) throws Exception {
         if (downloadSource.ifUse) {
             if (Setup.getSetupInstance().download.threads.multiThreadedDownload.ifMultiThreadedDownloadAFile) {
                 utils.Download.MultiThreadedDownloadAFile(url, file);
