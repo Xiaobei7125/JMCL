@@ -8,30 +8,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52b5a912-3e1b-441c-ad53-0a299eb59686" name="变更" comment="更改">
-      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Download.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/DownloadsUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Request.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Utils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/VersionProcessing.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/other/Output.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/CommandLineInputTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/CommandLineInputTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Attribute.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Attribute.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftDownload.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftDownloadsUtils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftUtils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/MinecraftVersionProcessing.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Download.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Download.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/DownloadsUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/DownloadsUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Login.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/jsonAnalysis/setup/Setup.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/jsonAnalysis/setup/Setup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/other/DownloadURL.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/DownloadURL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/other/IThreadManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/other/IThreadManagement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/other/PublicVariable.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/other/PublicVariable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/other/NetOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/other/NetOperation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/utils/Download.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/utils/Download.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/utils/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,7 +131,7 @@
     &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;last_directory_selection&quot;: &quot;E:/JavaTest/JMCL/JMCLCode/src/main/java/JsonAnalysis&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/JavaTest/JMCL/JMCLCode/src/main/java/JsonAnalysis/DownloadJson&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/JavaTest/JMCL&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -321,7 +304,12 @@
       <workItem from="1688355433003" duration="2249000" />
       <workItem from="1688359639634" duration="2495000" />
       <workItem from="1688380572588" duration="12000" />
-      <workItem from="1688380603653" duration="3663000" />
+      <workItem from="1688380603653" duration="3695000" />
+      <workItem from="1688442953941" duration="199000" />
+      <workItem from="1688443456444" duration="1681000" />
+      <workItem from="1688445167577" duration="36000" />
+      <workItem from="1688879255714" duration="797000" />
+      <workItem from="1689072782345" duration="706000" />
     </task>
     <task id="LOCAL-00001" summary="2">
       <created>1660048873009</created>
@@ -564,7 +552,15 @@
       <option name="project" value="LOCAL" />
       <updated>1688194798513</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="更改">
+      <option name="closed" value="true" />
+      <created>1688388515593</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1688388515593</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

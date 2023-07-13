@@ -24,6 +24,7 @@ public class Login {
 
     public static String getXboxLiveAuthenticationUserHash(String xboxLiveAuthenticationBody) {
         Gson gson = new Gson();
+
         XboxLiveAuthenticationObject xboxLiveAuthenticationObject = gson.fromJson(xboxLiveAuthenticationBody,XboxLiveAuthenticationObject.class);
         return xboxLiveAuthenticationObject.getUserHash();
     }

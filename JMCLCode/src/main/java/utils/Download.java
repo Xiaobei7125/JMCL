@@ -16,8 +16,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static utils.Utils.getPartOfTheFileContent;
 
 public class Download {
-    public static boolean downloadAFile(URL url, String incompletePath, String name) throws IOException {
-        File file = new File(incompletePath);
+    public static boolean downloadAFile(URL url, File file) throws IOException {
         if (!file.exists() && !file.isDirectory()) if (!file.mkdir()) return false;
         if (!file.canWrite()) if (!file.setWritable(true)) return false;
         //ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
@@ -31,7 +30,7 @@ public class Download {
         if (httpURLConnection.getResponseCode() == 200) {
             InputStream in = httpURLConnection.getInputStream();
             ReadableByteChannel readableByteChannel = Channels.newChannel(in);
-            FileOutputStream fileOutputStream = new FileOutputStream(incompletePath + name);
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
             FileChannel fileChannel = fileOutputStream.getChannel();
             fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
             fileChannel.close();
@@ -40,8 +39,7 @@ public class Download {
         return true;
     }
 
-    public static boolean MultiThreadedDownloadAFile(URL url, String path) throws IOException {
-        File file = new File(path);
+    public static boolean MultiThreadedDownloadAFile(URL url, File file) throws IOException {
         if (file.exists() && !file.isDirectory()) if (file.delete()) return false;
         URLConnection urlConnection = url.openConnection();
         HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
@@ -65,7 +63,7 @@ public class Download {
                             if (!file.getParentFile().exists()) if (!file.getParentFile().mkdirs()) return;
                             //如果文件不存在或文件是文件夹，就创建;           如果创建失败，就结束此进程;
                             if (!file.exists() || file.isDirectory()) if (!file.createNewFile()) return;
-                            RandomAccessFile randomAccessFile = new RandomAccessFile(path, "rwd");
+                            RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rwd");
                             randomAccessFile.setLength(totalSize);
                             randomAccessFile.seek((long) Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * finalI);
                             byte[] bytes;
@@ -86,7 +84,6 @@ public class Download {
                     });
                     return r.get();
                 };
-                return iThreadManagement.run();
             }
         } else {
             System.out.println(responseCode);

@@ -108,6 +108,7 @@ public class NetOperation {
                 .followRedirects(HttpClient.Redirect.ALWAYS)
                 .build();
         HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+        Output.output(Output.OutputLevel.Test, String.valueOf(httpResponse.statusCode()));
         return httpResponse.body();
     }
 

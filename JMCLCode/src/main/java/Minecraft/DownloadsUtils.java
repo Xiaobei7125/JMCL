@@ -11,6 +11,7 @@ import utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -687,7 +688,7 @@ public class DownloadsUtils {
         }
     }
 
-    public static void downloadTestUtils(String ThreadName, String theoreticalFileHash, File file, int theoreticalFileSize, Attribute Attribute) {
+    public static void downloadTestUtils(URL url, String ThreadName, String theoreticalFileHash, File file, int theoreticalFileSize, Attribute Attribute) {
         IThreadManagement iThreadManagement = () -> {
             AtomicBoolean r = new AtomicBoolean();
             PublicVariable.executorService.execute(() -> {
@@ -695,7 +696,7 @@ public class DownloadsUtils {
                 String name = file.getName();
                 try {
                     if (Objects.equals(theoreticalFileHash, Utils.fileSha1(file)) && theoreticalFileSize == file.length() && Setup.getSetupInstance().download.ifCheckFileSha1BeforeDownloading) {
-                        System.out.println("DA-AI '" + name + "' File already exists and SHA-1 is the same");
+                        Output.output(Output.OutputLevel.Debug, ThreadName, "'" + name + "' File already exists and SHA-1 is the same");
                         end++;
                         PublicVariable.threadQuantity--;
                         r.set(true);
@@ -707,7 +708,7 @@ public class DownloadsUtils {
                                 Output.output(Output.OutputLevel.Ordinary, ThreadName, "The " + j + " attempt to download the file downloading '" + name + "'");
                             }
                             try {
-                                downloadAssetIndexFile(Attribute, DownloadURL.DownloadSource.values()[k], name);
+                                downloadTestFile(url, DownloadURL.DownloadSource.values()[k], file);
                                 if (Objects.equals(theoreticalFileHash, Utils.fileSha1(file)) & file.length() == theoreticalFileSize) {
                                     Output.output(Output.OutputLevel.Debug, ThreadName, " Download '" + name + "' succeed");
                                     end++;
@@ -735,6 +736,18 @@ public class DownloadsUtils {
             return r.get();
         };
         iThreadManagement.run();
+    }
+
+    private static void downloadTestFile(URL url, DownloadURL.DownloadSource downloadSource, File file) throws Exception {
+        if (downloadSource.ifUse) {
+            if (Setup.getSetupInstance().download.threads.multiThreadedDownload.ifMultiThreadedDownloadAFile) {
+                utils.Download.MultiThreadedDownloadAFile(url, file);
+            } else {
+                utils.Download.downloadAFile(url, file);
+            }
+        } else {
+            throw new Exception();
+        }
     }
 }
 
