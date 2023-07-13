@@ -27,27 +27,47 @@ public class NetOperation {
         byte[] code = new byte[32];
         sr.nextBytes(code);
         String verifier = Base64.getUrlEncoder().withoutPadding().encodeToString(code);
-        URI uri = new URI("https://login.live.com/oauth20_authorize.srf" +
-                "?client_id=2119e5ac-e85d-467a-82bf-b5e8227cb900" +
+        URI uri = new URI(
+                "https://login.microsoftonline.com/consumers" +
+                        "/oauth2/v2.0/authorize?" +
+                        "client_id=00000000402b5328" +
+                        "&response_type=code" +
+                        "&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf" +
+                        "&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL"
+
+                /*"https://login.live.com/oauth20_authorize.srf" +
+                "?client_id=00000000402b5328" +
+                "&response_type=code" +
                 "&scope=XboxLive.signin%20offline_access" +
+                "&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf"*/);
+
+                /*"https://login.live.com/oauth20_authorize.srf" +
+                "?client_id=2119e5ac-e85d-467a-82bf-b5e8227cb900" +
+                "&scope=XboxLive.signin%20offline_access" // "service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL"
                 "&redirect_uri=https://127.0.0.1" +
-                //"&code_verifier=" + verifier +
-                //"code_challenge_method=plain" +
-                "&response_type=code");
+                "&response_type=code"
+                 */
         Desktop.getDesktop().browse(uri);
         System.out.println("Please enter redirection URL");
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
         String redirection = bufferedReader.readLine();
-        return Utils.regexReplace(redirection, "https://127\\.0\\.0\\.1/\\?code=", "");
+        //return Utils.regexReplace(redirection, "https://127\\.0\\.0\\.1/\\?code=", "");
+        return Utils.regexReplace(
+                Utils.regexReplace(redirection, "https://login\\.live\\.com/oauth20_desktop\\.srf\\?code=", ""),
+                "&lc=[\\d]+", "");
     }
 
     public static String requestMicrosoftLogin(String code) throws URISyntaxException, InterruptedException, IOException {
         URI uri = new URI("https://login.live.com/oauth20_token.srf");
-        String toBody = "client_id=" + "2119e5ac-e85d-467a-82bf-b5e8227cb900" +
+        String toBody = "client_id=00000000402b5328" +
+                "&code=" + code +
+                "&grant_type=authorization_code" +
+                "&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf" +
+                "&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL";/*"client_id=" + "2119e5ac-e85d-467a-82bf-b5e8227cb900" +
                 "&client_secret=" + "8bg8Q~~t8cc9I7GQO5y3oDG4zH7nm48A2w3Oha6j" +
                 "&code=" + code +
                 "&grant_type=authorization_code" +
-                "&redirect_uri=" + "https://127.0.0.1";
+                "&redirect_uri=" + "https://127.0.0.1";*/
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .uri(uri)
                 .header("Content-Type", "application/x-www-form-urlencoded")
@@ -88,9 +108,17 @@ public class NetOperation {
         String body = null;
         if (type.equals(Utils.xboxLiveType.XBL)) {
             uri = new URI("https://user.auth.xboxlive.com/user/authenticate");
-            body = "{\"Properties\":{\"AuthMethod\":\"RPS\",\"SiteName\":\"user.auth.xboxlive.com\",\"RpsTicket\":\"d=" +
-                    xboxLiveToken + "\"},\"RelyingParty\":\"https://auth.xboxlive.com\",\"TokenType\":\"JWT\"}";
+            body = "{" +
+                    "\"Properties\":{" +
+                    "\"AuthMethod\":\"RPS\"," +
+                    "\"SiteName\":\"user.auth.xboxlive.com\"," +
+                    "\"RpsTicket\":\"" + xboxLiveToken + "\"" +
+                    "}," +
+                    "\"RelyingParty\":\"http://auth.xboxlive.com\"," +
+                    "\"TokenType\":\"JWT\"" +
+                    "}";
         }
+        Output.output(Output.OutputLevel.Test, body);
         if (type.equals(Utils.xboxLiveType.XSTS)) {
             uri = new URI("https://xsts.auth.xboxlive.com/xsts/authorize");
             body = "{\"Properties\":{\"SandboxId\":\"RETAIL\",\"UserTokens\":[\"" + xboxLiveToken +
@@ -100,7 +128,7 @@ public class NetOperation {
                 .uri(uri)
                 .header("Content-Type", "application/json")
                 .header("Accept", "application/json")
-                .version(HttpClient.Version.HTTP_2)
+                .version(HttpClient.Version.HTTP_1_1)
                 .timeout(Duration.of(100, SECONDS))
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();

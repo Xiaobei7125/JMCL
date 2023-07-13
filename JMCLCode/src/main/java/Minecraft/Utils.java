@@ -4,6 +4,7 @@ import jsonAnalysis.download.minecraft.library.VersionJson;
 import jsonAnalysis.download.minecraft.library.VersionManifest;
 import jsonAnalysis.login.microsoft.MinecraftInformationObject;
 import other.NetOperation;
+import other.Output;
 import other.PublicVariable;
 
 import java.io.File;
@@ -17,14 +18,20 @@ import static jsonAnalysis.download.minecraft.library.VersionJson.getGsonObject;
 public class Utils {
     public static imformation.Login microsoftLogin() throws IOException, URISyntaxException, InterruptedException {
         String MicrosoftLoginCode = NetOperation.requestMicrosoftLoginCode();
+        Output.output(Output.OutputLevel.Test, MicrosoftLoginCode);
         String MicrosoftLoginTokenBody = NetOperation.requestMicrosoftLogin(MicrosoftLoginCode);
+        Output.output(Output.OutputLevel.Test, MicrosoftLoginTokenBody);
         String MicrosoftAccessToken = Login.getMicrosoftAccessToken(MicrosoftLoginTokenBody);
         String microsoftRefreshToken = Login.getMicrosoftRefreshToken(MicrosoftLoginTokenBody);
+        Output.output(Output.OutputLevel.Test, MicrosoftAccessToken);
         String XBLAuthenticationBody = NetOperation.requestXboxLiveAuthentication(MicrosoftAccessToken, utils.Utils.xboxLiveType.XBL);
+        Output.output(Output.OutputLevel.Test, XBLAuthenticationBody);
         String XBLAuthenticationUserHash = Login.getXboxLiveAuthenticationUserHash(XBLAuthenticationBody);
         String XBLAuthenticationToken = Login.getXboxLiveAuthenticationToken(XBLAuthenticationBody);
         String XSTSAuthenticationBody = NetOperation.requestXboxLiveAuthentication(XBLAuthenticationToken, utils.Utils.xboxLiveType.XSTS);
+        Output.output(Output.OutputLevel.Test, XSTSAuthenticationBody);
         String XSTSAuthenticationToken = Login.getXboxLiveAuthenticationToken(XSTSAuthenticationBody);
+        Output.output(Output.OutputLevel.Test, XSTSAuthenticationToken);
         String XSTSAuthenticationUserHash = Login.getXboxLiveAuthenticationUserHash(XSTSAuthenticationBody);
         if (XBLAuthenticationUserHash.equals(XSTSAuthenticationUserHash)) {
             String MinecraftAuthenticationBody = NetOperation.requestMinecraftAuthentication(XSTSAuthenticationToken, XSTSAuthenticationUserHash);
