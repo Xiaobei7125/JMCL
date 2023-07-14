@@ -32,22 +32,25 @@ public class Utils {
         Output.output(Output.OutputLevel.Test, XSTSAuthenticationBody);
         String XSTSAuthenticationToken = Login.getXboxLiveAuthenticationToken(XSTSAuthenticationBody);
         Output.output(Output.OutputLevel.Test, XSTSAuthenticationToken);
-        String XSTSAuthenticationUserHash = Login.getXboxLiveAuthenticationUserHash(XSTSAuthenticationBody);
-        if (XBLAuthenticationUserHash.equals(XSTSAuthenticationUserHash)) {
-            String MinecraftAuthenticationBody = NetOperation.requestMinecraftAuthentication(XSTSAuthenticationToken, XSTSAuthenticationUserHash);
-            String MinecraftAuthenticationToken = Login.getMinecraftAuthenticationToken(MinecraftAuthenticationBody);
-            String MinecraftOwnershipBody = NetOperation.checkMinecraftOwnership(MinecraftAuthenticationToken);
-            if (Login.ifMinecraftOwnership(MinecraftOwnershipBody)) {
-                String MinecraftInformationBody = NetOperation.receiveMinecraftInformation(MinecraftAuthenticationToken);
-                MinecraftInformationObject MinecraftAuthenticationObject = Login.getMinecraftInformationObject(MinecraftInformationBody);
-                return new imformation.Login(MinecraftAuthenticationObject.getId(), MinecraftAuthenticationObject.getName(), MinecraftAuthenticationToken);
-            } else {
-                System.out.println("You not have the minecraft.");
-            }
-        } else {
-            System.out.println("Please try again.");
+        if (XSTSAuthenticationToken == null) {
+            Output.output(Output.OutputLevel.Warning, "There is a problem with your Xbox account");
+            return null;
         }
-        return null;
+        String XSTSAuthenticationUserHash = Login.getXboxLiveAuthenticationUserHash(XSTSAuthenticationBody);
+        if (!XBLAuthenticationUserHash.equals(XSTSAuthenticationUserHash)) {
+            Output.output(Output.OutputLevel.Warning, "There was an error logging in,please try again.");
+            return null;
+        }
+        String MinecraftAuthenticationBody = NetOperation.requestMinecraftAuthentication(XSTSAuthenticationToken, XSTSAuthenticationUserHash);
+        String MinecraftAuthenticationToken = Login.getMinecraftAuthenticationToken(MinecraftAuthenticationBody);
+        String MinecraftOwnershipBody = NetOperation.checkMinecraftOwnership(MinecraftAuthenticationToken);
+        if (!Login.ifMinecraftOwnership(MinecraftOwnershipBody)) {
+            Output.output(Output.OutputLevel.Warning, "You don't have Minecraft");
+            return null;
+        }
+        String MinecraftInformationBody = NetOperation.receiveMinecraftInformation(MinecraftAuthenticationToken);
+        MinecraftInformationObject MinecraftAuthenticationObject = Login.getMinecraftInformationObject(MinecraftInformationBody);
+        return new imformation.Login(MinecraftAuthenticationObject.getId(), MinecraftAuthenticationObject.getName(), MinecraftAuthenticationToken);
     }
 
     public static void downloadMinecraft(Attribute Attribute) {

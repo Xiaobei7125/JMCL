@@ -1,3 +1,6 @@
+import imformation.Login;
+import other.Output;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -9,7 +12,8 @@ public class Test {
         //BufferedReader id = new BufferedReader(new InputStreamReader(System.in));
         //String mainPath = "E:\\JavaTest\\JMCL\\.minecraft\\";
         //String id = "1.19.3";
-        microsoftLogin();
+        Login login = microsoftLogin();
+        Output.output(Output.OutputLevel.Test, login.name() + login.accessToken() + login.UUID());
         //minecraft.Utils.downloadMinecraft(new minecraft.Attribute(mainPath.readLine(), id.readLine()));
         //Utils.downloadMinecraft(new Attribute(mainPath, id));
         //VersionManifest MinecraftVersionManifestObject = Request.getMinecraftVersionManifestObject();

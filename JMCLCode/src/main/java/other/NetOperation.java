@@ -12,9 +12,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
 import java.time.Duration;
-import java.util.Base64;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
 
@@ -23,10 +21,7 @@ public class NetOperation {
     }
 
     public static String requestMicrosoftLoginCode() throws IOException, URISyntaxException {
-        SecureRandom sr = new SecureRandom();
-        byte[] code = new byte[32];
-        sr.nextBytes(code);
-        String verifier = Base64.getUrlEncoder().withoutPadding().encodeToString(code);
+
         URI uri = new URI(
                 "https://login.microsoftonline.com/consumers" +
                         "/oauth2/v2.0/authorize?" +

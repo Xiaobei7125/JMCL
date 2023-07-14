@@ -22,6 +22,18 @@ public class DownloadsUtils {
     static int end = 0;
     static int error = 0;
 
+    private static void downloadFile(URL url, DownloadURL.DownloadSource downloadSource, File file) throws Exception {
+        if (downloadSource.ifUse) {
+            if (Setup.getSetupInstance().download.threads.multiThreadedDownload.ifMultiThreadedDownloadAFile) {
+                utils.Download.MultiThreadedDownloadAFile(url, file);
+            } else {
+                utils.Download.downloadAFile(url, file);
+            }
+        } else {
+            throw new Exception();
+        }
+    }
+
     private static void downloadVersionFile(VersionJson VersionJson, DownloadURL.DownloadSource downloadSource, Attribute Attribute) throws Exception {
         if (downloadSource.ifUse) {
             Download.downloadVersionFile(DownloadURL.versionJarFileURL(VersionJson, downloadSource), Attribute.mainPath, Attribute.id, Download.VersionFile.jar);
@@ -525,13 +537,7 @@ public class DownloadsUtils {
                 PublicVariable.threadQuantity++;
                 String name = file.getName();
                 try {
-                    if (Objects.equals(theoreticalFileHash, Utils.fileSha1(file)) && theoreticalFileSize == file.length() && Setup.getSetupInstance().download.ifCheckFileSha1BeforeDownloading) {
-                        Output.output(Output.OutputLevel.Debug, ThreadName, "'" + name + "' File already exists and SHA-1 is the same");
-                        end++;
-                        PublicVariable.threadQuantity--;
-                        r.set(true);
-                        return;
-                    } else {
+                    if (!(Objects.equals(theoreticalFileHash, Utils.fileSha1(file)) && theoreticalFileSize == file.length() && Setup.getSetupInstance().download.ifCheckFileSha1BeforeDownloading)) {
                         int k = 0;
                         for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; k++) {
                             if (k == 0) {
@@ -556,6 +562,12 @@ public class DownloadsUtils {
                                 }
                             }
                         }
+                    } else {
+                        Output.output(Output.OutputLevel.Debug, ThreadName, "'" + name + "' File already exists and SHA-1 is the same");
+                        end++;
+                        PublicVariable.threadQuantity--;
+                        r.set(true);
+                        return;
                     }
                 } catch (Exception ignored) {
                 }
@@ -566,18 +578,6 @@ public class DownloadsUtils {
             return r.get();
         };
         return iThreadManagement.run();
-    }
-
-    private static void downloadFile(URL url, DownloadURL.DownloadSource downloadSource, File file) throws Exception {
-        if (downloadSource.ifUse) {
-            if (Setup.getSetupInstance().download.threads.multiThreadedDownload.ifMultiThreadedDownloadAFile) {
-                utils.Download.MultiThreadedDownloadAFile(url, file);
-            } else {
-                utils.Download.downloadAFile(url, file);
-            }
-        } else {
-            throw new Exception();
-        }
     }
 }
 
