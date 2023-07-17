@@ -40,6 +40,7 @@ public class Setup {
         public int downloadReadTimeout = 1000;
         public boolean ifCheckFileSha1BeforeDownloading = true;
         public boolean ifDownloadAssetIndexCopy = true;
+        public boolean ifUsesNewURLDownloadingVersionJson = true;
 
         public static class Threads {
             public final MultiThreadedDownload multiThreadedDownload = new MultiThreadedDownload();
@@ -54,7 +55,7 @@ public class Setup {
         public static class Source {
             public boolean ifUseMcbbsDownloadSource = true;
             public boolean ifUseBmclapiDownloadSource = true;
-            public boolean ifUseOfficialDownloadSource = false;
+            public boolean ifUseOfficialDownloadSource = true;
         }
     }
 }

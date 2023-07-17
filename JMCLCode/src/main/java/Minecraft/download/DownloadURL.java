@@ -1,9 +1,10 @@
-package minecraft;
+package minecraft.download;
 
 
 import jsonAnalysis.download.minecraft.library.VersionJson;
 import jsonAnalysis.download.minecraft.library.VersionManifest;
 import jsonAnalysis.setup.Setup;
+import minecraft.VersionProcessing;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import utils.Utils;
@@ -14,6 +15,47 @@ import java.net.URL;
 public class DownloadURL {
     static final String bmclapi = "https://bmclapi2.bangbang93.com/";
     static final String mcbbs = "https://download.mcbbs.net/";
+
+    public static @NotNull URL[] versionManifestJsonURL(VersionJsonManifest versionJsonManifest) throws MalformedURLException {
+        String v1 = "mc/game/version_manifest.json";
+        String v2 = "mc/game/version_manifest_v2.json";
+        if (versionJsonManifest == VersionJsonManifest.v1) {
+            return new URL[]{new URL("https://launchermeta.mojang.com/" + v1),
+                    new URL(bmclapi + v1),
+                    new URL(mcbbs + v1)};
+        } else {
+            return new URL[]{new URL("https://launchermeta.mojang.com/" + v2),
+                    new URL(bmclapi + v2),
+                    new URL(mcbbs + v2)};
+        }
+    }
+
+    public static @NotNull URL[] versionJsonFileURL(VersionManifest VersionManifest, String id) throws MalformedURLException {
+        String url = String.valueOf(VersionProcessing.getUrl(VersionManifest, id));
+        if (Setup.getSetupInstance().download.ifUsesNewURLDownloadingVersionJson) {
+            return new URL[]{new URL(url),
+                    new URL(Utils.regexReplace(url, "https://piston-meta.mojang.com/", bmclapi)),
+                    new URL(Utils.regexReplace(url, "https://piston-meta.mojang.com/", mcbbs))};
+        } else {
+            return new URL[]{new URL(url),
+                    new URL(Utils.regexReplace(url, "https://launchermeta.mojang.com/", bmclapi)),
+                    new URL(Utils.regexReplace(url, "https://launchermeta.mojang.com/", mcbbs))};
+        }
+    }
+
+    public static @NotNull URL[] versionJarFileURL(@NotNull VersionJson VersionJson) throws MalformedURLException {
+        String url = String.valueOf(VersionJson.getDownloads().getClient().getUrl());
+        return new URL[]{new URL(url),
+                new URL(Utils.regexReplace(url, "https://launcher.mojang.com/", bmclapi)),
+                new URL(Utils.regexReplace(url, "https://launcher.mojang.com/", mcbbs))};
+    }
+
+    public static @NotNull URL[] Log4jFileURL(@NotNull VersionJson VersionJson) throws MalformedURLException {
+        String url = String.valueOf(VersionJson.getLogging().getClient().getFile().getUrl());
+        return new URL[]{new URL(url),
+                new URL(Utils.regexReplace(url, "https://launcher.mojang.com/", bmclapi)),
+                new URL(Utils.regexReplace(url, "https://launcher.mojang.com/", mcbbs))};
+    }
 
     @Contract("_, _ -> new")
     public static @NotNull URL versionManifestJsonURL(VersionJsonManifest versionJsonManifest, DownloadSource downloadSource) throws MalformedURLException {
@@ -77,16 +119,16 @@ public class DownloadURL {
 
     public static @NotNull URL nativesJarURL(@NotNull VersionJson VersionJson, DownloadSource downloadSource, int i) throws MalformedURLException {
         String url = String.valueOf(VersionJson.getLibraries()[i].getDownloads().getClassifiers().getNativesWindows().getUrl());
-        return getLibrariesUrl(downloadSource, url);
+        return getLibrariesURL(downloadSource, url);
     }
 
     public static @NotNull URL otherJarLibrariesURL(@NotNull VersionJson VersionJson, DownloadSource downloadSource, int i) throws MalformedURLException {
         String url = String.valueOf(VersionJson.getLibraries()[i].getDownloads().getArtifact().getUrl());
-        return getLibrariesUrl(downloadSource, url);
+        return getLibrariesURL(downloadSource, url);
     }
 
     @Contract("_, _ -> new")
-    private static @NotNull URL getLibrariesUrl(DownloadSource downloadSource, String url) throws MalformedURLException {
+    private static @NotNull URL getLibrariesURL(DownloadSource downloadSource, String url) throws MalformedURLException {
         if (downloadSource == DownloadSource.official) {
             return new URL(url);
         } else if (downloadSource == DownloadSource.bmclapi) {

@@ -1,9 +1,10 @@
-package minecraft;
+package minecraft.download;
 
 
 import com.google.gson.GsonBuilder;
 import jsonAnalysis.download.minecraft.library.VersionJson;
 import jsonAnalysis.download.minecraft.library.VersionManifest;
+import minecraft.imformation.Attribute;
 import utils.Utils;
 
 import java.io.IOException;
@@ -43,12 +44,12 @@ public class Request {
 
     public static VersionJson getMinecraftVersionObject(VersionManifest VersionManifest, Attribute Attribute) throws IOException {
         try {
-            return getMinecraftVersionObject(VersionManifest, Attribute.id, DownloadURL.DownloadSource.official);
+            return getMinecraftVersionObject(VersionManifest, Attribute.getId(), DownloadURL.DownloadSource.official);
         } catch (IOException e) {
             try {
-                return getMinecraftVersionObject(VersionManifest, Attribute.id, DownloadURL.DownloadSource.bmclapi);
+                return getMinecraftVersionObject(VersionManifest, Attribute.getId(), DownloadURL.DownloadSource.bmclapi);
             } catch (IOException f) {
-                return getMinecraftVersionObject(VersionManifest, Attribute.id, DownloadURL.DownloadSource.mcbbs);
+                return getMinecraftVersionObject(VersionManifest, Attribute.getId(), DownloadURL.DownloadSource.mcbbs);
             }
         }
     }

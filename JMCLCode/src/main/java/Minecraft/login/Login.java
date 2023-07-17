@@ -1,4 +1,4 @@
-package minecraft;
+package minecraft.login;
 
 import com.google.gson.Gson;
 import jsonAnalysis.login.microsoft.*;
@@ -18,14 +18,14 @@ public class Login {
 
     public static String getXboxLiveAuthenticationToken(String xboxLiveAuthenticationBody) {
         Gson gson = new Gson();
-        XboxLiveAuthenticationObject xboxLiveAuthenticationObject = gson.fromJson(xboxLiveAuthenticationBody,XboxLiveAuthenticationObject.class);
+        XboxLiveAuthenticationObject xboxLiveAuthenticationObject = gson.fromJson(xboxLiveAuthenticationBody, XboxLiveAuthenticationObject.class);
         return xboxLiveAuthenticationObject.getToken();
     }
 
     public static String getXboxLiveAuthenticationUserHash(String xboxLiveAuthenticationBody) {
         Gson gson = new Gson();
 
-        XboxLiveAuthenticationObject xboxLiveAuthenticationObject = gson.fromJson(xboxLiveAuthenticationBody,XboxLiveAuthenticationObject.class);
+        XboxLiveAuthenticationObject xboxLiveAuthenticationObject = gson.fromJson(xboxLiveAuthenticationBody, XboxLiveAuthenticationObject.class);
         return xboxLiveAuthenticationObject.getUserHash();
     }
 
@@ -34,6 +34,7 @@ public class Login {
         MinecraftOwnershipObject MinecraftOwnershipObject = gson.fromJson(checkMinecraftOwnershipBody, MinecraftOwnershipObject.class);
         return MinecraftOwnershipObject.getItemsLength() != 0;
     }
+
     public static MinecraftInformationObject getMinecraftInformationObject(String MinecraftInformationBody) {
         Gson gson = new Gson();
         return gson.fromJson(MinecraftInformationBody, MinecraftInformationObject.class);

@@ -1,9 +1,8 @@
-
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import jsonAnalysis.setup.Setup;
-import minecraft.Attribute;
 import minecraft.Utils;
+import minecraft.imformation.Attribute;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

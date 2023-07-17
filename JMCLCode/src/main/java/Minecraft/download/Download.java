@@ -1,4 +1,4 @@
-package minecraft;
+package minecraft.download;
 
 import jsonAnalysis.setup.Setup;
 import utils.Utils;
@@ -52,6 +52,7 @@ public class Download {
             utils.Download.downloadAFile(url, new File(mainPath + "libraries\\" + path));
         }
     }
+
     public static void downloadLog4jFile(URL url, String mainPath, String fileId) throws IOException {
         if (Setup.getSetupInstance().download.threads.multiThreadedDownload.ifMultiThreadedDownloadAFile) {
             utils.Download.MultiThreadedDownloadAFile(url, new File(mainPath + "assets\\log_configs\\" + fileId));

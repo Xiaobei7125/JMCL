@@ -50,12 +50,19 @@ public class Utils {
         return m.replaceAll(replacement);
     }
 
-    public static String[] regexMatching(String input, String regex){
+    public static String regularExpressionsReplaceNull(String input, String... replaceValue) {
+        for (String value : replaceValue) {
+            input = regexReplace(input, value, "");
+        }
+        return input;
+    }
+
+    public static String[] regexMatching(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
         String[] StringArray = new String[10000];
-        int c = 0 ;
-        while (matcher.find()){
+        int c = 0;
+        while (matcher.find()) {
             StringArray[c] = matcher.group();
             c++;
         }

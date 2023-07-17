@@ -21,24 +21,26 @@ public class NetOperation {
     }
 
     public static String requestMicrosoftLoginCode() throws IOException, URISyntaxException {
-
+        String redirectUri = "https://127.0.0.1";
+        String url = "https://login.microsoftonline.com/consumers/oauth2/v2.0/authorize";
         URI uri = new URI(
-                "https://login.microsoftonline.com/consumers" +
-                        "/oauth2/v2.0/authorize?" +
-                        "client_id=00000000402b5328" +
-                        "&response_type=code" +
-                        "&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf" +
-                        "&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL"
+                url +
+                        "?client_id=2119e5ac-e85d-467a-82bf-b5e8227cb900" +
+                        "&response_type=token" +
+                        "&redirect_uri=" + redirectUri +
+                        "&scope=XboxLive.signin%20offline_access"
+        );
 
-                /*"https://login.live.com/oauth20_authorize.srf" +
+                /*"https://login.microsoftonline.com/consumers" +
+                "/oauth2/v2.0/authorize" +
                 "?client_id=00000000402b5328" +
                 "&response_type=code" +
                 "&scope=XboxLive.signin%20offline_access" +
-                "&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf"*/);
+                "&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf"*/
 
                 /*"https://login.live.com/oauth20_authorize.srf" +
                 "?client_id=2119e5ac-e85d-467a-82bf-b5e8227cb900" +
-                "&scope=XboxLive.signin%20offline_access" // "service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL"
+                "&scope=XboxLive.signin%20offline_access" // "service::user.auth.xboxlive.com::MBI_SSL"
                 "&redirect_uri=https://127.0.0.1" +
                 "&response_type=code"
                  */
@@ -46,23 +48,34 @@ public class NetOperation {
         System.out.println("Please enter redirection URL");
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
         String redirection = bufferedReader.readLine();
-        //return Utils.regexReplace(redirection, "https://127\\.0\\.0\\.1/\\?code=", "");
-        return Utils.regexReplace(
-                Utils.regexReplace(redirection, "https://login\\.live\\.com/oauth20_desktop\\.srf\\?code=", ""),
-                "&lc=[\\d]+", "");
+//        return Utils.regexReplace(redirection, "https://127\\.0\\.0\\.1/\\?code=", "");
+//        return Utils.regexReplace(
+//                Utils.regexReplace(redirection, "https://login\\.live\\.com/oauth20_desktop\\.srf\\?code=", ""),
+//                "&lc=[\\d]+", "");
+        return Utils.regularExpressionsReplaceNull(redirection,
+                "https://127\\.0\\.0\\.1/",
+                "\\?",
+                "lc=[\\d]+",
+                "#access_token=",
+                "token_type=bearer",
+                "expires_in=[\\d]+",
+                "scope=XboxLive.signin",
+                "user_id=[\\w]+",
+                "&");
     }
 
     public static String requestMicrosoftLogin(String code) throws URISyntaxException, InterruptedException, IOException {
         URI uri = new URI("https://login.live.com/oauth20_token.srf");
-        String toBody = "client_id=00000000402b5328" +
-                "&code=" + code +
-                "&grant_type=authorization_code" +
-                "&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf" +
-                "&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL";/*"client_id=" + "2119e5ac-e85d-467a-82bf-b5e8227cb900" +
-                "&client_secret=" + "8bg8Q~~t8cc9I7GQO5y3oDG4zH7nm48A2w3Oha6j" +
-                "&code=" + code +
-                "&grant_type=authorization_code" +
-                "&redirect_uri=" + "https://127.0.0.1";*/
+        String toBody = //"client_id=00000000402b5328" +
+//                "&code=" + code +
+//                "&grant_type=authorization_code" +
+//                "&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf" +
+//                "&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL";/*"client_id=" + "2119e5ac-e85d-467a-82bf-b5e8227cb900" +
+                "client_id=2119e5ac-e85d-467a-82bf-b5e8227cb900" +
+                        "&client_secret=" + "8bg8Q~~t8cc9I7GQO5y3oDG4zH7nm48A2w3Oha6j" +
+                        "&code=" + code +
+                        "&grant_type=authorization_code" +
+                        "&redirect_uri=" + "https://127.0.0.1";
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .uri(uri)
                 .header("Content-Type", "application/x-www-form-urlencoded")
@@ -107,7 +120,7 @@ public class NetOperation {
                     "\"Properties\":{" +
                     "\"AuthMethod\":\"RPS\"," +
                     "\"SiteName\":\"user.auth.xboxlive.com\"," +
-                    "\"RpsTicket\":\"" + xboxLiveToken + "\"" +
+                    "\"RpsTicket\":\"d=" + xboxLiveToken + "\"" +
                     "}," +
                     "\"RelyingParty\":\"http://auth.xboxlive.com\"," +
                     "\"TokenType\":\"JWT\"" +

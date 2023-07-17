@@ -4,13 +4,36 @@
     <option name="SPLITTER_PROPORTION" value="0.38217652" />
   </component>
   <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
+    <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52b5a912-3e1b-441c-ad53-0a299eb59686" name="变更" comment="更改">
+      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/Download.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/DownloadURL.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/DownloadsUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/Request.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/imformation/Attribute.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/login/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/CommandLineInputTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/CommandLineInputTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Attribute.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Download.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/DownloadURL.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/DownloadsUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Login.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Request.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Utils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/jsonAnalysis/setup/Setup.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/jsonAnalysis/setup/Setup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/other/NetOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/other/NetOperation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/other/Output.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/other/Output.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/utils/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +69,12 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="JMCL" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="JMCL" type="f1a62948:ProjectNode" />
                 <item name="JMCLCode" type="2d1252cf:ModuleNode" />
               </path>
               <path>
@@ -77,6 +106,19 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
         <option value="071205080112" />
@@ -127,15 +169,17 @@
     &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;last_directory_selection&quot;: &quot;E:/JavaTest/JMCL/JMCLCode/src/main/java/JsonAnalysis&quot;,
-    &quot;last_opened_file_path&quot;: &quot;F:/JavaTest/JMCL&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/JavaTest/JMCL/wrapper/dists/gradle-8.2.1-bin/5hap6b9n41hkg4jeh2au2pllh/gradle-8.2.1&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;项目&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.build.tools.auto.reload&quot;: &quot;ALL&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;two.files.diff.last.used.file&quot;: &quot;E:/JavaTest/JMCL/filename.txt&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
@@ -163,16 +207,6 @@
     </option>
   </component>
   <component name="RunManager" selected="应用程序.Test">
-    <configuration name="CommandLineInputTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="18 (2)" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="CommandLineInputTest" />
-      <module name="JMCL.JMCLCode.main" />
-      <option name="PROGRAM_PARAMETERS" value="-c" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Test" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../exe/Java/jdk-18.0.1.1" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -191,6 +225,28 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="JMCL [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--continue" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="jar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
+      <method v="2" />
     </configuration>
     <configuration name="JMCL:JMCLCode [:JMCLCode:CommandLineInputTest.main()]" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
@@ -219,18 +275,84 @@
       <ForceTestExec>false</ForceTestExec>
       <method v="2" />
     </configuration>
+    <configuration name="JMCL:JMCLCode [assemble]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/JMCLCode" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="assemble" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="JMCL:JMCLCode [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/JMCLCode" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
+      <method v="2" />
+    </configuration>
     <configuration name="JMCL:JMCLCode [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/JMCLCode" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
+        <option name="scriptParameters" value="--info" />
         <option name="taskDescriptions">
           <list />
         </option>
         <option name="taskNames">
           <list>
             <option value="jar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="JMCL:JMCLCode [testClasses]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/JMCLCode" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="testClasses" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -253,24 +375,25 @@
       <option name="ALTERNATIVE_JRE_PATH" />
       <method v="2" />
     </configuration>
-    <configuration name="JMCL-Bata-Downloads-3.jar" type="JarApplication" temporary="true">
-      <option name="JAR_PATH" value="$PROJECT_DIR$/JMCLCode/build/libs/JMCL-Bata-Downloads-3.jar" />
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Gradle.JMCL:JMCLCode [:JMCLCode:CommandLineInputTest.main()]" />
+      <item itemvalue="Gradle.JMCL [jar]" />
+      <item itemvalue="Gradle.JMCL:JMCLCode [assemble]" />
+      <item itemvalue="Gradle.JMCL:JMCLCode [clean]" />
+      <item itemvalue="Gradle.JMCL:JMCLCode [testClasses]" />
       <item itemvalue="Gradle.JMCL:JMCLCode [jar]" />
       <item itemvalue="JAR 应用程序.2" />
       <item itemvalue="JAR 应用程序.JAR" />
-      <item itemvalue="JAR 应用程序.JMCL-Bata-Downloads-3.jar" />
       <item itemvalue="应用程序.Test" />
       <item itemvalue="应用程序.test2" />
-      <item itemvalue="应用程序.CommandLineInputTest" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="应用程序.CommandLineInputTest" />
+        <item itemvalue="Gradle.JMCL [jar]" />
+        <item itemvalue="Gradle.JMCL:JMCLCode [assemble]" />
         <item itemvalue="Gradle.JMCL:JMCLCode [jar]" />
+        <item itemvalue="Gradle.JMCL:JMCLCode [clean]" />
+        <item itemvalue="Gradle.JMCL:JMCLCode [testClasses]" />
       </list>
     </recent_temporary>
   </component>
@@ -313,6 +436,18 @@
       <workItem from="1689245720728" duration="2570000" />
       <workItem from="1689257300452" duration="1507000" />
       <workItem from="1689301389930" duration="4824000" />
+      <workItem from="1689317698535" duration="4055000" />
+      <workItem from="1689323057150" duration="2962000" />
+      <workItem from="1689328072905" duration="1634000" />
+      <workItem from="1689391476120" duration="5523000" />
+      <workItem from="1689514998244" duration="1583000" />
+      <workItem from="1689517122990" duration="29000" />
+      <workItem from="1689517182530" duration="23000" />
+      <workItem from="1689517270194" duration="181000" />
+      <workItem from="1689517485256" duration="19000" />
+      <workItem from="1689517637493" duration="7000" />
+      <workItem from="1689572956674" duration="44000" />
+      <workItem from="1689573020637" duration="8121000" />
     </task>
     <task id="LOCAL-00001" summary="2">
       <created>1660048873009</created>
@@ -587,7 +722,15 @@
       <option name="project" value="LOCAL" />
       <updated>1689238162895</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="更改">
+      <option name="closed" value="true" />
+      <created>1689318284014</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1689318284014</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -604,7 +747,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/master" />
+                        <option value="master" />
                       </list>
                     </value>
                   </entry>

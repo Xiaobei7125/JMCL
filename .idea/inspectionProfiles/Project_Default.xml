@@ -35,5 +35,10 @@
     <inspection_tool class="ImplicitDefaultCharsetUsage" enabled="true" level="WARNING" enabled_by_default="true">
       <scope name="All Changed Files" level="WARNING" enabled="true" />
     </inspection_tool>
+    <inspection_tool class="MisspelledHeader" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="CUSTOM_HEADERS">
+        <header value="Build-Jdk" />
+      </option>
+    </inspection_tool>
   </profile>
 </component>
