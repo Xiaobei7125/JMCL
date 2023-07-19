@@ -1,8 +1,9 @@
-import minecraft.Utils;
-import minecraft.information.Attribute;
+import other.Output;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+
+import static minecraft.information.VersionJsonManifestVersion.v1;
 
 public class Test {
     public static void main(String[] ages) throws IOException, URISyntaxException, InterruptedException {
@@ -22,7 +23,8 @@ public class Test {
 //            Output.output(Output.OutputLevel.Test, login.name() + login.accessToken() + login.UUID());
 //        }
         //minecraft.Utils.downloadMinecraft(new minecraft.information.Attribute(mainPath.readLine(), id.readLine()));
-        Utils.downloadMinecraft(new Attribute(mainPath, id));
+        Output.output(Output.OutputLevel.Test, String.valueOf(v1));
+        //Utils.downloadMinecraft(new Attribute(mainPath, id));
         //VersionManifest MinecraftVersionManifestObject = Request.getMinecraftVersionManifestObject();
         //DownloadsUtils.downloadsVersionFileUtils(Request.getMinecraftVersionObject(MinecraftVersionManifestObject, new Attribute(mainPath,id)),new Attribute(mainPath,id));
         //PublicVariable.executorService.shutdown();

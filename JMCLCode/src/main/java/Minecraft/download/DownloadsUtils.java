@@ -6,6 +6,7 @@ import jsonAnalysis.download.minecraft.library.VersionManifest;
 import jsonAnalysis.setup.Setup;
 import minecraft.information.Attribute;
 import minecraft.information.DownloadSource;
+import minecraft.information.VersionFileType;
 import other.IThreadManagement;
 import other.Output;
 import other.PublicVariable;
@@ -26,7 +27,7 @@ public class DownloadsUtils {
     public static int error = 0;
 
     private static void downloadFile(URL url, DownloadSource downloadSource, File file) throws Exception {
-        if (downloadSource.ifUse) {
+        if (downloadSource.getIfUse()) {
             if (Setup.getSetupInstance().download.threads.multiThreadedDownload.ifMultiThreadedDownloadAFile) {
                 utils.Download.MultiThreadedDownloadAFile(url, file);
             } else {
@@ -39,23 +40,23 @@ public class DownloadsUtils {
 
 
     private static void downloadVersionFile(VersionJson VersionJson, DownloadSource downloadSource, Attribute Attribute) throws Exception {
-        if (downloadSource.ifUse) {
-            Download.downloadVersionFile(Url.versionJarFileURL(VersionJson, downloadSource), Attribute.getMainPath(), Attribute.getId(), Download.VersionFile.jar);
+        if (downloadSource.getIfUse()) {
+            Download.downloadVersionFile(Url.versionJarFileURL(VersionJson, downloadSource), Attribute.getMainPath(), Attribute.getId(), VersionFileType.jar);
         } else {
             throw new Exception();
         }
     }
 
     private static void downloadVersionJson(VersionManifest VersionManifest, DownloadSource downloadSource, Attribute Attribute) throws Exception {
-        if (downloadSource.ifUse) {
-            Download.downloadVersionFile(Url.versionJsonFileURL(VersionManifest, Attribute.getId(), downloadSource), Attribute.getMainPath(), Attribute.getId(), Download.VersionFile.json);
+        if (downloadSource.getIfUse()) {
+            Download.downloadVersionFile(Url.versionJsonFileURL(VersionManifest, Attribute.getId(), downloadSource), Attribute.getMainPath(), Attribute.getId(), VersionFileType.json);
         } else {
             throw new Exception();
         }
     }
 
     private static void downloadNativesDllLibraries(VersionJson VersionJson, DownloadSource downloadSource, Attribute Attribute, int i) throws Exception {
-        if (downloadSource.ifUse) {
+        if (downloadSource.getIfUse()) {
             Download.downloadNativesDllLibraries(Url.nativesJarURL(VersionJson, downloadSource, i), Attribute.getMainPath(), Attribute.getId(), Attribute.getRunPath());
         } else {
             throw new Exception();
@@ -63,7 +64,7 @@ public class DownloadsUtils {
     }
 
     private static void downloadOtherJarLibraries(VersionJson VersionJson, DownloadSource downloadSource, Attribute Attribute, int i) throws Exception {
-        if (downloadSource.ifUse) {
+        if (downloadSource.getIfUse()) {
             Download.downloadOtherLibraries(Url.otherJarLibrariesURL(VersionJson, downloadSource, i), Attribute.getMainPath(), VersionJson.getLibraries()[i].getDownloads().getArtifact().getPath());
         } else {
             throw new Exception();
@@ -71,7 +72,7 @@ public class DownloadsUtils {
     }
 
     private static void downloadLog4jFile(VersionJson VersionJson, DownloadSource downloadSource, Attribute Attribute) throws Exception {
-        if (downloadSource.ifUse) {
+        if (downloadSource.getIfUse()) {
             Download.downloadLog4jFile(Url.Log4jFileURL(VersionJson, downloadSource), Attribute.getMainPath(), VersionJson.getLogging().getClient().getFile().getId());
         } else {
             throw new Exception();
@@ -79,7 +80,7 @@ public class DownloadsUtils {
     }
 
     private static void downloadAssetIndexJson(VersionJson VersionJson, DownloadSource downloadSource, Attribute Attribute) throws Exception {
-        if (downloadSource.ifUse) {
+        if (downloadSource.getIfUse()) {
             Download.downloadAssetIndexJson(Url.assetIndexJsonURL(VersionJson, downloadSource), Attribute.getMainPath(), VersionJson.getAssetIndex().getId());
         } else {
             throw new Exception();
@@ -87,7 +88,7 @@ public class DownloadsUtils {
     }
 
     private static void downloadAssetIndexFile(Attribute Attribute, DownloadSource downloadSource, String hash) throws Exception {
-        if (downloadSource.ifUse) {
+        if (downloadSource.getIfUse()) {
             Download.downloadAssetIndexFile(Url.assetIndexFileURL(hash, downloadSource), Attribute.getMainPath(), hash);
         } else {
             throw new Exception();
@@ -95,7 +96,7 @@ public class DownloadsUtils {
     }
 
     private static void downloadAssetIndexCopyFile(Attribute Attribute, DownloadSource downloadSource, String path, String hash) throws Exception {
-        if (downloadSource.ifUse) {
+        if (downloadSource.getIfUse()) {
             Download.downloadAssetIndexCopyFile(Url.assetIndexFileURL(hash, downloadSource), Attribute.getMainPath(), path);
         } else {
             throw new Exception();
@@ -103,7 +104,7 @@ public class DownloadsUtils {
     }
 
     public static void downloadsVersionFileUtils(VersionJson VersionJson, Attribute Attribute) throws MalformedURLException {
-        String name = Attribute.getId() + "." + Download.VersionFile.jar;
+        String name = Attribute.getId() + "." + VersionFileType.jar;
         //下载路径
         String path = Attribute.getMainPath() + "versions\\" + Attribute.getId() + "\\";
         //从下载处获得的sha1
@@ -167,7 +168,7 @@ public class DownloadsUtils {
     }
 
     public static void downloadsVersionJsonUtils(VersionManifest VersionManifest, Attribute Attribute) throws MalformedURLException {
-        String name = Attribute.getId() + "." + Download.VersionFile.json;
+        String name = Attribute.getId() + "." + VersionFileType.json;
         String path = Attribute.getMainPath() + "versions\\" + Attribute.getId() + "\\";
         String standardSha1 = VersionManifest.getSha1(Attribute.getId());
         File file = new File(path + name);

@@ -8,6 +8,7 @@ import minecraft.download.Request;
 import minecraft.download.Url;
 import minecraft.information.Attribute;
 import minecraft.information.DownloadSource;
+import minecraft.information.VersionManifestProcessing;
 import minecraft.login.Login;
 import minecraft.login.NetOperation;
 import other.Output;
@@ -63,7 +64,7 @@ public class Utils {
     public static void downloadMinecraft(Attribute Attribute) {
         try {
             VersionManifest MinecraftVersionManifestObject = Request.getMinecraftVersionManifestObject();
-            if (VersionProcessing.isId(MinecraftVersionManifestObject, Attribute.getId())) {
+            if (VersionManifestProcessing.isId(MinecraftVersionManifestObject, Attribute.getId())) {
                 VersionJson MinecraftVersionObject = Request.getMinecraftVersionObject(MinecraftVersionManifestObject, Attribute);
                 DownloadsUtils.downloadsVersionFileUtils(MinecraftVersionObject, Attribute);
                 DownloadsUtils.downloadsVersionJsonUtils(MinecraftVersionManifestObject, Attribute);

@@ -1,16 +1,16 @@
-package minecraft;
+package minecraft.information;
 
 
 import jsonAnalysis.download.minecraft.library.VersionManifest;
 
 import java.net.URL;
 
-public class VersionProcessing {
+public class VersionManifestProcessing {
     /**
      * 这个方法输入MC版本列表变量,版本id;
      * 返回版本的type;
      */
-    public static String getType(VersionManifest VersionManifest, String id) {
+    public static String getVersionType(VersionManifest VersionManifest, String id) {
         String[] idArray = VersionManifest.getIdArray();
         String[] typeArray = VersionManifest.getTypeArray();
         int i;
@@ -31,7 +31,7 @@ public class VersionProcessing {
         String[] typeArray = new String[getTypeArrayCount(VersionManifest, type)];
         int b = 0;
         for (String s : idArray) {
-            if (getType(VersionManifest, s).equals(type.toString())) {
+            if (getVersionType(VersionManifest, s).equals(type.toString())) {
                 typeArray[b] = s;
                 b++;
             }
@@ -47,7 +47,7 @@ public class VersionProcessing {
         String[] idArray = VersionManifest.getIdArray();
         int typeArrayCount = 0;
         for (String s : idArray) {
-            if (getType(VersionManifest, s).equals(type.toString())) {
+            if (getVersionType(VersionManifest, s).equals(type.toString())) {
                 typeArrayCount++;
             }
         }
@@ -58,7 +58,7 @@ public class VersionProcessing {
      * 这个方法输入MC版本列表变量,版本id;
      * 返回版本的url;
      */
-    public static URL getUrl(VersionManifest VersionManifest, String id) {
+    public static URL getVersionJsonUrl(VersionManifest VersionManifest, String id) {
         String[] idArray = VersionManifest.getIdArray();
         URL[] urlArray = VersionManifest.getUrlArray();
         int i;

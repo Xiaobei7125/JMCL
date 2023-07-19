@@ -2,7 +2,7 @@
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/JMCLCode/src/main/java/jsonAnalysis/download/minecraft/library/VersionJson.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/JMCLCode/src/main/java/minecraft/VersionProcessing.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JMCLCode/src/main/java/minecraft/information/VersionManifestProcessing.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/../../exe/Java/jdk-17.0.1/bin/启动 1.19.3.bat" charset="GBK" />
     <file url="PROJECT" charset="UTF-8" />
   </component>

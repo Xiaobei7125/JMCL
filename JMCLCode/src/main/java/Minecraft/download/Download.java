@@ -1,6 +1,7 @@
 package minecraft.download;
 
 import jsonAnalysis.setup.Setup;
+import minecraft.information.VersionFileType;
 import utils.Utils;
 import utils.Zip;
 
@@ -10,7 +11,7 @@ import java.net.URL;
 
 public class Download {
 
-    public static void downloadVersionFile(URL url, String mainPath, String id, VersionFile versionFile) throws IOException {
+    public static void downloadVersionFile(URL url, String mainPath, String id, VersionFileType versionFile) throws IOException {
         String incompletePath = mainPath + "versions\\" + id + "\\";
         String name = id + "." + versionFile;
         if (Setup.getSetupInstance().download.threads.multiThreadedDownload.ifMultiThreadedDownloadAFile) {
@@ -89,7 +90,4 @@ public class Download {
         }
     }
 
-    enum VersionFile {
-        jar, json
-    }
 }
