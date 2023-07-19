@@ -3,12 +3,13 @@ package minecraft;
 import jsonAnalysis.download.minecraft.library.VersionJson;
 import jsonAnalysis.download.minecraft.library.VersionManifest;
 import jsonAnalysis.login.microsoft.MinecraftInformationObject;
-import minecraft.download.DownloadURL;
 import minecraft.download.DownloadsUtils;
 import minecraft.download.Request;
-import minecraft.imformation.Attribute;
+import minecraft.download.Url;
+import minecraft.information.Attribute;
+import minecraft.information.DownloadSource;
 import minecraft.login.Login;
-import other.NetOperation;
+import minecraft.login.NetOperation;
 import other.Output;
 import other.PublicVariable;
 
@@ -21,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 import static jsonAnalysis.download.minecraft.library.VersionJson.getGsonObject;
 
 public class Utils {
-    public static imformation.Login microsoftLogin() throws IOException, URISyntaxException, InterruptedException {
+    public static information.Login microsoftLogin() throws IOException, URISyntaxException, InterruptedException {
 //        String MicrosoftLoginCode = NetOperation.requestMicrosoftLoginCode();
 //        Output.output(Output.OutputLevel.Test, MicrosoftLoginCode);
 //        String MicrosoftLoginTokenBody = NetOperation.requestMicrosoftLogin(MicrosoftLoginCode);
@@ -56,7 +57,7 @@ public class Utils {
         }
         String MinecraftInformationBody = NetOperation.receiveMinecraftInformation(MinecraftAuthenticationToken);
         MinecraftInformationObject MinecraftAuthenticationObject = Login.getMinecraftInformationObject(MinecraftInformationBody);
-        return new imformation.Login(MinecraftAuthenticationObject.getId(), MinecraftAuthenticationObject.getName(), MinecraftAuthenticationToken);
+        return new information.Login(MinecraftAuthenticationObject.getId(), MinecraftAuthenticationObject.getName(), MinecraftAuthenticationToken);
     }
 
     public static void downloadMinecraft(Attribute Attribute) {
@@ -90,11 +91,11 @@ public class Utils {
     public static void startMinecraft(Attribute Attribute) throws IOException, URISyntaxException, InterruptedException {
         VersionManifest VersionManifest = Request.getMinecraftVersionManifestObject();
         VersionJson VersionJson = Request.getMinecraftVersionObject(VersionManifest, Attribute);
-        imformation.Login login = Utils.microsoftLogin();
+        information.Login login = Utils.microsoftLogin();
         {
             String javaPath = "\"" + System.getProperty("java.home") + "\\bin\\java.exe\"";
-            String launcherBrand = " -Dminecraft.launcher.brand=" + imformation.Launcher.name;
-            String launcherVersion = " -Dminecraft.launcher.version=" + imformation.Launcher.version;
+            String launcherBrand = " -Dminecraft.launcher.brand=" + information.Launcher.name;
+            String launcherVersion = " -Dminecraft.launcher.version=" + information.Launcher.version;
             String jvm = " -Xmn1024m -Xmx1024m";
             String natives = " -Djava.library.path=\"" + Attribute.getMainPath() + "versions\\" + Attribute.getId() + "\\" + "natives" + "\"";
             String log4j = "";
@@ -120,7 +121,7 @@ public class Utils {
             String a = "";
             for (int i = 0; i < VersionJson.getLibraries().length; i++) {
                 if (VersionJson.getLibraries()[i].getDownloads().getClassifiers() == null) {
-                    String name = new File(DownloadURL.otherJarLibrariesURL(VersionJson, DownloadURL.DownloadSource.official, i).getPath()).getName();
+                    String name = new File(Url.otherJarLibrariesURL(VersionJson, DownloadSource.official, i).getPath()).getName();
                     String path = Attribute.getMainPath() + "libraries\\" + utils.Utils.regexReplace(VersionJson.getLibraries()[i].getDownloads().getArtifact().getPath(), name, "");
                     classPath.append(a).append(path).append(name);
                     a = ";";
@@ -137,7 +138,7 @@ public class Utils {
             String uuid = " --uuid " + login.UUID();
             String accessToken = " --accessToken " + login.accessToken();
             String userType = " --userType " + "Mojang";
-            String versionType = " --versionType " + imformation.Launcher.name;
+            String versionType = " --versionType " + information.Launcher.name;
             String command = javaPath + launcherBrand + launcherVersion + jvm + natives + log4j + other + classPath
                     + mainClass + username + version + gameDir + assetsDir + assetIndex + uuid + accessToken + userType + versionType;
             Runtime.getRuntime().exec(command);

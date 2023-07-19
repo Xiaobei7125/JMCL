@@ -17,9 +17,8 @@ import static utils.Utils.getPartOfTheFileContent;
 
 public class Download {
     public static boolean downloadAFile(URL url, File file) throws IOException {
-        if (!file.exists() && !file.isDirectory()) if (!file.mkdir()) return false;
-        if (!file.canWrite()) if (!file.setWritable(true)) return false;
-        //ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
+        if (!file.getParentFile().exists()) if (!file.getParentFile().mkdirs()) return false;
+        if (!file.exists() || file.isDirectory()) if (!file.createNewFile()) return false;
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("GET");
         httpURLConnection.setDoOutput(true);
@@ -40,7 +39,6 @@ public class Download {
     }
 
     public static boolean MultiThreadedDownloadAFile(URL url, File file) throws IOException {
-        if (file.exists() && !file.isDirectory()) if (file.delete()) return false;
         URLConnection urlConnection = url.openConnection();
         HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
         httpURLConnection.setRequestMethod("GET");
@@ -57,33 +55,36 @@ public class Download {
                 int finalI = i;
                 IThreadManagement iThreadManagement = () -> {
                     AtomicBoolean r = new AtomicBoolean();
-                    PublicVariable.multiThreadedDownloadExecutorService.execute(() -> {
-                        try {
-                            //如果父目录不存在，就创建;                     如果创建失败，就结束此进程;
-                            if (!file.getParentFile().exists()) if (!file.getParentFile().mkdirs()) return;
-                            //如果文件不存在或文件是文件夹，就创建;           如果创建失败，就结束此进程;
-                            if (!file.exists() || file.isDirectory()) if (!file.createNewFile()) return;
-                            RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rwd");
-                            randomAccessFile.setLength(totalSize);
-                            randomAccessFile.seek((long) Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * finalI);
-                            byte[] bytes;
-                            int start = Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * finalI;
-                            int end;
-                            if (finalI != numberOfSegments) {
-                                end = Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * (finalI + 1) - 1;
-                            } else {
-                                end = totalSize;
+                    while (!r.get()) {
+                        PublicVariable.multiThreadedDownloadExecutorService.execute(() -> {
+                            try {
+                                //如果父目录不存在，就创建;                     如果创建失败，就结束此进程;
+                                if (!file.getParentFile().exists()) if (!file.getParentFile().mkdirs()) return;
+                                //如果文件不存在或文件是文件夹，就创建;           如果创建失败，就结束此进程;
+                                if (!file.exists() || file.isDirectory()) if (!file.createNewFile()) return;
+                                RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rwd");
+                                randomAccessFile.setLength(totalSize);
+                                randomAccessFile.seek((long) Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * finalI);
+                                byte[] bytes;
+                                int start = Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * finalI;
+                                int end;
+                                if (finalI != numberOfSegments) {
+                                    end = Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * (finalI + 1) - 1;
+                                } else {
+                                    end = totalSize;
+                                }
+                                bytes = getPartOfTheFileContent(url, start, end);
+                                //assert bytes != null;
+                                randomAccessFile.write(bytes);
+                                randomAccessFile.close();
+                                r.set(true);
+                            } catch (IOException ignored) {
                             }
-                            bytes = getPartOfTheFileContent(url, start, end);
-                            //assert bytes != null;
-                            randomAccessFile.write(bytes);
-                            randomAccessFile.close();
-                            r.set(true);
-                        } catch (IOException ignored) {
-                        }
-                    });
+                        });
+                    }
                     return r.get();
                 };
+                iThreadManagement.run();
             }
         } else {
             System.out.println(responseCode);

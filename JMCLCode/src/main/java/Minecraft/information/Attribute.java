@@ -1,17 +1,15 @@
-package minecraft.imformation;
+package minecraft.information;
 
-
-import minecraft.download.DownloadURL;
 
 import java.nio.file.Paths;
 
 public class Attribute {
     String mainPath;
     String id;
-    DownloadURL.DownloadSource downloadSource;
+    DownloadSource downloadSource;
     String runPath = Paths.get("").toAbsolutePath().toString();
 
-    public Attribute(String mainPath, String id, DownloadURL.DownloadSource downloadSource) {
+    public Attribute(String mainPath, String id, DownloadSource downloadSource) {
         this.downloadSource = downloadSource;
         this.id = id;
         this.mainPath = mainPath;
@@ -38,11 +36,11 @@ public class Attribute {
         this.id = id;
     }
 
-    public DownloadURL.DownloadSource getDownloadSource() {
+    public DownloadSource getDownloadSource() {
         return downloadSource;
     }
 
-    public void setDownloadSource(DownloadURL.DownloadSource downloadSource) {
+    public void setDownloadSource(DownloadSource downloadSource) {
         this.downloadSource = downloadSource;
     }
 

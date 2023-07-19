@@ -1,4 +1,4 @@
-package imformation;
+package information;
 
 public record Login(String UUID, String name, String accessToken) {
     @Override

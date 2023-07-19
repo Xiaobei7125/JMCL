@@ -1,5 +1,6 @@
-package other;
+package minecraft.login;
 
+import other.Output;
 import utils.Utils;
 
 import java.awt.*;

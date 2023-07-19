@@ -1,4 +1,4 @@
-package imformation;
+package information;
 
 public class Launcher {
     public static final String name = "JMCL";

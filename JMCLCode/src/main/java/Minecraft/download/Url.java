@@ -3,8 +3,9 @@ package minecraft.download;
 
 import jsonAnalysis.download.minecraft.library.VersionJson;
 import jsonAnalysis.download.minecraft.library.VersionManifest;
-import jsonAnalysis.setup.Setup;
 import minecraft.VersionProcessing;
+import minecraft.information.DownloadSource;
+import minecraft.information.VersionJsonManifest;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import utils.Utils;
@@ -12,69 +13,29 @@ import utils.Utils;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class DownloadURL {
+import static minecraft.information.VersionJsonManifest.v1;
+import static minecraft.information.VersionJsonManifest.v2;
+
+public class Url {
     static final String bmclapi = "https://bmclapi2.bangbang93.com/";
     static final String mcbbs = "https://download.mcbbs.net/";
 
-    public static @NotNull URL[] versionManifestJsonURL(VersionJsonManifest versionJsonManifest) throws MalformedURLException {
-        String v1 = "mc/game/version_manifest.json";
-        String v2 = "mc/game/version_manifest_v2.json";
-        if (versionJsonManifest == VersionJsonManifest.v1) {
-            return new URL[]{new URL("https://launchermeta.mojang.com/" + v1),
-                    new URL(bmclapi + v1),
-                    new URL(mcbbs + v1)};
-        } else {
-            return new URL[]{new URL("https://launchermeta.mojang.com/" + v2),
-                    new URL(bmclapi + v2),
-                    new URL(mcbbs + v2)};
-        }
-    }
-
-    public static @NotNull URL[] versionJsonFileURL(VersionManifest VersionManifest, String id) throws MalformedURLException {
-        String url = String.valueOf(VersionProcessing.getUrl(VersionManifest, id));
-        if (Setup.getSetupInstance().download.ifUsesNewURLDownloadingVersionJson) {
-            return new URL[]{new URL(url),
-                    new URL(Utils.regexReplace(url, "https://piston-meta.mojang.com/", bmclapi)),
-                    new URL(Utils.regexReplace(url, "https://piston-meta.mojang.com/", mcbbs))};
-        } else {
-            return new URL[]{new URL(url),
-                    new URL(Utils.regexReplace(url, "https://launchermeta.mojang.com/", bmclapi)),
-                    new URL(Utils.regexReplace(url, "https://launchermeta.mojang.com/", mcbbs))};
-        }
-    }
-
-    public static @NotNull URL[] versionJarFileURL(@NotNull VersionJson VersionJson) throws MalformedURLException {
-        String url = String.valueOf(VersionJson.getDownloads().getClient().getUrl());
-        return new URL[]{new URL(url),
-                new URL(Utils.regexReplace(url, "https://launcher.mojang.com/", bmclapi)),
-                new URL(Utils.regexReplace(url, "https://launcher.mojang.com/", mcbbs))};
-    }
-
-    public static @NotNull URL[] Log4jFileURL(@NotNull VersionJson VersionJson) throws MalformedURLException {
-        String url = String.valueOf(VersionJson.getLogging().getClient().getFile().getUrl());
-        return new URL[]{new URL(url),
-                new URL(Utils.regexReplace(url, "https://launcher.mojang.com/", bmclapi)),
-                new URL(Utils.regexReplace(url, "https://launcher.mojang.com/", mcbbs))};
-    }
-
     @Contract("_, _ -> new")
     public static @NotNull URL versionManifestJsonURL(VersionJsonManifest versionJsonManifest, DownloadSource downloadSource) throws MalformedURLException {
-        String v1 = "mc/game/version_manifest.json";
-        String v2 = "mc/game/version_manifest_v2.json";
         if (downloadSource == DownloadSource.official) {
-            if (versionJsonManifest == VersionJsonManifest.v1) {
+            if (versionJsonManifest == v1) {
                 return new URL("https://launchermeta.mojang.com/" + v1);
             } else {
                 return new URL("https://launchermeta.mojang.com/" + v2);
             }
         } else if (downloadSource == DownloadSource.bmclapi) {
-            if (versionJsonManifest == VersionJsonManifest.v1) {
+            if (versionJsonManifest == v1) {
                 return new URL(bmclapi + v1);
             } else {
                 return new URL(bmclapi + v2);
             }
         } else {
-            if (versionJsonManifest == VersionJsonManifest.v1) {
+            if (versionJsonManifest == v1) {
                 return new URL(mcbbs + v1);
             } else {
                 return new URL(mcbbs + v2);
@@ -174,19 +135,8 @@ public class DownloadURL {
         }
     }
 
-    public enum DownloadSource {
-
-        official(Setup.getSetupInstance().download.source.ifUseOfficialDownloadSource), bmclapi(Setup.getSetupInstance().download.source.ifUseBmclapiDownloadSource), mcbbs(Setup.getSetupInstance().download.source.ifUseMcbbsDownloadSource);
-        public final boolean ifUse;
-
-        DownloadSource(boolean ifUseDownloadSource) {
-            this.ifUse = ifUseDownloadSource;
-        }
-    }
-
-    public enum VersionJsonManifest {
-        v1, v2
-
-    }
+    //    public enum MinecraftFileOfficialURL{
+//        versionManifestJson,
+//    }
 }
 

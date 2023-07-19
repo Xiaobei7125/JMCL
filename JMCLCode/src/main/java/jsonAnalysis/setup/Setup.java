@@ -14,6 +14,9 @@ public class Setup {
         try {
             String contents = new String(Utils.readToString("JMCL.properties"), StandardCharsets.UTF_8);
             set = new Gson().fromJson(contents, Setup.class);
+            if (set == null) {
+                throw new IOException();
+            }
         } catch (IOException ignored) {
             try {
                 byte[] setup = Utils.writeToString("JMCL.properties"
