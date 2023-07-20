@@ -41,7 +41,7 @@ public class Setup {
         public int downloadRetries = -1;
         public int downloadConnectTimeout = 1000;
         public int downloadReadTimeout = 1000;
-        public boolean ifCheckFileSha1BeforeDownloading = true;
+        public boolean ifCheckFileBeforeDownloading = true;
         public boolean ifDownloadAssetIndexCopy = true;
         public boolean ifUsesNewURLDownloadingVersionJson = true;
 
@@ -50,7 +50,7 @@ public class Setup {
             public int maxThreadsQuantity = 1024;
 
             public static class MultiThreadedDownload {
-                public boolean ifMultiThreadedDownloadAFile = true;
+                public boolean ifMultiThreadedDownloadAFile = false;
                 public int multiThreadedDownloadAFileSegmentSize = 5 * 1024 * 1024;
             }
         }

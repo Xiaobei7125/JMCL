@@ -9,7 +9,6 @@ import java.util.zip.ZipInputStream;
 
 public class Zip {
     public static boolean unzip(String zipFilePath, String unzipTheDirectory) throws Exception {
-
         File desDir = new File(unzipTheDirectory);
         if (!desDir.exists()) if (!desDir.mkdir()) return false;
         ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(zipFilePath));

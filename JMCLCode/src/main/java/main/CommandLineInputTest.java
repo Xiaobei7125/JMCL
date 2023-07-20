@@ -1,3 +1,5 @@
+package main;
+
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import jsonAnalysis.setup.Setup;
@@ -76,7 +78,7 @@ public class CommandLineInputTest {
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "ifCheckFileSha1BeforeDownloading")) {
-                Setup.getSetupInstance().download.ifCheckFileSha1BeforeDownloading = (boolean) optionSet.valueOf(name);
+                Setup.getSetupInstance().download.ifCheckFileBeforeDownloading = (boolean) optionSet.valueOf(name);
                 export(name, optionSet.valueOf(name));
             }
             if (optionSet.has(name = "ifDownloadAssetIndexCopy")) {

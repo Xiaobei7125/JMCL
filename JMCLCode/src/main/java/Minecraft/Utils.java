@@ -25,9 +25,9 @@ import static jsonAnalysis.download.minecraft.library.VersionJson.getGsonObject;
 public class Utils {
     public static information.Login microsoftLogin() throws IOException, URISyntaxException, InterruptedException {
 //        String MicrosoftLoginCode = NetOperation.requestMicrosoftLoginCode();
-//        Output.output(Output.OutputLevel.Test, MicrosoftLoginCode);
+//        Output.output(Output.OutputLevel.main.Test, MicrosoftLoginCode);
 //        String MicrosoftLoginTokenBody = NetOperation.requestMicrosoftLogin(MicrosoftLoginCode);
-//        Output.output(Output.OutputLevel.Test, MicrosoftLoginTokenBody);
+//        Output.output(Output.OutputLevel.main.Test, MicrosoftLoginTokenBody);
 //        String MicrosoftAccessToken = Login.getMicrosoftAccessToken(MicrosoftLoginTokenBody);
 //        String microsoftRefreshToken = Login.getMicrosoftRefreshToken(MicrosoftLoginTokenBody);
         String MicrosoftAccessToken = NetOperation.requestMicrosoftLoginCode();
@@ -85,7 +85,8 @@ public class Utils {
             } else {
                 System.out.println("This minecraft version does not exist.");
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            Output.output(Output.OutputLevel.Error, e.getLocalizedMessage());
         }
     }
 

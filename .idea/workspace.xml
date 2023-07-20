@@ -7,23 +7,16 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52b5a912-3e1b-441c-ad53-0a299eb59686" name="变更" comment="微软登录测试;&#10;下载更改(多线程下载还有问题);&#10;优化代码结构;">
-      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/information/VersionFileType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/information/VersionManifestProcessing.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/information/urlHeader/Bmclapi.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/information/urlHeader/Mcbbs.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/information/urlHeader/Official.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+    <list default="true" id="52b5a912-3e1b-441c-ad53-0a299eb59686" name="变更" comment="(多线程下载还有问题);&#10;下载工具炸了;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/CommandLineInputTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/main/CommandLineInputTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/VersionProcessing.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/Download.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/Download.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/DownloadsUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/DownloadsUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/Url.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/Url.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/UrlArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/UrlArray.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/information/VersionJsonManifest.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/information/VersionJsonManifest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/minecraft/information/DownloadSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/minecraft/information/DownloadSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/main/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/jsonAnalysis/setup/Setup.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/jsonAnalysis/setup/Setup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/other/Output.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/other/Output.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/other/PublicVariable.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/other/PublicVariable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/utils/Zip.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/utils/Zip.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,19 +90,6 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <excluded-from-favorite>
-      <branch-storage>
-        <map>
-          <entry type="LOCAL">
-            <value>
-              <list>
-                <branch-info repo="$PROJECT_DIR$" source="master" />
-              </list>
-            </value>
-          </entry>
-        </map>
-      </branch-storage>
-    </excluded-from-favorite>
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
         <option value="071205080112" />
@@ -208,7 +188,7 @@
     <configuration name="Test" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../exe/Java/jdk-18.0.1.1" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="Test" />
+      <option name="MAIN_CLASS_NAME" value="main.Test" />
       <module name="JMCL.JMCLCode.main" />
       <option name="VM_PARAMETERS" value="-Dfile.encoding=UTF-8" />
       <method v="2">
@@ -218,7 +198,7 @@
     <configuration name="test2" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="18 (2)" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="test2" />
+      <option name="MAIN_CLASS_NAME" value="main.test2" />
       <module name="JMCL.JMCLCode.main" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -452,7 +432,8 @@
       <workItem from="1689747121437" duration="4247000" />
       <workItem from="1689751502804" duration="3681000" />
       <workItem from="1689755922315" duration="6969000" />
-      <workItem from="1689771140330" duration="3455000" />
+      <workItem from="1689771140330" duration="4753000" />
+      <workItem from="1689845981355" duration="12837000" />
     </task>
     <task id="LOCAL-00001" summary="2">
       <created>1660048873009</created>
@@ -751,7 +732,15 @@
       <option name="project" value="LOCAL" />
       <updated>1689763295414</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="更改了下载地址的获取方式(多线程下载还有问题);&#10;修复亿点点BUG;&#10;下载工具还有一点没改完;&#10;优化代码结构;">
+      <option name="closed" value="true" />
+      <created>1689775536783</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1689775536783</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -762,19 +751,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="master" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -794,7 +771,8 @@
     <MESSAGE value="变更" />
     <MESSAGE value="更改" />
     <MESSAGE value="微软登录测试;&#10;下载更改(多线程下载还有问题);&#10;优化代码结构;" />
-    <option name="LAST_COMMIT_MESSAGE" value="微软登录测试;&#10;下载更改(多线程下载还有问题);&#10;优化代码结构;" />
+    <MESSAGE value="更改了下载地址的获取方式(多线程下载还有问题);&#10;修复亿点点BUG;&#10;下载工具还有一点没改完;&#10;优化代码结构;" />
+    <option name="LAST_COMMIT_MESSAGE" value="更改了下载地址的获取方式(多线程下载还有问题);&#10;修复亿点点BUG;&#10;下载工具还有一点没改完;&#10;优化代码结构;" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -832,6 +810,6 @@
     <SUITE FILE_PATH="coverage/JMCL$Text2.ic" NAME="Text2 覆盖结果" MODIFIED="1669772050100" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/JMCL$JMCL_JMCLCode___JMCLCode_Test_main___.ic" NAME="JMCL:JMCLCode [:JMCLCode:Test.main()] 覆盖结果" MODIFIED="1669607663646" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/JMCL$CommandLineInputTest.ic" NAME="CommandLineInputTest 覆盖结果" MODIFIED="1671758575824" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/JMCL$Test.ic" NAME="Test 覆盖结果" MODIFIED="1689757646575" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/JMCL$Test.ic" NAME="Test 覆盖结果" MODIFIED="1689856639364" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
