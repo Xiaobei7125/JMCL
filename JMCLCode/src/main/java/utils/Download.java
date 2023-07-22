@@ -38,7 +38,7 @@ public class Download {
         return true;
     }
 
-    public static boolean MultiThreadedDownloadAFile(URL url, File file) throws IOException {
+    public static boolean MultiThreadedDownloadAFile(URL url, File file) throws Exception {
         URLConnection urlConnection = url.openConnection();
         HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
         httpURLConnection.setRequestMethod("GET");
@@ -49,7 +49,7 @@ public class Download {
         httpURLConnection.setReadTimeout(Setup.getSetupInstance().download.downloadReadTimeout);
         int responseCode = httpURLConnection.getResponseCode();
         if (responseCode == 200) {
-            int totalSize = urlConnection.getContentLength();
+            long totalSize = urlConnection.getContentLengthLong();
             long numberOfSegments = (long) Math.ceil((double) totalSize / Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize);
             for (int i = 0; i < numberOfSegments; i++) {
                 int finalI = i;
@@ -67,14 +67,14 @@ public class Download {
                                 randomAccessFile.seek((long) Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * finalI);
                                 byte[] bytes;
                                 int start = Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * finalI;
-                                int end;
-                                if (finalI != numberOfSegments) {
-                                    end = Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * (finalI + 1) - 1;
+                                long end;
+                                if (finalI != numberOfSegments - 1) {
+                                    end = (long) Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * (finalI + 1) - 1;
                                 } else {
                                     end = totalSize;
                                 }
                                 bytes = getPartOfTheFileContent(url, start, end);
-                                //assert bytes != null;
+                                assert bytes != null;
                                 randomAccessFile.write(bytes);
                                 randomAccessFile.close();
                                 r.set(true);
@@ -86,10 +86,10 @@ public class Download {
                 };
                 iThreadManagement.run();
             }
+            return true;
         } else {
             System.out.println(responseCode);
             return false;
         }
-        return false;
     }
 }

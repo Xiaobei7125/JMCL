@@ -14,12 +14,11 @@ import utils.Utils;
 import utils.Zip;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
 
 public class DownloadsUtils {
@@ -103,366 +102,161 @@ public class DownloadsUtils {
         }
     }
 
-    public static void downloadsVersionFileUtils(VersionJson VersionJson, Attribute Attribute) throws MalformedURLException {
-        String name = Attribute.getId() + "." + VersionFileType.jar;
-        //下载路径
-        String incompletePath = Attribute.getMainPath() + "versions\\" + Attribute.getId() + "\\";
-        //从下载处获得的sha1
-        String standardSha1 = VersionJson.getDownloads().getClient().getSha1();
-        int standardSize = VersionJson.getDownloads().getClient().getSize();
-        File file = new File(incompletePath + name);
-        download(UrlArray.versionJarFileURL(VersionJson), "DL-VF", standardSha1, file, standardSize, 0, new Outcome(new AtomicInteger(), new AtomicInteger(), new AtomicInteger(), 1));
-//        IThreadManagement iThreadManagement = () -> {
-//            String name = Attribute.getId() + "." + Download.VersionFile.jar;
-//            //下载路径
-//            String path = Attribute.getMainPath() + "versions\\" + Attribute.getId() + "\\";
-//            //从下载处获得的sha1
-//            String standardSha1 = VersionJson.getDownloads().getClient().getSha1();
-//            int standardSize = VersionJson.getDownloads().getClient().getSize();
-//            File file = new File(path + name);
-//            AtomicBoolean r = new AtomicBoolean();
-//            PublicVariable.executorService.execute(() -> {
-//                try {
-//                    if (Objects.equals(standardSha1, Utils.fileSha1(file)) && standardSize == file.length() && Setup.getSetupInstance().download.ifCheckFileBeforeDownloading) {
-//                        System.out.println("DL-VF '" + name + "' File already exists and SHA-1 is the same");
-//                        end++;
-//                        PublicVariable.threadQuantity--;
-//                        r.set(true);
-//                        return;
-//                    } else {
-//                        for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; j++) {
-//                            try {
-//                                System.out.println("DL-VF-0-" + j + " downloading '" + name + "'");
-//                                try {
-//                                    downloadVersionFile(VersionJson, Url.DownloadSource.official, Attribute);
-//                                } catch (Exception e) {
-//                                    try {
-//                                        downloadVersionFile(VersionJson, Url.DownloadSource.bmclapi, Attribute);
-//                                    } catch (Exception f) {
-//                                        downloadVersionFile(VersionJson, Url.DownloadSource.mcbbs, Attribute);
-//                                    }
-//                                }
-//                                System.out.println(standardSha1 + "," + Utils.fileSha1(file));
-//                                System.out.println(VersionJson.getDownloads().getClient().getSize() + "," + file.length());
-//                                if (Objects.equals(standardSha1, Utils.fileSha1(file)) & file.length() == standardSize) {
-//                                    System.out.println("DL-VF" + " Download '" + name + "' end");
-//                                    end++;
-//                                    PublicVariable.threadQuantity--;
-//                                    r.set(true);
-//                                    return;
-//                                }
-//                            } catch (Exception e) {
-//                                System.out.println("DL-VF-0-" + j + " Download '" + name + "' error");
-//                            }
-//                        }
-//                    }
-//                    System.out.println("DL-VF-0" + " Download '" + name + "' error");
-//                    error++;
-//                    PublicVariable.threadQuantity--;
-//                } catch (NoSuchAlgorithmException | IOException ignored) {
-//                }
-//            });
-//            return r.get();
-//        };
-//        iThreadManagement.run();
+    public static void downloadsVersionFileUtils(VersionJson VersionJson, Attribute Attribute) throws Exception {
+        IThreadManagement iThreadManagement = () -> {
+            AtomicBoolean outcome = new AtomicBoolean(false);
+            PublicVariable.executorService.execute(() -> {
+                String name = Attribute.getId() + "." + VersionFileType.jar;
+                //下载路径
+                String incompletePath = Attribute.getMainPath() + "versions\\" + Attribute.getId() + "\\";
+                //从下载处获得的sha1
+                String standardSha1 = VersionJson.getDownloads().getClient().getSha1();
+                int standardSize = VersionJson.getDownloads().getClient().getSize();
+                File file = new File(incompletePath + name);
+                try {
+                    outcome.set(download(UrlArray.versionJarFileURL(VersionJson), "DL-VF", standardSha1, file,
+                            standardSize, 0, new Outcome(new AtomicInteger(), new AtomicInteger(), new AtomicInteger(), 1)));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            return outcome.get();
+        };
+        iThreadManagement.run();
     }
 
-    public static void downloadsVersionJsonUtils(VersionManifest VersionManifest, Attribute Attribute) throws MalformedURLException {
-        String name = Attribute.getId() + "." + VersionFileType.json;
-        String incompletePath = Attribute.getMainPath() + "versions\\" + Attribute.getId() + "\\";
-        String standardSha1 = VersionManifest.getSha1(Attribute.getId());
-        File file = new File(incompletePath + name);
-        download(UrlArray.versionJsonFileURL(VersionManifest, Attribute.getId()), "DL-VJ", standardSha1, file, 0, 0, new Outcome(new AtomicInteger(), new AtomicInteger(), new AtomicInteger(), 1));
-//        IThreadManagement iThreadManagement = () -> {
-//            String name = Attribute.getId() + "." + Download.VersionFile.json;
-//            String path = Attribute.getMainPath() + "versions\\" + Attribute.getId() + "\\";
-//            String standardSha1 = VersionManifest.getSha1(Attribute.getId());
-//            File file = new File(path + name);
-//            AtomicBoolean r = new AtomicBoolean();
-//            PublicVariable.executorService.execute(() -> {
-//                try {
-//                    if (Objects.equals(standardSha1, Utils.fileSha1(file)) && Setup.getSetupInstance().download.ifCheckFileBeforeDownloading) {
-//                        System.out.println("DL-VJ '" + name + "' File already exists and SHA-1 is the same");
-//                        end++;
-//                        PublicVariable.threadQuantity--;
-//                        r.set(true);
-//                        return;
-//                    } else {
-//                        for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; j++) {
-//                            try {
-//                                System.out.println("DL-VJ-0-" + j + " downloading '" + name + "'");
-//                                try {
-//                                    downloadVersionJson(VersionManifest, Url.DownloadSource.official, Attribute);
-//                                } catch (Exception e) {
-//                                    try {
-//                                        downloadVersionJson(VersionManifest, Url.DownloadSource.bmclapi, Attribute);
-//                                    } catch (Exception f) {
-//                                        downloadVersionJson(VersionManifest, Url.DownloadSource.mcbbs, Attribute);
-//                                    }
-//                                }
-//                                if (Objects.equals(standardSha1, Utils.fileSha1(file))) {
-//                                    System.out.println("DL-VJ" + " Download '" + name + "' end");
-//                                    end++;
-//                                    PublicVariable.threadQuantity--;
-//                                    r.set(true);
-//                                    return;
-//                                }
-//                            } catch (Exception e) {
-//                                System.out.println("DL-VJ-" + j + " Download '" + name + "' error");
-//                            }
-//                        }
-//                    }
-//                } catch (NoSuchAlgorithmException | IOException ignored) {
-//                }
-//                System.out.println("DL-VJ" + " Download '" + name + "' error");
-//                error++;
-//                PublicVariable.threadQuantity--;
-//            });
-//            return r.get();
-//        };
-//        iThreadManagement.run();
+    public static void downloadsVersionJsonUtils(VersionManifest VersionManifest, Attribute Attribute) throws Exception {
+        IThreadManagement iThreadManagement = () -> {
+            AtomicBoolean outcome = new AtomicBoolean(false);
+            PublicVariable.executorService.execute(() -> {
+                String name = Attribute.getId() + "." + VersionFileType.json;
+                String incompletePath = Attribute.getMainPath() + "versions\\" + Attribute.getId() + "\\";
+                String standardSha1 = VersionManifest.getSha1(Attribute.getId());
+                File file = new File(incompletePath + name);
+                try {
+                    outcome.set(download(UrlArray.versionJsonFileURL(VersionManifest, Attribute.getId()), "DL-VJ",
+                            standardSha1, file, 0, 0, new Outcome(new AtomicInteger(), new AtomicInteger(), new AtomicInteger(), 1)));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            return outcome.get();
+        };
+        iThreadManagement.run();
     }
 
-    public static void downloadLog4jFileUtils(VersionJson VersionJson, Attribute Attribute) throws MalformedURLException {
-        String name = VersionJson.getLogging().getClient().getFile().getId();
-        String incompletePath = Attribute.getMainPath() + "assets\\log_configs\\";
-        String standardSha1 = VersionJson.getLogging().getClient().getFile().getSha1();
-        int standardSize = VersionJson.getLogging().getClient().getFile().getSize();
-        File file = new File(incompletePath + name);
-        download(UrlArray.Log4jFileURL(VersionJson), "DL-LF", standardSha1, file, standardSize, 0, new Outcome(new AtomicInteger(), new AtomicInteger(), new AtomicInteger(), 1));
-//        IThreadManagement iThreadManagement = () -> {
-//            if (VersionJson.getLogging() == null) {
-//                return false;
-//            }
-//            String name = VersionJson.getLogging().getClient().getFile().getId();
-//            String path = Attribute.getMainPath() + "assets\\log_configs\\";
-//            String standardSha1 = VersionJson.getLogging().getClient().getFile().getSha1();
-//            int standardSize = VersionJson.getLogging().getClient().getFile().getSize();
-//            File file = new File(path + name);
-//            AtomicBoolean r = new AtomicBoolean();
-//            PublicVariable.executorService.execute(() -> {
-//                try {
-//                    if (Objects.equals(standardSha1, Utils.fileSha1(new File(path + name))) && standardSize == file.length() && Setup.getSetupInstance().download.ifCheckFileBeforeDownloading) {
-//                        System.out.println("DL-LF '" + name + "' File already exists and SHA-1 is the same");
-//                        end++;
-//                        PublicVariable.threadQuantity--;
-//                        r.set(true);
-//                        return;
-//                    } else {
-//                        for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; j++) {
-//                            try {
-//                                System.out.println("DL-LF-" + j + " downloading: '" + name + "'");
-//                                try {
-//                                    downloadLog4jFile(VersionJson, Url.DownloadSource.official, Attribute);
-//                                } catch (Exception e) {
-//                                    try {
-//                                        downloadLog4jFile(VersionJson, Url.DownloadSource.bmclapi, Attribute);
-//                                    } catch (Exception f) {
-//                                        downloadLog4jFile(VersionJson, Url.DownloadSource.mcbbs, Attribute);
-//                                    }
-//                                }
-//                                if (Objects.equals(standardSha1, Utils.fileSha1(file)) && standardSize == file.length() && Setup.getSetupInstance().download.ifCheckFileBeforeDownloading) {
-//                                    System.out.println("DL-LF" + " Download '" + name + "' end");
-//                                    end++;
-//                                    PublicVariable.threadQuantity--;
-//                                    r.set(true);
-//                                    return;
-//                                }
-//                            } catch (Exception e) {
-//                                System.out.println("DL-LF-" + j + " Download '" + name + "' error");
-//                            }
-//                        }
-//
-//                    }
-//                } catch (NoSuchAlgorithmException | IOException ignored) {
-//                }
-//                System.out.println("DL-LF" + " Download '" + name + "' error");
-//                error++;
-//                PublicVariable.threadQuantity--;
-//            });
-//            return r.get();
-//        };
-//        iThreadManagement.run();
+    public static void downloadLog4jFileUtils(VersionJson VersionJson, Attribute Attribute) throws Exception {
+        IThreadManagement iThreadManagement = () -> {
+            AtomicBoolean outcome = new AtomicBoolean(false);
+            PublicVariable.executorService.execute(() -> {
+                String name = VersionJson.getLogging().getClient().getFile().getId();
+                String incompletePath = Attribute.getMainPath() + "assets\\log_configs\\";
+                String standardSha1 = VersionJson.getLogging().getClient().getFile().getSha1();
+                int standardSize = VersionJson.getLogging().getClient().getFile().getSize();
+                File file = new File(incompletePath + name);
+                try {
+                    outcome.set(download(UrlArray.Log4jFileURL(VersionJson), "DL-LF", standardSha1, file,
+                            standardSize, 0, new Outcome(new AtomicInteger(), new AtomicInteger(), new AtomicInteger(), 1)));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            return outcome.get();
+        };
+        iThreadManagement.run();
     }
 
-    public static void downloadAssetIndexJsonUtils(VersionJson VersionJson, Attribute Attribute) throws MalformedURLException {
-        String name = VersionJson.getAssetIndex().getId() + ".json";
-        String incompletePath = Attribute.getMainPath() + "assets\\indexes\\";
-        String standardSha1 = VersionJson.getAssetIndex().getSha1();
-        int standardSize = VersionJson.getAssetIndex().getSize();
-        File file = new File(incompletePath + name);
-        download(UrlArray.assetIndexJsonURL(VersionJson), "DL-AJ", standardSha1, file, standardSize, 0, new Outcome(new AtomicInteger(), new AtomicInteger(), new AtomicInteger(), 1));
-//        IThreadManagement iThreadManagement = () -> {
-//            String name = VersionJson.getAssetIndex().getId() + ".json";
-//            String path = Attribute.getMainPath() + "assets\\indexes\\";
-//            String standardSha1 = VersionJson.getAssetIndex().getSha1();
-//            int standardSize = VersionJson.getAssetIndex().getSize();
-//            File file = new File(path + name);
-//            AtomicBoolean r = new AtomicBoolean();
-//            PublicVariable.executorService.execute(() -> {
-//                try {
-//                    if (Objects.equals(standardSha1, Utils.fileSha1(file)) && standardSize == file.length() && Setup.getSetupInstance().download.ifCheckFileBeforeDownloading) {
-//                        System.out.println("DL-AJ '" + name + "' File already exists and SHA-1 is the same");
-//                        end++;
-//                        PublicVariable.threadQuantity--;
-//                        r.set(true);
-//                        return;
-//                    } else {
-//                        for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; j++) {
-//                            try {
-//                                System.out.println("DL-AJ-" + j + " downloading '" + name + "'");
-//                                try {
-//                                    downloadAssetIndexJson(VersionJson, Url.DownloadSource.official, Attribute);
-//                                } catch (Exception e) {
-//                                    try {
-//                                        downloadAssetIndexJson(VersionJson, Url.DownloadSource.bmclapi, Attribute);
-//                                    } catch (Exception f) {
-//                                        downloadAssetIndexJson(VersionJson, Url.DownloadSource.mcbbs, Attribute);
-//                                    }
-//                                }
-//                                System.out.println(standardSha1 + "," + Utils.fileSha1(file));
-//                                if (Objects.equals(standardSha1, Utils.fileSha1(file)) & file.length() == standardSize) {
-//                                    System.out.println("DL-AJ" + " Download '" + name + "' end");
-//                                    end++;
-//                                    PublicVariable.threadQuantity--;
-//                                    r.set(true);
-//                                    return;
-//                                }
-//                            } catch (Exception e) {
-//                                System.out.println("DL-AJ-" + j + " Download '" + name + "' error");
-//                            }
-//                        }
-//
-//                    }
-//                } catch (NoSuchAlgorithmException | IOException ignored) {
-//                }
-//                System.out.println("DL-AJ" + " Download '" + name + "' error");
-//                error++;
-//                PublicVariable.threadQuantity--;
-//            });
-//            return r.get();
-//        };
-//        iThreadManagement.run();
+    public static void downloadAssetIndexJsonUtils(VersionJson VersionJson, Attribute Attribute) throws Exception {
+        IThreadManagement iThreadManagement = () -> {
+            AtomicBoolean outcome = new AtomicBoolean(false);
+            PublicVariable.executorService.execute(() -> {
+                String name = VersionJson.getAssetIndex().getId() + ".json";
+                String incompletePath = Attribute.getMainPath() + "assets\\indexes\\";
+                String standardSha1 = VersionJson.getAssetIndex().getSha1();
+                int standardSize = VersionJson.getAssetIndex().getSize();
+                File file = new File(incompletePath + name);
+                try {
+                    outcome.set(download(UrlArray.assetIndexJsonURL(VersionJson), "DL-AJ", standardSha1, file,
+                            standardSize, 0, new Outcome(new AtomicInteger(), new AtomicInteger(), new AtomicInteger(), 1)));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            return outcome.get();
+        };
+        iThreadManagement.run();
     }
 
     public static void downloadsLibrariesUtils(VersionJson VersionJson, Attribute Attribute) throws Exception {
         AtomicInteger DLEnd = new AtomicInteger();
         AtomicInteger DLError = new AtomicInteger();
         AtomicInteger DLAdd = new AtomicInteger();
-        int sumOfDL = 0;
-        for (int i = 0; i < VersionJson.getLibraries().length; i++) {
-            if ((VersionJson.getLibraries()[i].getDownloads().getClassifiers() != null &&
-                    VersionJson.getLibraries()[i].getDownloads().getClassifiers().getNativesWindows() != null)
-                    || VersionJson.getLibraries()[i].getDownloads().getClassifiers() == null) sumOfDL++;
-        }
+        int sumOfDL = (int) IntStream.range(0, VersionJson.getLibraries().length).filter(i ->
+                (VersionJson.getLibraries()[i].getDownloads().getClassifiers() != null &&
+                        VersionJson.getLibraries()[i].getDownloads().getClassifiers().getNativesWindows() != null)
+                        || VersionJson.getLibraries()[i].getDownloads().getClassifiers() == null).count();
         for (int i = 0; i < VersionJson.getLibraries().length; i++) {
             int finalI = i;
             if (VersionJson.getLibraries()[i].getDownloads().getClassifiers() != null &&
                     VersionJson.getLibraries()[i].getDownloads().getClassifiers().getNativesWindows() != null) {
-                String name = new File(Url.nativesJarURL(VersionJson, DownloadSource.official, i).getPath()).getName();
-                //String name = Utils.regexReplace(VersionJson.getLibraries()[finalI].getDownloads().getArtifact().getPath(), "[\\w\\d./-]+/", "");
-                int standardSize = VersionJson.getLibraries()[finalI].getDownloads().getClassifiers().getNativesWindows().getSize();
-                String standardSha1 = VersionJson.getLibraries()[finalI].getDownloads().getClassifiers().getNativesWindows().getSha1();
-                File file = new File(Attribute.getRunPath() + "\\natives\\" + name);
-                download(UrlArray.nativesJarURL(VersionJson, i), "DL-ND", standardSha1, file, standardSize, i, new Outcome(DLEnd, DLError, DLAdd, sumOfDL));
-                String unzipTheDirectory = Attribute.getMainPath() + "versions\\" + Attribute.getId() + "\\natives\\";
-                for (; ; ) {
-                    if (Zip.unzip(file.getPath(), unzipTheDirectory)) break;
-                }
-                File[] array = new File(unzipTheDirectory).listFiles();
-                assert array != null;
-                for (File unzipFile : array) {
-                    if (!Utils.regexReplace(unzipFile.getName(), "[\\w\\d-.]+\\.", "").equals("dll")) {
-                        if (unzipFile.isDirectory()) {
-                            Utils.deleteDirectory(unzipFile.getPath());
+                int finalI1 = i;
+                IThreadManagement iThreadManagement = () -> {
+                    AtomicBoolean outcome = new AtomicBoolean(false);
+                    PublicVariable.executorService.execute(() -> {
+                        try {
+                            String name = new File(Url.nativesJarURL(VersionJson, DownloadSource.official, finalI1).getPath()).getName();
+                            //String name = Utils.regexReplace(VersionJson.getLibraries()[finalI].getDownloads().getArtifact().getPath(), "[\\w\\d./-]+/", "");
+                            int standardSize = VersionJson.getLibraries()[finalI].getDownloads().getClassifiers().getNativesWindows().getSize();
+                            String standardSha1 = VersionJson.getLibraries()[finalI].getDownloads().getClassifiers().getNativesWindows().getSha1();
+                            File file = new File(Attribute.getRunPath() + "\\natives\\" + name);
+                            outcome.set(download(UrlArray.nativesJarURL(VersionJson, finalI1), "DL-ND", standardSha1, file,
+                                    standardSize, finalI1, new Outcome(DLEnd, DLError, DLAdd, sumOfDL)));
+                            String unzipTheDirectory = Attribute.getMainPath() + "versions\\" + Attribute.getId() + "\\natives\\";
+                            for (; ; ) {
+                                if (Zip.unzip(file.getPath(), unzipTheDirectory)) break;
+                            }
+                            File[] array = new File(unzipTheDirectory).listFiles();
+                            assert array != null;
+                            for (File unzipFile : array) {
+                                if (!Utils.regexReplace(unzipFile.getName(), "[\\w\\d-.]+\\.", "").equals("dll")) {
+                                    if (unzipFile.isDirectory()) {
+                                        Utils.deleteDirectory(unzipFile.getPath());
+                                    }
+                                    unzipFile.delete();
+                                }
+                            }
+
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
                         }
-                        unzipFile.delete();
-                    }
-                }
-//                String name = new File(Url.nativesJarURL(VersionJson, DownloadSource.official, i).getPath()).getName();
-//                int finalSumOfDL = sumOfDL;
-//                IThreadManagement iThreadManagement = () -> {
-//                    AtomicBoolean r = new AtomicBoolean();
-//                    PublicVariable.executorService.execute(() -> {
-//                        for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; j++) {
-//                            try {
-//                                System.out.println("DL-ND-" + finalI + "-" + j + " downloading '" + name + "'");
-//                                try {
-//                                    downloadNativesDllLibraries(VersionJson, DownloadSource.official, Attribute, finalI);
-//                                } catch (Exception e) {
-//                                    try {
-//                                        downloadNativesDllLibraries(VersionJson, DownloadSource.bmclapi, Attribute, finalI);
-//                                    } catch (Exception f) {
-//                                        downloadNativesDllLibraries(VersionJson, DownloadSource.mcbbs, Attribute, finalI);
-//                                    }
-//                                }
-//                                System.out.println("DL-ND-" + finalI + " Download '" + name + "' end");
-//                                count("DL-ND", DLEnd, DLError, DLAdd, finalSumOfDL, r, true);
-//                                PublicVariable.threadQuantity--;
-//                                r.set(true);
-//                                return;
-//                            } catch (Exception e) {
-//                                System.out.println("DL-ND-" + finalI + "-" + j + " Download '" + name + "' error");
-//                            }
-//                        }
-//                        System.out.println("DL-ND-" + finalI + " Download '" + name + "' error");
-//                        count("DL-ND", DLEnd, DLError, DLAdd, finalSumOfDL, r, false);
-//                    });
-//                    return r.get();
-//                };
-//                iThreadManagement.run();
+                    });
+                    return outcome.get();
+                };
+                iThreadManagement.run();
             } else if (VersionJson.getLibraries()[i].getDownloads().getClassifiers() == null) {
-                String name = new File(Url.otherJarLibrariesURL(VersionJson, DownloadSource.official, i).getPath()).getName();
-                String path = Attribute.getMainPath() + "libraries\\" + Utils.regexReplace(VersionJson.getLibraries()[finalI].getDownloads().getArtifact().getPath(), name, "");
-                String standardSha1 = VersionJson.getLibraries()[finalI].getDownloads().getArtifact().getSha1();
-                int standardSize = VersionJson.getLibraries()[finalI].getDownloads().getArtifact().getSize();
-                File file = new File(path + name);
-                download(UrlArray.otherJarLibrariesURL(VersionJson, i), "DL-OJ", standardSha1, file, standardSize, i, new Outcome(DLEnd, DLError, DLAdd, sumOfDL));
-//                int finalSumOfDL = sumOfDL;
-//                IThreadManagement iThreadManagement = () -> {
-//                    AtomicBoolean r = new AtomicBoolean();
-//                    PublicVariable.executorService.execute(() -> {
-//                        try {
-//                            if (Objects.equals(standardSha1, Utils.fileSha1(file)) && standardSize == file.length() && Setup.getSetupInstance().download.ifCheckFileBeforeDownloading) {
-//                                System.out.println("DL-OJ '" + name + "' File already exists and SHA-1 is the same");
-//                                count("DL-OJ", DLEnd, DLError, DLAdd, finalSumOfDL, r, true);
-//                                return;
-//                            } else {
-//                                for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; j++) {
-//                                    try {
-//                                        System.out.println("DL-OJ-" + finalI + "-" + j + " downloading '" + name + "'");
-//                                        try {
-//                                            downloadOtherJarLibraries(VersionJson, DownloadSource.official, Attribute, finalI);
-//                                        } catch (Exception e) {
-//                                            try {
-//                                                downloadOtherJarLibraries(VersionJson, DownloadSource.bmclapi, Attribute, finalI);
-//                                            } catch (Exception f) {
-//                                                downloadOtherJarLibraries(VersionJson, DownloadSource.mcbbs, Attribute, finalI);
-//                                            }
-//                                        }
-//                                        if (Objects.equals(standardSha1, Utils.fileSha1(file)) & file.length() == standardSize) {
-//                                            System.out.println("DL-OJ-" + finalI + " Download '" + name + "' end");
-//                                            count("DL-OJ", DLEnd, DLError, DLAdd, finalSumOfDL, r, true);
-//                                            return;
-//                                        }
-//                                    } catch (Exception e) {
-//                                        System.out.println("DL-OJ-" + finalI + "-" + j + " Download '" + name + "' error");
-//                                    }
-//                                }
-//                            }
-//                        } catch (NoSuchAlgorithmException | IOException ignored) {
-//                        }
-//                        System.out.println("DL-OJ-" + finalI + " Download '" + name + "' error");
-//                        count("DL-OJ", DLEnd, DLError, DLAdd, finalSumOfDL, r, false);
-//                    });
-//                    return r.get();
-//                };
-//                iThreadManagement.run();
+                IThreadManagement iThreadManagement = () -> {
+                    AtomicBoolean outcome = new AtomicBoolean(false);
+                    PublicVariable.executorService.execute(() -> {
+                        try {
+                            String name = new File(Url.otherJarLibrariesURL(VersionJson, DownloadSource.official, finalI).getPath()).getName();
+                            String path = Attribute.getMainPath() + "libraries\\" + Utils.regexReplace(VersionJson.getLibraries()[finalI].getDownloads().getArtifact().getPath(), name, "");
+                            String standardSha1 = VersionJson.getLibraries()[finalI].getDownloads().getArtifact().getSha1();
+                            int standardSize = VersionJson.getLibraries()[finalI].getDownloads().getArtifact().getSize();
+                            File file = new File(path + name);
+                            outcome.set(download(UrlArray.otherJarLibrariesURL(VersionJson, finalI), "DL-OJ",
+                                    standardSha1, file, standardSize, finalI, new Outcome(DLEnd, DLError, DLAdd, sumOfDL)));
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                    return outcome.get();
+                };
+                iThreadManagement.run();
             }
         }
     }
 
-    public static void downloadsAssetIndexUtils(VersionJson VersionJson, Attribute Attribute) throws IOException {
+    public static void downloadsAssetIndexUtils(VersionJson VersionJson, Attribute Attribute) throws Exception {
         String b = String.valueOf(Utils.deleteSymbol(Request.getMinecraftVersionAssetIndexJson(VersionJson), "{"));
         String[] hashArray = Utils.regexMatching(b, "\\w{40}");
         String[] pathArray = Utils.regexMatching(b, "[\\w/]+[.]{1}\\w+");
@@ -480,95 +274,37 @@ public class DownloadsUtils {
             String hash = hashArray[i];
             String path = pathArray[i];
             int size = Integer.parseInt(sizeArray[i]);
-            String path1 = Attribute.getMainPath() + "assets\\objects\\" + hash.substring(0, 2) + "\\";
-            File file = new File(path1 + hash);
-            download(UrlArray.assetIndexFileURL(hash), "DA-AI", hash, file, size, i, new Outcome(DAIFEnd, DAIFError, DAIFadd, hashArray.length));
-//            File finalFile = file;
-//            IThreadManagement iThreadManagement = () -> {
-//                AtomicBoolean r = new AtomicBoolean();
-//                PublicVariable.executorService.execute(() -> {
-//                    try {
-//                        if (Objects.equals(hash, Utils.fileSha1(finalFile)) && size == finalFile.length() && Setup.getSetupInstance().download.ifCheckFileBeforeDownloading) {
-//                            System.out.println("DA-AI '" + hash + "' File already exists and SHA-1 is the same");
-//                            count("DA-AI", DAIFEnd, DAIFError, DAIFadd, hashArray.length, r, true);
-//                            return;
-//                        } else {
-//                            for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; j++) {
-//                                try {
-//                                    System.out.println("DA-AI-" + finalI + "-" + j + " downloading '" + hash + "'");
-//                                    try {
-//                                        downloadAssetIndexFile(Attribute, DownloadSource.official, hash);
-//                                    } catch (Exception e) {
-//                                        try {
-//                                            downloadAssetIndexFile(Attribute, DownloadSource.bmclapi, hash);
-//                                        } catch (Exception f) {
-//                                            downloadAssetIndexFile(Attribute, DownloadSource.mcbbs, hash);
-//                                        }
-//                                    }
-//                                    if (Objects.equals(hash, Utils.fileSha1(finalFile)) & finalFile.length() == size) {
-//                                        System.out.println("DA-AI-" + finalI + " Download '" + hash + "' end");
-//                                        count("DA-AI", DAIFEnd, DAIFError, DAIFadd, hashArray.length, r, true);
-//                                        return;
-//                                    }
-//                                } catch (Exception e) {
-//                                    System.out.println("DA-AI-" + finalI + "-" + j + " Download '" + hash + "' error");
-//                                }
-//                            }
-//                        }
-//                    } catch (NoSuchAlgorithmException | IOException ignored) {
-//                    }
-//                    System.out.println("DA-AI-" + finalI + " Download '" + hash + "' error");
-//                    count("DA-AI", DAIFEnd, DAIFError, DAIFadd, hashArray.length, r, false);
-//                });
-//                return r.get();
-//            };
-//            iThreadManagement.run();
-            path1 = Attribute.getMainPath() + "assets\\virtual\\legacy\\" + Utils.regexReplace(path, Utils.regexReplace(path, "[\\w/]+/", ""), "");
-            file = new File(path1 + Utils.regexReplace(path, "[\\w/]+/", ""));
-            download(UrlArray.assetIndexFileURL(hash), "DA-AC", hash, file, size, i, new Outcome(DACFEnd, DACFError, DACFadd, hashArray.length));
-
-//            iThreadManagement = () -> {
-//                AtomicBoolean r = new AtomicBoolean();
-//                PublicVariable.executorService.execute(() -> {
-//                    if (!Setup.getSetupInstance().download.ifDownloadAssetIndexCopy) {
-//                        return;
-//                    }
-//                    try {
-//                        if (Objects.equals(hash, Utils.fileSha1(finalFile)) && size == finalFile.length() && Setup.getSetupInstance().download.ifCheckFileBeforeDownloading) {
-//                            System.out.println("DA-AC '" + hash + "' File already exists and SHA-1 is the same");
-//                            count("DA-AC", DACFEnd, DACFError, DACFadd, hashArray.length, r, true);
-//                            return;
-//                        } else {
-//                            for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; j++) {
-//                                try {
-//                                    System.out.println("DA-AC-" + finalI + "-" + j + " downloading '" + path + "'");
-//                                    try {
-//                                        downloadAssetIndexCopyFile(Attribute, DownloadSource.official, path, hash);
-//                                    } catch (Exception e) {
-//                                        try {
-//                                            downloadAssetIndexCopyFile(Attribute, DownloadSource.bmclapi, path, hash);
-//                                        } catch (Exception f) {
-//                                            downloadAssetIndexCopyFile(Attribute, DownloadSource.mcbbs, path, hash);
-//                                        }
-//                                    }
-//                                    if (Objects.equals(hash, Utils.fileSha1(finalFile)) & finalFile.length() == size) {
-//                                        System.out.println("DA-AC-" + finalI + " Download '" + path + "' end");
-//                                        count("DA-AC", DACFEnd, DACFError, DACFadd, hashArray.length, r, true);
-//                                        return;
-//                                    }
-//                                } catch (Exception e) {
-//                                    System.out.println("DA-AC-" + finalI + "-" + j + " Download '" + hash + "' error");
-//                                }
-//                            }
-//                        }
-//                    } catch (NoSuchAlgorithmException | IOException ignored) {
-//                    }
-//                    System.out.println("DA-AC-" + finalI + " Download '" + path + "' error");
-//                    count("DA-AC", DACFEnd, DACFError, DACFadd, hashArray.length, r, false);
-//                });
-//                return r.get();
-//            };
-//            iThreadManagement.run();
+            int finalI = i;
+            IThreadManagement iThreadManagement = () -> {
+                AtomicBoolean outcome = new AtomicBoolean(false);
+                PublicVariable.executorService.execute(() -> {
+                    String path1 = Attribute.getMainPath() + "assets\\objects\\" + hash.substring(0, 2) + "\\";
+                    File file = new File(path1 + hash);
+                    try {
+                        outcome.set(download(UrlArray.assetIndexFileURL(hash), "DA-AI", hash, file,
+                                size, finalI, new Outcome(DAIFEnd, DAIFError, DAIFadd, hashArray.length)));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                return outcome.get();
+            };
+            iThreadManagement.run();
+            IThreadManagement iThreadManagement2 = () -> {
+                AtomicBoolean outcome = new AtomicBoolean(false);
+                PublicVariable.executorService.execute(() -> {
+                    String path1 = Attribute.getMainPath() + "assets\\virtual\\legacy\\" + Utils.regexReplace(path, Utils.regexReplace(path, "[\\w/]+/", ""), "");
+                    File file = new File(path1 + Utils.regexReplace(path, "[\\w/]+/", ""));
+                    try {
+                        outcome.set(download(UrlArray.assetIndexFileURL(hash), "DA-AC", hash, file,
+                                size, finalI, new Outcome(DACFEnd, DACFError, DACFadd, hashArray.length)));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                return outcome.get();
+            };
+            iThreadManagement2.run();
         }
     }
 
@@ -585,51 +321,43 @@ public class DownloadsUtils {
         PublicVariable.threadQuantity--;
     }
 
-    public static boolean download(URL[] url, String ThreadName, String theoreticalFileHash, File file, int theoreticalFileSize, int count, Outcome outcome) {
-        IThreadManagement iThreadManagement = () -> {
-            AtomicBoolean r = new AtomicBoolean();
-            PublicVariable.executorService.execute(() -> {
-                PublicVariable.threadQuantity++;
-                String name = file.getName();
-                try {
-                    if (!(Setup.getSetupInstance().download.ifCheckFileBeforeDownloading && (Objects.equals(theoreticalFileHash, Utils.fileSha1(file)) && (theoreticalFileSize == file.length() || theoreticalFileSize == 0)))) {
-                        int k = 0;
-                        for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; k++) {
-                            if (k == 0) {
-                                Output.output(Output.OutputLevel.Ordinary, ThreadName + "-" + count, "The " + j + " attempt to download the file downloading '" + name + "'");
-                            }
-                            try {
-                                downloadFile(url[k], DownloadSource.values()[k], file);
-                                if (Objects.equals(theoreticalFileHash, Utils.fileSha1(file)) && (theoreticalFileSize == file.length() || theoreticalFileSize == 0)) {
-                                    Output.output(Output.OutputLevel.Debug, ThreadName + "-" + count, " Download '" + name + "' succeed");
-                                    count(ThreadName, outcome, true);
-                                    r.set(true);
-                                    return;
-                                } else {
-                                    throw new Exception();
-                                }
-                            } catch (Exception e) {
-                                if (k == 2) {
-                                    k = 0;
-                                    j++;
-                                    Output.output(Output.OutputLevel.Ordinary, ThreadName + "-" + count, "In the " + j + " attempt , download '" + name + "' fail");
-                                }
-                            }
-                        }
-                    } else {
-                        Output.output(Output.OutputLevel.Debug, ThreadName + "-" + count, "'" + name + "' File already exists and SHA-1 is the same");
-                        count(ThreadName, outcome, true);
-                        r.set(true);
-                        return;
+    public static boolean download(URL[] url, String ThreadName, String theoreticalFileHash, File file, int theoreticalFileSize, int count, Outcome outcome) throws Exception {
+        PublicVariable.threadQuantity++;
+        String name = file.getName();
+        try {
+            if (!(Setup.getSetupInstance().download.ifCheckFileBeforeDownloading && (Objects.equals(theoreticalFileHash, Utils.fileSha1(file)) && (theoreticalFileSize == file.length() || theoreticalFileSize == 0)))) {
+                int k = 0;
+                for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; k++) {
+                    if (k == 0) {
+                        Output.output(Output.OutputLevel.Ordinary, ThreadName + "-" + count, "The " + j + " attempt to download the file downloading '" + name + "'");
                     }
-                } catch (Exception ignored) {
+                    try {
+                        downloadFile(url[k], DownloadSource.values()[k], file);
+                        if (Objects.equals(theoreticalFileHash, Utils.fileSha1(file)) && (theoreticalFileSize == file.length() || theoreticalFileSize == 0)) {
+                            Output.output(Output.OutputLevel.Debug, ThreadName + "-" + count, " Download '" + name + "' succeed");
+                            count(ThreadName, outcome, true);
+                            return true;
+                        } else {
+                            throw new Exception();
+                        }
+                    } catch (Exception e) {
+                        if (k == 2) {
+                            k = 0;
+                            j++;
+                            Output.output(Output.OutputLevel.Ordinary, ThreadName + "-" + count, "In the " + j + " attempt , download '" + name + "' fail");
+                        }
+                    }
                 }
-                Output.output(Output.OutputLevel.Debug, ThreadName + "-" + count, " Download '" + file.getName() + "' fail");
-                count(ThreadName, outcome, false);
-            });
-            return r.get();
-        };
-        return iThreadManagement.run();
+            } else {
+                Output.output(Output.OutputLevel.Debug, ThreadName + "-" + count, "'" + name + "' File already exists and SHA-1 is the same");
+                count(ThreadName, outcome, true);
+                return true;
+            }
+        } catch (Exception ignored) {
+        }
+        Output.output(Output.OutputLevel.Debug, ThreadName + "-" + count, " Download '" + file.getName() + "' fail");
+        count(ThreadName, outcome, false);
+        return false;
     }
 
     static class Outcome {
@@ -646,4 +374,3 @@ public class DownloadsUtils {
         }
     }
 }
-

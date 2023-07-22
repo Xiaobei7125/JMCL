@@ -51,7 +51,7 @@ public class Setup {
 
             public static class MultiThreadedDownload {
                 public boolean ifMultiThreadedDownloadAFile = false;
-                public int multiThreadedDownloadAFileSegmentSize = 5 * 1024 * 1024;
+                public int multiThreadedDownloadAFileSegmentSize = 5 * 1024;
             }
         }
 

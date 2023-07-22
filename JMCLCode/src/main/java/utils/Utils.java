@@ -92,7 +92,7 @@ public class Utils {
         return null;
     }
 
-    public static byte[] getPartOfTheFileContent(URL url, int start, int end) throws IOException {
+    public static byte[] getPartOfTheFileContent(URL url, int start, long end) throws IOException {
         URLConnection connection = url.openConnection();
         if (connection instanceof HttpURLConnection httpConnection) {
             httpConnection.setRequestMethod("GET");

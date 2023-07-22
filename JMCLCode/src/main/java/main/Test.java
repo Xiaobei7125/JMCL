@@ -12,6 +12,7 @@ public class Test {
         //BufferedReader id = new BufferedReader(new InputStreamReader(System.in));
         String mainPath = "F:\\JavaTest\\JMCL\\.minecraft\\";
         String id = "1.20.1";
+        //Output.theNameOfTheCallingMethod();
 //        long i = 0;
 //        Output.output(Output.OutputLevel.main.Test,"\33[3;35;44m91222");
 //        while (true) {

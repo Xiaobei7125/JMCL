@@ -24,6 +24,10 @@ public interface Output {
         return input.readLine();
     }
 
+    static void theNameOfTheCallingMethod() {
+        output(OutputLevel.Test, new Exception().getStackTrace()[1].getClassName());
+    }
+
     enum OutputLevel {
         Test, Ordinary, Debug, Info, Warning, Error;
 

@@ -6,12 +6,11 @@ import utils.Utils;
 import utils.Zip;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 
 public class Download {
 
-    public static void downloadVersionFile(URL url, String mainPath, String id, VersionFileType versionFile) throws IOException {
+    public static void downloadVersionFile(URL url, String mainPath, String id, VersionFileType versionFile) throws Exception {
         String incompletePath = mainPath + "versions\\" + id + "\\";
         String name = id + "." + versionFile;
         if (Setup.getSetupInstance().download.threads.multiThreadedDownload.ifMultiThreadedDownloadAFile) {
@@ -45,7 +44,7 @@ public class Download {
         return true;
     }
 
-    public static void downloadOtherLibraries(URL url, String mainPath, String path) throws IOException {
+    public static void downloadOtherLibraries(URL url, String mainPath, String path) throws Exception {
         String name = Utils.regexReplace(String.valueOf(url), "[a-zA-Z]+://[\\w\\d./-]+/", "");
         if (Setup.getSetupInstance().download.threads.multiThreadedDownload.ifMultiThreadedDownloadAFile) {
             utils.Download.MultiThreadedDownloadAFile(url, new File(mainPath + "libraries\\" + path));
@@ -54,7 +53,7 @@ public class Download {
         }
     }
 
-    public static void downloadLog4jFile(URL url, String mainPath, String fileId) throws IOException {
+    public static void downloadLog4jFile(URL url, String mainPath, String fileId) throws Exception {
         if (Setup.getSetupInstance().download.threads.multiThreadedDownload.ifMultiThreadedDownloadAFile) {
             utils.Download.MultiThreadedDownloadAFile(url, new File(mainPath + "assets\\log_configs\\" + fileId));
         } else {
@@ -63,7 +62,7 @@ public class Download {
 
     }
 
-    public static void downloadAssetIndexJson(URL url, String mainPath, String id) throws IOException {
+    public static void downloadAssetIndexJson(URL url, String mainPath, String id) throws Exception {
         if (Setup.getSetupInstance().download.threads.multiThreadedDownload.ifMultiThreadedDownloadAFile) {
             utils.Download.MultiThreadedDownloadAFile(url, new File(mainPath + "assets\\indexes\\" + id + ".json"));
         } else {
@@ -71,7 +70,7 @@ public class Download {
         }
     }
 
-    public static void downloadAssetIndexFile(URL url, String mainPath, String hash) throws IOException {
+    public static void downloadAssetIndexFile(URL url, String mainPath, String hash) throws Exception {
         File file = new File(mainPath + "assets\\objects\\" + hash.substring(0, 2) + "\\" + hash);
         if (Setup.getSetupInstance().download.threads.multiThreadedDownload.ifMultiThreadedDownloadAFile) {
             utils.Download.MultiThreadedDownloadAFile(url, file);
@@ -80,7 +79,7 @@ public class Download {
         }
     }
 
-    public static void downloadAssetIndexCopyFile(URL url, String mainPath, String path) throws IOException {
+    public static void downloadAssetIndexCopyFile(URL url, String mainPath, String path) throws Exception {
         String name = Utils.regexReplace(path, "[\\w/]+/", "");
         String incompletePath = Utils.regexReplace(path, name, "");
         if (Setup.getSetupInstance().download.threads.multiThreadedDownload.ifMultiThreadedDownloadAFile) {

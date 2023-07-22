@@ -86,7 +86,7 @@ public class Utils {
                 System.out.println("This minecraft version does not exist.");
             }
         } catch (Exception e) {
-            Output.output(Output.OutputLevel.Error, e.getLocalizedMessage());
+            Output.output(Output.OutputLevel.Error, e.getMessage());
         }
     }
 
