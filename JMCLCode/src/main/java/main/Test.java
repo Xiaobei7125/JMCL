@@ -29,7 +29,7 @@ public class Test {
         Utils.downloadMinecraft(new Attribute(mainPath, id));
         //VersionManifest MinecraftVersionManifestObject = Request.getMinecraftVersionManifestObject();
         //DownloadsUtils.downloadsVersionFileUtils(Request.getMinecraftVersionObject(MinecraftVersionManifestObject, new Attribute(mainPath,id)),new Attribute(mainPath,id));
-        //PublicVariable.executorService.shutdown();
+        //PublicVariable.multiThreadedDownloadExecutorService.shutdown();
 
     }
 }

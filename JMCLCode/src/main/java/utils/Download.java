@@ -55,33 +55,34 @@ public class Download {
                 int finalI = i;
                 IThreadManagement iThreadManagement = () -> {
                     AtomicBoolean r = new AtomicBoolean();
-                    while (!r.get()) {
-                        PublicVariable.multiThreadedDownloadExecutorService.execute(() -> {
-                            try {
-                                //如果父目录不存在，就创建;                     如果创建失败，就结束此进程;
-                                if (!file.getParentFile().exists()) if (!file.getParentFile().mkdirs()) return;
-                                //如果文件不存在或文件是文件夹，就创建;           如果创建失败，就结束此进程;
-                                if (!file.exists() || file.isDirectory()) if (!file.createNewFile()) return;
-                                RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rwd");
-                                randomAccessFile.setLength(totalSize);
-                                randomAccessFile.seek((long) Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * finalI);
-                                byte[] bytes;
-                                int start = Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * finalI;
-                                long end;
-                                if (finalI != numberOfSegments - 1) {
-                                    end = (long) Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * (finalI + 1) - 1;
-                                } else {
-                                    end = totalSize;
-                                }
-                                bytes = getPartOfTheFileContent(url, start, end);
-                                assert bytes != null;
-                                randomAccessFile.write(bytes);
-                                randomAccessFile.close();
-                                r.set(true);
-                            } catch (IOException ignored) {
+                    PublicVariable.multiThreadedDownloadExecutorService.execute(() -> {
+                        try {
+                            //如果父目录不存在，就创建;                     如果创建失败，就结束此进程;
+                            if (!file.getParentFile().exists()) if (!file.getParentFile().mkdirs()) return;
+                            //如果文件不存在或文件是文件夹，就创建;           如果创建失败，就结束此进程;
+                            if (!file.exists() || file.isDirectory()) if (!file.createNewFile()) return;
+                            RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rwd");
+                            randomAccessFile.setLength(totalSize);
+                            randomAccessFile.seek((long) Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * finalI);
+                            byte[] bytes;
+                            int start = Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * finalI;
+                            long end;
+                            if (finalI != numberOfSegments - 1) {
+                                end = (long) Setup.getSetupInstance().download.threads.multiThreadedDownload.multiThreadedDownloadAFileSegmentSize * (finalI + 1) - 1;
+                            } else {
+                                end = totalSize;
                             }
-                        });
-                    }
+                            while (!r.get()) {
+                                bytes = getPartOfTheFileContent(url, start, end);
+                                if (bytes != null) {
+                                    randomAccessFile.write(bytes);
+                                    randomAccessFile.close();
+                                    r.set(true);
+                                }
+                            }
+                        } catch (IOException ignored) {
+                        }
+                    });
                     return r.get();
                 };
                 iThreadManagement.run();

@@ -40,7 +40,6 @@ public class Utils {
         byte[] data = bops.toByteArray();
         bops.flush();
         bops.close();
-        is.close();
         return data;
     }
 
@@ -102,16 +101,20 @@ public class Utils {
             httpConnection.setConnectTimeout(Setup.getSetupInstance().download.downloadConnectTimeout);
             httpConnection.setReadTimeout(Setup.getSetupInstance().download.downloadReadTimeout);
             httpConnection.setRequestProperty("Range", "bytes=" + start + "-" + end);
+            httpConnection.connect();
             for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; j++) {
                 try {
                     if (httpConnection.getResponseCode() == 206) {
                         //System.out.println(Thread.currentThread().getName() + httpConnection.getResponseCode());
-                        return getData(httpConnection.getInputStream());
+                        InputStream inputStream = httpConnection.getInputStream();
+                        byte[] r = getData(inputStream);
+                        inputStream.close();
+                        return r;
                     }
-                    //System.out.println(Thread.currentThread().getName() + httpConnection.getResponseCode());
+                    //Output.output(Output.OutputLevel.Test, String.valueOf(httpConnection.getResponseCode()));
                     //System.out.println(Thread.currentThread().getName() + "Request failed");
                 } catch (Throwable e) {
-                    //System.out.println(Thread.currentThread().getName()+e);
+                    //e.printStackTrace();
                 }
             }
         } else {
