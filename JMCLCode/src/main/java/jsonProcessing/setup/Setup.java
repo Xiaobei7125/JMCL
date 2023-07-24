@@ -1,4 +1,4 @@
-package jsonAnalysis.setup;
+package jsonProcessing.setup;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

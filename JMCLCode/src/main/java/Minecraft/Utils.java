@@ -1,18 +1,19 @@
 package minecraft;
 
-import jsonAnalysis.download.minecraft.library.VersionJson;
-import jsonAnalysis.download.minecraft.library.VersionManifest;
-import jsonAnalysis.login.microsoft.MinecraftInformationObject;
+import information.Account;
+import information.minecraft.Attribute;
+import information.minecraft.DownloadSource;
+import information.minecraft.VersionManifestProcessing;
+import jsonProcessing.download.minecraft.library.VersionJson;
+import jsonProcessing.download.minecraft.library.VersionManifest;
+import jsonProcessing.login.microsoft.MinecraftInformationObject;
 import minecraft.download.DownloadsUtils;
 import minecraft.download.Request;
 import minecraft.download.Url;
-import minecraft.information.Attribute;
-import minecraft.information.DownloadSource;
-import minecraft.information.VersionManifestProcessing;
+import minecraft.login.GetInformation;
 import minecraft.login.Login;
-import minecraft.login.NetOperation;
-import other.Output;
 import other.PublicVariable;
+import utils.Output;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,45 +21,45 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
-import static jsonAnalysis.download.minecraft.library.VersionJson.getGsonObject;
+import static jsonProcessing.download.minecraft.library.VersionJson.getGsonObject;
 
 public class Utils {
-    public static information.Login microsoftLogin() throws IOException, URISyntaxException, InterruptedException {
-//        String MicrosoftLoginCode = NetOperation.requestMicrosoftLoginCode();
+    public static Account microsoftLogin() throws IOException, URISyntaxException, InterruptedException {
+//        String MicrosoftLoginCode = Account.requestMicrosoftLoginCode();
 //        Output.output(Output.OutputLevel.main.Test, MicrosoftLoginCode);
-//        String MicrosoftLoginTokenBody = NetOperation.requestMicrosoftLogin(MicrosoftLoginCode);
+//        String MicrosoftLoginTokenBody = Account.requestMicrosoftLogin(MicrosoftLoginCode);
 //        Output.output(Output.OutputLevel.main.Test, MicrosoftLoginTokenBody);
-//        String MicrosoftAccessToken = Login.getMicrosoftAccessToken(MicrosoftLoginTokenBody);
-//        String microsoftRefreshToken = Login.getMicrosoftRefreshToken(MicrosoftLoginTokenBody);
-        String MicrosoftAccessToken = NetOperation.requestMicrosoftLoginCode();
+//        String MicrosoftAccessToken = GetInformation.getMicrosoftAccessToken(MicrosoftLoginTokenBody);
+//        String microsoftRefreshToken = GetInformation.getMicrosoftRefreshToken(MicrosoftLoginTokenBody);
+        String MicrosoftAccessToken = Login.requestMicrosoftLoginCode();
         Output.output(Output.OutputLevel.Test, MicrosoftAccessToken);
-        String XBLAuthenticationBody = NetOperation.requestXboxLiveAuthentication(MicrosoftAccessToken, utils.Utils.xboxLiveType.XBL);
+        String XBLAuthenticationBody = Login.requestXboxLiveAuthentication(MicrosoftAccessToken, utils.Utils.xboxLiveType.XBL);
         Output.output(Output.OutputLevel.Test, XBLAuthenticationBody);
-        String XBLAuthenticationUserHash = Login.getXboxLiveAuthenticationUserHash(XBLAuthenticationBody);
-        String XBLAuthenticationToken = Login.getXboxLiveAuthenticationToken(XBLAuthenticationBody);
-        String XSTSAuthenticationBody = NetOperation.requestXboxLiveAuthentication(XBLAuthenticationToken, utils.Utils.xboxLiveType.XSTS);
+        String XBLAuthenticationUserHash = GetInformation.getXboxLiveAuthenticationUserHash(XBLAuthenticationBody);
+        String XBLAuthenticationToken = GetInformation.getXboxLiveAuthenticationToken(XBLAuthenticationBody);
+        String XSTSAuthenticationBody = Login.requestXboxLiveAuthentication(XBLAuthenticationToken, utils.Utils.xboxLiveType.XSTS);
         Output.output(Output.OutputLevel.Test, XSTSAuthenticationBody);
-        String XSTSAuthenticationToken = Login.getXboxLiveAuthenticationToken(XSTSAuthenticationBody);
+        String XSTSAuthenticationToken = GetInformation.getXboxLiveAuthenticationToken(XSTSAuthenticationBody);
         Output.output(Output.OutputLevel.Test, XSTSAuthenticationToken);
         if (XSTSAuthenticationToken == null) {
             Output.output(Output.OutputLevel.Warning, "There is a problem with your Xbox account");
             return null;
         }
-        String XSTSAuthenticationUserHash = Login.getXboxLiveAuthenticationUserHash(XSTSAuthenticationBody);
+        String XSTSAuthenticationUserHash = GetInformation.getXboxLiveAuthenticationUserHash(XSTSAuthenticationBody);
         if (!XBLAuthenticationUserHash.equals(XSTSAuthenticationUserHash)) {
             Output.output(Output.OutputLevel.Warning, "There was an error logging in,please try again.");
             return null;
         }
-        String MinecraftAuthenticationBody = NetOperation.requestMinecraftAuthentication(XSTSAuthenticationToken, XSTSAuthenticationUserHash);
-        String MinecraftAuthenticationToken = Login.getMinecraftAuthenticationToken(MinecraftAuthenticationBody);
-        String MinecraftOwnershipBody = NetOperation.checkMinecraftOwnership(MinecraftAuthenticationToken);
-        if (!Login.ifMinecraftOwnership(MinecraftOwnershipBody)) {
+        String MinecraftAuthenticationBody = Login.requestMinecraftAuthentication(XSTSAuthenticationToken, XSTSAuthenticationUserHash);
+        String MinecraftAuthenticationToken = GetInformation.getMinecraftAuthenticationToken(MinecraftAuthenticationBody);
+        String MinecraftOwnershipBody = Login.checkMinecraftOwnership(MinecraftAuthenticationToken);
+        if (!GetInformation.ifMinecraftOwnership(MinecraftOwnershipBody)) {
             Output.output(Output.OutputLevel.Warning, "You don't have Minecraft");
             return null;
         }
-        String MinecraftInformationBody = NetOperation.receiveMinecraftInformation(MinecraftAuthenticationToken);
-        MinecraftInformationObject MinecraftAuthenticationObject = Login.getMinecraftInformationObject(MinecraftInformationBody);
-        return new information.Login(MinecraftAuthenticationObject.getId(), MinecraftAuthenticationObject.getName(), MinecraftAuthenticationToken);
+        String MinecraftInformationBody = Login.receiveMinecraftInformation(MinecraftAuthenticationToken);
+        MinecraftInformationObject MinecraftAuthenticationObject = GetInformation.getMinecraftInformationObject(MinecraftInformationBody);
+        return new Account(MinecraftAuthenticationObject.getId(), MinecraftAuthenticationObject.getName(), MinecraftAuthenticationToken);
     }
 
     public static void downloadMinecraft(Attribute Attribute) {
@@ -93,7 +94,7 @@ public class Utils {
     public static void startMinecraft(Attribute Attribute) throws IOException, URISyntaxException, InterruptedException {
         VersionManifest VersionManifest = Request.getMinecraftVersionManifestObject();
         VersionJson VersionJson = Request.getMinecraftVersionObject(VersionManifest, Attribute);
-        information.Login login = Utils.microsoftLogin();
+        Account account = Utils.microsoftLogin();
         {
             String javaPath = "\"" + System.getProperty("java.home") + "\\bin\\java.exe\"";
             String launcherBrand = " -Dminecraft.launcher.brand=" + information.Launcher.name;
@@ -131,14 +132,14 @@ public class Utils {
             }
             classPath.append(";").append(Attribute.getMainPath()).append("versions\\").append(Attribute.getId()).append("\\").append(Attribute.getId()).append(".jar");
             String mainClass = " " + VersionJson.getMainClass();
-            assert login != null;
-            String username = " --username " + login.name();
+            assert account != null;
+            String username = " --username " + account.name();
             String version = " --version " + Attribute.getId();
             String gameDir = " --gameDir " + Attribute.getMainPath();
             String assetsDir = " --assetsDir " + Attribute.getMainPath() + "assets";
             String assetIndex = " --assetIndex " + VersionJson.getAssetIndex().getId();
-            String uuid = " --uuid " + login.UUID();
-            String accessToken = " --accessToken " + login.accessToken();
+            String uuid = " --uuid " + account.UUID();
+            String accessToken = " --accessToken " + account.accessToken();
             String userType = " --userType " + "Mojang";
             String versionType = " --versionType " + information.Launcher.name;
             String command = javaPath + launcherBrand + launcherVersion + jvm + natives + log4j + other + classPath

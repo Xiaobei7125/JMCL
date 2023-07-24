@@ -1,21 +1,21 @@
 package minecraft.download;
 
 
-import jsonAnalysis.download.minecraft.library.VersionJson;
-import jsonAnalysis.download.minecraft.library.VersionManifest;
-import jsonAnalysis.setup.Setup;
-import minecraft.information.VersionJsonManifestVersion;
-import minecraft.information.VersionManifestProcessing;
-import minecraft.information.urlHeader.Bmclapi;
-import minecraft.information.urlHeader.Mcbbs;
-import minecraft.information.urlHeader.Official;
+import information.minecraft.VersionJsonManifestVersion;
+import information.minecraft.VersionManifestProcessing;
+import information.minecraft.urlHeader.Bmclapi;
+import information.minecraft.urlHeader.Mcbbs;
+import information.minecraft.urlHeader.Official;
+import jsonProcessing.download.minecraft.library.VersionJson;
+import jsonProcessing.download.minecraft.library.VersionManifest;
+import jsonProcessing.setup.Setup;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static minecraft.information.VersionJsonManifestVersion.v1;
-import static minecraft.information.VersionJsonManifestVersion.v2;
+import static information.minecraft.VersionJsonManifestVersion.v1;
+import static information.minecraft.VersionJsonManifestVersion.v2;
 
 public class UrlArray {
     public static @NotNull URL[] versionManifestJsonURL(VersionJsonManifestVersion versionJsonManifestVersion) throws MalformedURLException {

@@ -1,4 +1,4 @@
-package jsonAnalysis.login.microsoft;
+package jsonProcessing.login.microsoft;
 
 import com.google.gson.annotations.SerializedName;
 

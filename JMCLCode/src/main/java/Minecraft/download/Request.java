@@ -2,17 +2,17 @@ package minecraft.download;
 
 
 import com.google.gson.GsonBuilder;
-import jsonAnalysis.download.minecraft.library.VersionJson;
-import jsonAnalysis.download.minecraft.library.VersionManifest;
-import minecraft.information.Attribute;
-import minecraft.information.DownloadSource;
-import minecraft.information.VersionJsonManifestVersion;
+import information.minecraft.Attribute;
+import information.minecraft.DownloadSource;
+import information.minecraft.VersionJsonManifestVersion;
+import jsonProcessing.download.minecraft.library.VersionJson;
+import jsonProcessing.download.minecraft.library.VersionManifest;
 import utils.Utils;
 
 import java.io.IOException;
 import java.util.Objects;
 
-import static jsonAnalysis.download.minecraft.library.VersionJson.getGsonObject;
+import static jsonProcessing.download.minecraft.library.VersionJson.getGsonObject;
 
 
 public class Request {
