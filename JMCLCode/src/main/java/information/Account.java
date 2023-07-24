@@ -1,6 +1,6 @@
 package information;
 
-public record Login(String UUID, String name, String accessToken) {
+public record Account(String UUID, String name, String accessToken) {
     @Override
     public String name() {
         return name;

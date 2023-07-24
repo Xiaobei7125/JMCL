@@ -1,10 +1,10 @@
 package main;
 
+import information.minecraft.Attribute;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
-import jsonAnalysis.setup.Setup;
+import jsonProcessing.setup.Setup;
 import minecraft.Utils;
-import minecraft.information.Attribute;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -27,7 +27,7 @@ public class CommandLineInputTest {
             String[] setOption = {"s", "set", "setup"};
             optionParser.acceptsAll(Arrays.asList(setOption), "Set up").withOptionalArg().ofType(String.class);
             String[] loginOption = {"l", "login"};
-            optionParser.acceptsAll(Arrays.asList(loginOption), "Login");
+            optionParser.acceptsAll(Arrays.asList(loginOption), "GetInformation");
             String[] startOption = {"st", "start"};
             optionParser.acceptsAll(Arrays.asList(startOption), "Start minecraft");
             {

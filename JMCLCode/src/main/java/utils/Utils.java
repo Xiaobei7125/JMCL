@@ -1,7 +1,7 @@
 package utils;
 
 
-import jsonAnalysis.setup.Setup;
+import jsonProcessing.setup.Setup;
 
 import java.io.*;
 import java.math.BigInteger;

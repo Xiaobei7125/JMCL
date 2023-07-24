@@ -1,7 +1,7 @@
 package other;
 
 
-import jsonAnalysis.setup.Setup;
+import jsonProcessing.setup.Setup;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

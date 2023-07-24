@@ -1,4 +1,4 @@
-package minecraft.information;
+package information.minecraft;
 
 
 import java.nio.file.Paths;

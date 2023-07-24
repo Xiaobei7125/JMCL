@@ -1,6 +1,6 @@
 package utils;
 
-import jsonAnalysis.setup.Setup;
+import jsonProcessing.setup.Setup;
 import other.IThreadManagement;
 import other.PublicVariable;
 

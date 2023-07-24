@@ -1,15 +1,16 @@
 package minecraft.download;
 
 
-import jsonAnalysis.download.minecraft.library.VersionJson;
-import jsonAnalysis.download.minecraft.library.VersionManifest;
-import jsonAnalysis.setup.Setup;
-import minecraft.information.Attribute;
-import minecraft.information.DownloadSource;
-import minecraft.information.VersionFileType;
+import information.minecraft.Attribute;
+import information.minecraft.DownloadSource;
+import information.minecraft.VersionFileType;
+import jsonProcessing.download.minecraft.library.VersionJson;
+import jsonProcessing.download.minecraft.library.VersionManifest;
+import jsonProcessing.setup.Setup;
+import org.jetbrains.annotations.NotNull;
 import other.IThreadManagement;
-import other.Output;
 import other.PublicVariable;
+import utils.Output;
 import utils.Utils;
 import utils.Zip;
 
@@ -25,7 +26,7 @@ public class DownloadsUtils {
     public static int end = 0;
     public static int error = 0;
 
-    private static void downloadFile(URL url, DownloadSource downloadSource, File file) throws Exception {
+    private static void downloadFile(URL url, @NotNull DownloadSource downloadSource, File file) throws Exception {
         if (downloadSource.getIfUse()) {
             if (Setup.getSetupInstance().download.threads.multiThreadedDownload.ifMultiThreadedDownloadAFile) {
                 utils.Download.MultiThreadedDownloadAFile(url, file);
@@ -122,7 +123,7 @@ public class DownloadsUtils {
         iThreadManagement.run();
     }
 
-    public static void downloadsLibrariesUtils(VersionJson VersionJson, Attribute Attribute) throws Exception {
+    public static void downloadsLibrariesUtils(@NotNull VersionJson VersionJson, Attribute Attribute) throws Exception {
         AtomicInteger DLEnd = new AtomicInteger();
         AtomicInteger DLError = new AtomicInteger();
         AtomicInteger DLAdd = new AtomicInteger();

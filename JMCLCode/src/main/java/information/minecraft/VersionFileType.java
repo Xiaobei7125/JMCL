@@ -1,4 +1,4 @@
-package minecraft.information;
+package information.minecraft;
 
 public enum VersionFileType {
     jar, json

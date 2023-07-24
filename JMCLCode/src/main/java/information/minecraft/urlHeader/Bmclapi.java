@@ -1,4 +1,4 @@
-package minecraft.information.urlHeader;
+package information.minecraft.urlHeader;
 
 public enum Bmclapi {
     versionManifestJson("https://bmclapi2.bangbang93.com/"),

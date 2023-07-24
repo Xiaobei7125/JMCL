@@ -1,6 +1,6 @@
-package minecraft.information;
+package information.minecraft;
 
-import jsonAnalysis.setup.Setup;
+import jsonProcessing.setup.Setup;
 
 public enum DownloadSource {
 

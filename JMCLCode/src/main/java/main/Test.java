@@ -1,7 +1,7 @@
 package main;
 
+import information.minecraft.Attribute;
 import minecraft.Utils;
-import minecraft.information.Attribute;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -20,11 +20,11 @@ public class Test {
 //            Thread.sleep(1000);
 //            i = i +1;
 //        }
-//        Login login = microsoftLogin();
+//        GetInformation login = microsoftLogin();
 //        if (login != null) {
 //            Output.output(Output.OutputLevel.main.Test, login.name() + login.accessToken() + login.UUID());
 //        }
-        //minecraft.Utils.downloadMinecraft(new minecraft.information.Attribute(mainPath.readLine(), id.readLine()));
+        //minecraft.Utils.downloadMinecraft(new minecraft.minecraft.Attribute(mainPath.readLine(), id.readLine()));
         //Output.output(Output.OutputLevel.Test, String.valueOf(v1));
         Utils.downloadMinecraft(new Attribute(mainPath, id));
         //VersionManifest MinecraftVersionManifestObject = Request.getMinecraftVersionManifestObject();

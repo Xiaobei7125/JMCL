@@ -1,4 +1,4 @@
-package jsonAnalysis.download.minecraft.library;
+package jsonProcessing.download.minecraft.library;
 
 import com.google.gson.*;
 import com.google.gson.annotations.SerializedName;

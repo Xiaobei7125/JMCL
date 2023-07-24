@@ -1,7 +1,7 @@
-package minecraft.information;
+package information.minecraft;
 
 
-import jsonAnalysis.download.minecraft.library.VersionManifest;
+import jsonProcessing.download.minecraft.library.VersionManifest;
 
 import java.net.URL;
 

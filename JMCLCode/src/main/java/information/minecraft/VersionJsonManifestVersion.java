@@ -1,4 +1,4 @@
-package minecraft.information;
+package information.minecraft;
 
 public enum VersionJsonManifestVersion {
     v1("mc/game/version_manifest.json"), v2("mc/game/version_manifest_v2.json");

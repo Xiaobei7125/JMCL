@@ -1,4 +1,4 @@
-package minecraft.information.urlHeader;
+package information.minecraft.urlHeader;
 
 public enum Official {
     versionManifestJson("https://launchermeta.mojang.com/"),
