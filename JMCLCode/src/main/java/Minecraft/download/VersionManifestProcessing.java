@@ -1,4 +1,4 @@
-package information.minecraft;
+package minecraft.download;
 
 
 import jsonProcessing.download.minecraft.library.VersionManifest;

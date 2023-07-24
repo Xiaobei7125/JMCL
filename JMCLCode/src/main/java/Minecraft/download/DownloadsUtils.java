@@ -1,9 +1,8 @@
 package minecraft.download;
 
-
-import information.minecraft.Attribute;
-import information.minecraft.DownloadSource;
-import information.minecraft.VersionFileType;
+import information.minecraft.download.DownloadBasicInformation;
+import information.minecraft.download.DownloadSource;
+import information.minecraft.download.VersionFileType;
 import jsonProcessing.download.minecraft.library.VersionJson;
 import jsonProcessing.download.minecraft.library.VersionManifest;
 import jsonProcessing.setup.Setup;
@@ -38,13 +37,13 @@ public class DownloadsUtils {
         }
     }
 
-    public static void downloadsVersionFileUtils(VersionJson VersionJson, Attribute Attribute) throws Exception {
+    public static void downloadsVersionFileUtils(VersionJson VersionJson, DownloadBasicInformation DownloadBasicInformation) throws Exception {
         IThreadManagement iThreadManagement = () -> {
             AtomicBoolean outcome = new AtomicBoolean(false);
             PublicVariable.executorService.execute(() -> {
-                String name = Attribute.getId() + "." + VersionFileType.jar;
+                String name = DownloadBasicInformation.getId() + "." + VersionFileType.jar;
                 //下载路径
-                String incompletePath = Attribute.getMainPath() + "versions\\" + Attribute.getId() + "\\";
+                String incompletePath = DownloadBasicInformation.getMainPath() + "versions\\" + DownloadBasicInformation.getId() + "\\";
                 //从下载处获得的sha1
                 String standardSha1 = VersionJson.getDownloads().getClient().getSha1();
                 int standardSize = VersionJson.getDownloads().getClient().getSize();
@@ -61,16 +60,16 @@ public class DownloadsUtils {
         iThreadManagement.run();
     }
 
-    public static void downloadsVersionJsonUtils(VersionManifest VersionManifest, Attribute Attribute) throws Exception {
+    public static void downloadsVersionJsonUtils(VersionManifest VersionManifest, DownloadBasicInformation DownloadBasicInformation) throws Exception {
         IThreadManagement iThreadManagement = () -> {
             AtomicBoolean outcome = new AtomicBoolean(false);
             PublicVariable.executorService.execute(() -> {
-                String name = Attribute.getId() + "." + VersionFileType.json;
-                String incompletePath = Attribute.getMainPath() + "versions\\" + Attribute.getId() + "\\";
-                String standardSha1 = VersionManifest.getSha1(Attribute.getId());
+                String name = DownloadBasicInformation.getId() + "." + VersionFileType.json;
+                String incompletePath = DownloadBasicInformation.getMainPath() + "versions\\" + DownloadBasicInformation.getId() + "\\";
+                String standardSha1 = VersionManifest.getSha1(DownloadBasicInformation.getId());
                 File file = new File(incompletePath + name);
                 try {
-                    outcome.set(download(UrlArray.versionJsonFileURL(VersionManifest, Attribute.getId()), "DL-VJ",
+                    outcome.set(download(UrlArray.versionJsonFileURL(VersionManifest, DownloadBasicInformation.getId()), "DL-VJ",
                             standardSha1, file, 0, 0, new Outcome(new AtomicInteger(), new AtomicInteger(), new AtomicInteger(), 1)));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -81,12 +80,12 @@ public class DownloadsUtils {
         iThreadManagement.run();
     }
 
-    public static void downloadLog4jFileUtils(VersionJson VersionJson, Attribute Attribute) throws Exception {
+    public static void downloadLog4jFileUtils(VersionJson VersionJson, DownloadBasicInformation DownloadBasicInformation) throws Exception {
         IThreadManagement iThreadManagement = () -> {
             AtomicBoolean outcome = new AtomicBoolean(false);
             PublicVariable.executorService.execute(() -> {
                 String name = VersionJson.getLogging().getClient().getFile().getId();
-                String incompletePath = Attribute.getMainPath() + "assets\\log_configs\\";
+                String incompletePath = DownloadBasicInformation.getMainPath() + "assets\\log_configs\\";
                 String standardSha1 = VersionJson.getLogging().getClient().getFile().getSha1();
                 int standardSize = VersionJson.getLogging().getClient().getFile().getSize();
                 File file = new File(incompletePath + name);
@@ -102,12 +101,12 @@ public class DownloadsUtils {
         iThreadManagement.run();
     }
 
-    public static void downloadAssetIndexJsonUtils(VersionJson VersionJson, Attribute Attribute) throws Exception {
+    public static void downloadAssetIndexJsonUtils(VersionJson VersionJson, DownloadBasicInformation DownloadBasicInformation) throws Exception {
         IThreadManagement iThreadManagement = () -> {
             AtomicBoolean outcome = new AtomicBoolean(false);
             PublicVariable.executorService.execute(() -> {
                 String name = VersionJson.getAssetIndex().getId() + ".json";
-                String incompletePath = Attribute.getMainPath() + "assets\\indexes\\";
+                String incompletePath = DownloadBasicInformation.getMainPath() + "assets\\indexes\\";
                 String standardSha1 = VersionJson.getAssetIndex().getSha1();
                 int standardSize = VersionJson.getAssetIndex().getSize();
                 File file = new File(incompletePath + name);
@@ -123,7 +122,7 @@ public class DownloadsUtils {
         iThreadManagement.run();
     }
 
-    public static void downloadsLibrariesUtils(@NotNull VersionJson VersionJson, Attribute Attribute) throws Exception {
+    public static void downloadsLibrariesUtils(@NotNull VersionJson VersionJson, DownloadBasicInformation DownloadBasicInformation) throws Exception {
         AtomicInteger DLEnd = new AtomicInteger();
         AtomicInteger DLError = new AtomicInteger();
         AtomicInteger DLAdd = new AtomicInteger();
@@ -144,10 +143,10 @@ public class DownloadsUtils {
                             //String name = Utils.regexReplace(VersionJson.getLibraries()[finalI].getDownloads().getArtifact().getPath(), "[\\w\\d./-]+/", "");
                             int standardSize = VersionJson.getLibraries()[finalI].getDownloads().getClassifiers().getNativesWindows().getSize();
                             String standardSha1 = VersionJson.getLibraries()[finalI].getDownloads().getClassifiers().getNativesWindows().getSha1();
-                            File file = new File(Attribute.getRunPath() + "\\natives\\" + name);
+                            File file = new File(DownloadBasicInformation.getRunPath() + "\\natives\\" + name);
                             outcome.set(download(UrlArray.nativesJarURL(VersionJson, finalI1), "DL-ND", standardSha1, file,
                                     standardSize, finalI1, new Outcome(DLEnd, DLError, DLAdd, sumOfDL)));
-                            String unzipTheDirectory = Attribute.getMainPath() + "versions\\" + Attribute.getId() + "\\natives\\";
+                            String unzipTheDirectory = DownloadBasicInformation.getMainPath() + "versions\\" + DownloadBasicInformation.getId() + "\\natives\\";
                             for (; ; ) {
                                 if (Zip.unzip(file.getPath(), unzipTheDirectory)) break;
                             }
@@ -175,7 +174,7 @@ public class DownloadsUtils {
                     PublicVariable.executorService.execute(() -> {
                         try {
                             String name = new File(Url.otherJarLibrariesURL(VersionJson, DownloadSource.official, finalI).getPath()).getName();
-                            String path = Attribute.getMainPath() + "libraries\\" + Utils.regexReplace(VersionJson.getLibraries()[finalI].getDownloads().getArtifact().getPath(), name, "");
+                            String path = DownloadBasicInformation.getMainPath() + "libraries\\" + Utils.regexReplace(VersionJson.getLibraries()[finalI].getDownloads().getArtifact().getPath(), name, "");
                             String standardSha1 = VersionJson.getLibraries()[finalI].getDownloads().getArtifact().getSha1();
                             int standardSize = VersionJson.getLibraries()[finalI].getDownloads().getArtifact().getSize();
                             File file = new File(path + name);
@@ -192,7 +191,7 @@ public class DownloadsUtils {
         }
     }
 
-    public static void downloadsAssetIndexUtils(VersionJson VersionJson, Attribute Attribute) throws Exception {
+    public static void downloadsAssetIndexUtils(VersionJson VersionJson, DownloadBasicInformation DownloadBasicInformation) throws Exception {
         String b = String.valueOf(Utils.deleteSymbol(Request.getMinecraftVersionAssetIndexJson(VersionJson), "{"));
         String[] hashArray = Utils.regexMatching(b, "\\w{40}");
         String[] pathArray = Utils.regexMatching(b, "[\\w/]+[.]{1}\\w+");
@@ -214,7 +213,7 @@ public class DownloadsUtils {
             IThreadManagement iThreadManagement = () -> {
                 AtomicBoolean outcome = new AtomicBoolean(false);
                 PublicVariable.executorService.execute(() -> {
-                    String path1 = Attribute.getMainPath() + "assets\\objects\\" + hash.substring(0, 2) + "\\";
+                    String path1 = DownloadBasicInformation.getMainPath() + "assets\\objects\\" + hash.substring(0, 2) + "\\";
                     File file = new File(path1 + hash);
                     try {
                         outcome.set(download(UrlArray.assetIndexFileURL(hash), "DA-AI", hash, file,
@@ -229,7 +228,7 @@ public class DownloadsUtils {
             IThreadManagement iThreadManagement2 = () -> {
                 AtomicBoolean outcome = new AtomicBoolean(false);
                 PublicVariable.executorService.execute(() -> {
-                    String path1 = Attribute.getMainPath() + "assets\\virtual\\legacy\\" + Utils.regexReplace(path, Utils.regexReplace(path, "[\\w/]+/", ""), "");
+                    String path1 = DownloadBasicInformation.getMainPath() + "assets\\virtual\\legacy\\" + Utils.regexReplace(path, Utils.regexReplace(path, "[\\w/]+/", ""), "");
                     File file = new File(path1 + Utils.regexReplace(path, "[\\w/]+/", ""));
                     try {
                         outcome.set(download(UrlArray.assetIndexFileURL(hash), "DA-AC", hash, file,
@@ -285,7 +284,7 @@ public class DownloadsUtils {
                     }
                 }
             } else {
-                Output.output(Output.OutputLevel.Debug, ThreadName + "-" + count, "'" + name + "' File already exists and SHA-1 is the same");
+                Output.output(Output.OutputLevel.Debug, ThreadName + "-" + count, "'" + name + "' The file has been downloaded");
                 count(ThreadName, outcome, true);
                 return true;
             }

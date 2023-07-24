@@ -1,11 +1,10 @@
 package minecraft.download;
 
 
-import information.minecraft.VersionJsonManifestVersion;
-import information.minecraft.VersionManifestProcessing;
-import information.minecraft.urlHeader.Bmclapi;
-import information.minecraft.urlHeader.Mcbbs;
-import information.minecraft.urlHeader.Official;
+import information.minecraft.download.VersionManifestVersion;
+import information.minecraft.download.urlHeader.Bmclapi;
+import information.minecraft.download.urlHeader.Mcbbs;
+import information.minecraft.download.urlHeader.Official;
 import jsonProcessing.download.minecraft.library.VersionJson;
 import jsonProcessing.download.minecraft.library.VersionManifest;
 import jsonProcessing.setup.Setup;
@@ -14,12 +13,12 @@ import org.jetbrains.annotations.NotNull;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static information.minecraft.VersionJsonManifestVersion.v1;
-import static information.minecraft.VersionJsonManifestVersion.v2;
+import static information.minecraft.download.VersionManifestVersion.v1;
+import static information.minecraft.download.VersionManifestVersion.v2;
 
 public class UrlArray {
-    public static @NotNull URL[] versionManifestJsonURL(VersionJsonManifestVersion versionJsonManifestVersion) throws MalformedURLException {
-        if (versionJsonManifestVersion == v1) {
+    public static @NotNull URL[] versionManifestJsonURL(VersionManifestVersion versionManifestVersion) throws MalformedURLException {
+        if (versionManifestVersion == v1) {
             return new URL[]{new URL("https://launchermeta.mojang.com/" + v1.getUrlPath()),
                     new URL(Bmclapi.versionManifestJson.getUrlHost() + v1.getUrlPath()),
                     new URL(Mcbbs.versionManifestJson.getUrlHost() + v1.getUrlPath())};

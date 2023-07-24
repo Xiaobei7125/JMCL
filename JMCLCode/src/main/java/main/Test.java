@@ -1,6 +1,6 @@
 package main;
 
-import information.minecraft.Attribute;
+import information.minecraft.download.DownloadBasicInformation;
 import minecraft.Utils;
 
 import java.io.IOException;
@@ -24,11 +24,11 @@ public class Test {
 //        if (login != null) {
 //            Output.output(Output.OutputLevel.main.Test, login.name() + login.accessToken() + login.UUID());
 //        }
-        //minecraft.Utils.downloadMinecraft(new minecraft.minecraft.Attribute(mainPath.readLine(), id.readLine()));
+        //minecraft.Utils.downloadMinecraft(new minecraft.minecraft.DownloadBasicInformation(mainPath.readLine(), id.readLine()));
         //Output.output(Output.OutputLevel.Test, String.valueOf(v1));
-        Utils.downloadMinecraft(new Attribute(mainPath, id));
+        Utils.downloadMinecraft(new DownloadBasicInformation(mainPath, id));
         //VersionManifest MinecraftVersionManifestObject = Request.getMinecraftVersionManifestObject();
-        //DownloadsUtils.downloadsVersionFileUtils(Request.getMinecraftVersionObject(MinecraftVersionManifestObject, new Attribute(mainPath,id)),new Attribute(mainPath,id));
+        //DownloadsUtils.downloadsVersionFileUtils(Request.getMinecraftVersionObject(MinecraftVersionManifestObject, new DownloadBasicInformation(mainPath,id)),new DownloadBasicInformation(mainPath,id));
         //PublicVariable.multiThreadedDownloadExecutorService.shutdown();
 
     }

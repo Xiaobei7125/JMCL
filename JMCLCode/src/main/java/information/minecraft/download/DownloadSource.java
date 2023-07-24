@@ -1,4 +1,4 @@
-package information.minecraft;
+package information.minecraft.download;
 
 import jsonProcessing.setup.Setup;
 

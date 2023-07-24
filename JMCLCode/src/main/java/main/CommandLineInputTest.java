@@ -1,6 +1,6 @@
 package main;
 
-import information.minecraft.Attribute;
+import information.minecraft.download.DownloadBasicInformation;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import jsonProcessing.setup.Setup;
@@ -46,11 +46,11 @@ public class CommandLineInputTest {
         }
         OptionSet optionSet = optionParser.parse(args);
         if (optionSet.has("d")) {
-            Utils.downloadMinecraft(new Attribute((String) optionSet.valueOf("p"), (String) optionSet.valueOf("id")));
+            Utils.downloadMinecraft(new DownloadBasicInformation((String) optionSet.valueOf("p"), (String) optionSet.valueOf("id")));
         } else if (optionSet.has("l")) {
             Utils.microsoftLogin();
         } else if (optionSet.has("st")) {
-            Utils.startMinecraft(new Attribute((String) optionSet.valueOf("p"), (String) optionSet.valueOf("id")));
+            Utils.startMinecraft(new DownloadBasicInformation((String) optionSet.valueOf("p"), (String) optionSet.valueOf("id")));
         } else if (optionSet.has("s")) {
             String name;
             if (optionSet.has(name = "maxThreadsQuantity")) {

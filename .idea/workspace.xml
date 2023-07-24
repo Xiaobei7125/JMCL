@@ -7,8 +7,27 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52b5a912-3e1b-441c-ad53-0a299eb59686" name="变更" comment="更改多线程下载逻辑;&#10;(多线程下载速度慢,目前原因未知);">
+    <list default="true" id="52b5a912-3e1b-441c-ad53-0a299eb59686" name="变更" comment="优化代码结构;&#10;(多线程下载速度慢,目前原因未知);">
+      <changelist_data name="071205080112" email="3183906066@qq.com" />
+      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/download/File.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/download/Task.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/DownloadsUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/DownloadsUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/Request.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/Url.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/Url.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/UrlArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/UrlArray.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/Attribute.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/download/DownloadBasicInformation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/DownloadSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/download/DownloadSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/VersionFileType.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/download/VersionFileType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/VersionJsonManifestVersion.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/download/VersionManifestVersion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/VersionManifestProcessing.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/VersionManifestProcessing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/urlHeader/Bmclapi.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/download/urlHeader/Bmclapi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/urlHeader/Mcbbs.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/download/urlHeader/Mcbbs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/urlHeader/Official.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/download/urlHeader/Official.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/main/CommandLineInputTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/main/CommandLineInputTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/main/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/main/Test.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,20 +95,46 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="master" />
+              </list>
+            </value>
+          </entry>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
+        <option value="071205080112 &lt;3183906066@qq.com&gt;" />
         <option value="071205080112" />
       </list>
     </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SIGN_OFF_COMMIT" value="true" />
     <option name="SWAP_SIDES_IN_COMPARE_BRANCHES" value="true" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -128,7 +173,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature-download&quot;,
     &quot;last_directory_selection&quot;: &quot;F:/JavaTest/JMCL/JMCLCode/src/main/java/minecraft/information&quot;,
     &quot;last_opened_file_path&quot;: &quot;F:/JavaTest/JMCL/wrapper/dists/gradle-8.2.1-bin/5hap6b9n41hkg4jeh2au2pllh/gradle-8.2.1&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -356,11 +401,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.JMCL [jar]" />
-        <item itemvalue="Gradle.JMCL:JMCLCode [assemble]" />
         <item itemvalue="Gradle.JMCL:JMCLCode [jar]" />
-        <item itemvalue="Gradle.JMCL:JMCLCode [clean]" />
         <item itemvalue="Gradle.JMCL:JMCLCode [testClasses]" />
+        <item itemvalue="Gradle.JMCL:JMCLCode [clean]" />
+        <item itemvalue="Gradle.JMCL:JMCLCode [assemble]" />
+        <item itemvalue="Gradle.JMCL [jar]" />
       </list>
     </recent_temporary>
   </component>
@@ -432,6 +477,9 @@
       <workItem from="1690022762781" duration="9852000" />
       <workItem from="1690082333456" duration="11795000" />
       <workItem from="1690176944151" duration="590000" />
+      <workItem from="1690177542619" duration="5452000" />
+      <workItem from="1690188667142" duration="958000" />
+      <workItem from="1690189641120" duration="3896000" />
     </task>
     <task id="LOCAL-00001" summary="2">
       <created>1660048873009</created>
@@ -650,22 +698,6 @@
       <option name="project" value="LOCAL" />
       <updated>1676769941177</updated>
     </task>
-    <task id="LOCAL-00032" summary="更改">
-      <option name="closed" value="true" />
-      <created>1688035355104</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1688035355105</updated>
-    </task>
-    <task id="LOCAL-00033" summary="更改">
-      <option name="closed" value="true" />
-      <created>1688118187213</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1688118187213</updated>
-    </task>
     <task id="LOCAL-00034" summary="更改">
       <option name="closed" value="true" />
       <created>1688194798513</created>
@@ -794,7 +826,23 @@
       <option name="project" value="LOCAL" />
       <updated>1690175345919</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="优化代码结构;&#10;(多线程下载速度慢,目前原因未知);">
+      <option name="closed" value="true" />
+      <created>1690187105190</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1690187105190</updated>
+    </task>
+    <task id="LOCAL-00051" summary="优化代码结构;&#10;(多线程下载速度慢,目前原因未知);">
+      <option name="closed" value="true" />
+      <created>1690187183264</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1690187183264</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -811,7 +859,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="HEAD" />
+                        <option value="origin/main" />
                       </list>
                     </value>
                   </entry>
@@ -841,7 +889,8 @@
     <MESSAGE value="(多线程下载还有问题);&#10;下载工具炸了;" />
     <MESSAGE value="下载代码整合;&#10;(多线程下载速度慢,目前原因未知);" />
     <MESSAGE value="更改多线程下载逻辑;&#10;(多线程下载速度慢,目前原因未知);" />
-    <option name="LAST_COMMIT_MESSAGE" value="更改多线程下载逻辑;&#10;(多线程下载速度慢,目前原因未知);" />
+    <MESSAGE value="优化代码结构;&#10;(多线程下载速度慢,目前原因未知);" />
+    <option name="LAST_COMMIT_MESSAGE" value="优化代码结构;&#10;(多线程下载速度慢,目前原因未知);" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

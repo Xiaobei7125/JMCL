@@ -1,15 +1,15 @@
 package minecraft;
 
 import information.Account;
-import information.minecraft.Attribute;
-import information.minecraft.DownloadSource;
-import information.minecraft.VersionManifestProcessing;
+import information.minecraft.download.DownloadBasicInformation;
+import information.minecraft.download.DownloadSource;
 import jsonProcessing.download.minecraft.library.VersionJson;
 import jsonProcessing.download.minecraft.library.VersionManifest;
 import jsonProcessing.login.microsoft.MinecraftInformationObject;
 import minecraft.download.DownloadsUtils;
 import minecraft.download.Request;
 import minecraft.download.Url;
+import minecraft.download.VersionManifestProcessing;
 import minecraft.login.GetInformation;
 import minecraft.login.Login;
 import other.PublicVariable;
@@ -62,17 +62,17 @@ public class Utils {
         return new Account(MinecraftAuthenticationObject.getId(), MinecraftAuthenticationObject.getName(), MinecraftAuthenticationToken);
     }
 
-    public static void downloadMinecraft(Attribute Attribute) {
+    public static void downloadMinecraft(DownloadBasicInformation DownloadBasicInformation) {
         try {
             VersionManifest MinecraftVersionManifestObject = Request.getMinecraftVersionManifestObject();
-            if (VersionManifestProcessing.isId(MinecraftVersionManifestObject, Attribute.getId())) {
-                VersionJson MinecraftVersionObject = Request.getMinecraftVersionObject(MinecraftVersionManifestObject, Attribute);
-                DownloadsUtils.downloadsVersionFileUtils(MinecraftVersionObject, Attribute);
-                DownloadsUtils.downloadsVersionJsonUtils(MinecraftVersionManifestObject, Attribute);
-                DownloadsUtils.downloadsLibrariesUtils(MinecraftVersionObject, Attribute);
-                DownloadsUtils.downloadLog4jFileUtils(MinecraftVersionObject, Attribute);
-                DownloadsUtils.downloadAssetIndexJsonUtils(MinecraftVersionObject, Attribute);
-                DownloadsUtils.downloadsAssetIndexUtils(MinecraftVersionObject, Attribute);
+            if (VersionManifestProcessing.isId(MinecraftVersionManifestObject, DownloadBasicInformation.getId())) {
+                VersionJson MinecraftVersionObject = Request.getMinecraftVersionObject(MinecraftVersionManifestObject, DownloadBasicInformation);
+                DownloadsUtils.downloadsVersionFileUtils(MinecraftVersionObject, DownloadBasicInformation);
+                DownloadsUtils.downloadsVersionJsonUtils(MinecraftVersionManifestObject, DownloadBasicInformation);
+                DownloadsUtils.downloadsLibrariesUtils(MinecraftVersionObject, DownloadBasicInformation);
+                DownloadsUtils.downloadLog4jFileUtils(MinecraftVersionObject, DownloadBasicInformation);
+                DownloadsUtils.downloadAssetIndexJsonUtils(MinecraftVersionObject, DownloadBasicInformation);
+                DownloadsUtils.downloadsAssetIndexUtils(MinecraftVersionObject, DownloadBasicInformation);
                 PublicVariable.executorService.shutdown();
                 for (; ; ) {
                     if (PublicVariable.executorService.awaitTermination(5000, TimeUnit.MILLISECONDS)) {
@@ -91,19 +91,19 @@ public class Utils {
         }
     }
 
-    public static void startMinecraft(Attribute Attribute) throws IOException, URISyntaxException, InterruptedException {
+    public static void startMinecraft(DownloadBasicInformation DownloadBasicInformation) throws IOException, URISyntaxException, InterruptedException {
         VersionManifest VersionManifest = Request.getMinecraftVersionManifestObject();
-        VersionJson VersionJson = Request.getMinecraftVersionObject(VersionManifest, Attribute);
+        VersionJson VersionJson = Request.getMinecraftVersionObject(VersionManifest, DownloadBasicInformation);
         Account account = Utils.microsoftLogin();
         {
             String javaPath = "\"" + System.getProperty("java.home") + "\\bin\\java.exe\"";
             String launcherBrand = " -Dminecraft.launcher.brand=" + information.Launcher.name;
             String launcherVersion = " -Dminecraft.launcher.version=" + information.Launcher.version;
             String jvm = " -Xmn1024m -Xmx1024m";
-            String natives = " -Djava.library.path=\"" + Attribute.getMainPath() + "versions\\" + Attribute.getId() + "\\" + "natives" + "\"";
+            String natives = " -Djava.library.path=\"" + DownloadBasicInformation.getMainPath() + "versions\\" + DownloadBasicInformation.getId() + "\\" + "natives" + "\"";
             String log4j = "";
             if (VersionJson.getLogging() != null) {
-                log4j = " -Dlog4j.configurationFile=" + Attribute.getMainPath() + "assets\\log_configs\\" + VersionJson.getLogging().getClient().getFile().getId();
+                log4j = " -Dlog4j.configurationFile=" + DownloadBasicInformation.getMainPath() + "assets\\log_configs\\" + VersionJson.getLogging().getClient().getFile().getId();
             }
             String other =
                     " -XX:+UnlockExperimentalVMOptions" +
@@ -119,24 +119,24 @@ public class Utils {
                             " -XX:-UseAdaptiveSizePolicy" +
                             " -XX:-OmitStackTraceInFastThrow";
             StringBuilder classPath = new StringBuilder(" -cp ");
-            getGsonObject().fromJson(new String(utils.Utils.readToString(Attribute.getMainPath() + "versions\\" + Attribute.getId() + "\\" + Attribute.getId() + ".json"), StandardCharsets.UTF_8),
+            getGsonObject().fromJson(new String(utils.Utils.readToString(DownloadBasicInformation.getMainPath() + "versions\\" + DownloadBasicInformation.getId() + "\\" + DownloadBasicInformation.getId() + ".json"), StandardCharsets.UTF_8),
                     VersionJson.class);
             String a = "";
             for (int i = 0; i < VersionJson.getLibraries().length; i++) {
                 if (VersionJson.getLibraries()[i].getDownloads().getClassifiers() == null) {
                     String name = new File(Url.otherJarLibrariesURL(VersionJson, DownloadSource.official, i).getPath()).getName();
-                    String path = Attribute.getMainPath() + "libraries\\" + utils.Utils.regexReplace(VersionJson.getLibraries()[i].getDownloads().getArtifact().getPath(), name, "");
+                    String path = DownloadBasicInformation.getMainPath() + "libraries\\" + utils.Utils.regexReplace(VersionJson.getLibraries()[i].getDownloads().getArtifact().getPath(), name, "");
                     classPath.append(a).append(path).append(name);
                     a = ";";
                 }
             }
-            classPath.append(";").append(Attribute.getMainPath()).append("versions\\").append(Attribute.getId()).append("\\").append(Attribute.getId()).append(".jar");
+            classPath.append(";").append(DownloadBasicInformation.getMainPath()).append("versions\\").append(DownloadBasicInformation.getId()).append("\\").append(DownloadBasicInformation.getId()).append(".jar");
             String mainClass = " " + VersionJson.getMainClass();
             assert account != null;
             String username = " --username " + account.name();
-            String version = " --version " + Attribute.getId();
-            String gameDir = " --gameDir " + Attribute.getMainPath();
-            String assetsDir = " --assetsDir " + Attribute.getMainPath() + "assets";
+            String version = " --version " + DownloadBasicInformation.getId();
+            String gameDir = " --gameDir " + DownloadBasicInformation.getMainPath();
+            String assetsDir = " --assetsDir " + DownloadBasicInformation.getMainPath() + "assets";
             String assetIndex = " --assetIndex " + VersionJson.getAssetIndex().getId();
             String uuid = " --uuid " + account.UUID();
             String accessToken = " --accessToken " + account.accessToken();

@@ -1,4 +1,4 @@
-package information.minecraft.urlHeader;
+package information.minecraft.download.urlHeader;
 
 public enum Mcbbs {
     versionManifestJson("https://download.mcbbs.net/"),

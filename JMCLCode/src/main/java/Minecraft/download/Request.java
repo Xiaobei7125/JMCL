@@ -2,9 +2,9 @@ package minecraft.download;
 
 
 import com.google.gson.GsonBuilder;
-import information.minecraft.Attribute;
-import information.minecraft.DownloadSource;
-import information.minecraft.VersionJsonManifestVersion;
+import information.minecraft.download.DownloadBasicInformation;
+import information.minecraft.download.DownloadSource;
+import information.minecraft.download.VersionManifestVersion;
 import jsonProcessing.download.minecraft.library.VersionJson;
 import jsonProcessing.download.minecraft.library.VersionManifest;
 import utils.Utils;
@@ -17,7 +17,7 @@ import static jsonProcessing.download.minecraft.library.VersionJson.getGsonObjec
 
 public class Request {
     private static VersionManifest getMinecraftVersionManifestObject(DownloadSource downloadSource) throws IOException {
-        String MinecraftVersionManifestJson = String.valueOf(Utils.getFileContent(Url.versionManifestJsonURL(VersionJsonManifestVersion.v2, downloadSource)));
+        String MinecraftVersionManifestJson = String.valueOf(Utils.getFileContent(Url.versionManifestJsonURL(VersionManifestVersion.v2, downloadSource)));
         return new GsonBuilder().setVersion(2).create().fromJson(MinecraftVersionManifestJson,
                 VersionManifest.class);
     }
@@ -44,14 +44,14 @@ public class Request {
         }
     }
 
-    public static VersionJson getMinecraftVersionObject(VersionManifest VersionManifest, Attribute Attribute) throws IOException {
+    public static VersionJson getMinecraftVersionObject(VersionManifest VersionManifest, DownloadBasicInformation DownloadBasicInformation) throws IOException {
         try {
-            return getMinecraftVersionObject(VersionManifest, Attribute.getId(), DownloadSource.official);
+            return getMinecraftVersionObject(VersionManifest, DownloadBasicInformation.getId(), DownloadSource.official);
         } catch (IOException e) {
             try {
-                return getMinecraftVersionObject(VersionManifest, Attribute.getId(), DownloadSource.bmclapi);
+                return getMinecraftVersionObject(VersionManifest, DownloadBasicInformation.getId(), DownloadSource.bmclapi);
             } catch (IOException f) {
-                return getMinecraftVersionObject(VersionManifest, Attribute.getId(), DownloadSource.mcbbs);
+                return getMinecraftVersionObject(VersionManifest, DownloadBasicInformation.getId(), DownloadSource.mcbbs);
             }
         }
     }
