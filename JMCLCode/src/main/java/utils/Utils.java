@@ -1,14 +1,9 @@
 package utils;
 
 
-import jsonProcessing.setup.Setup;
-
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
@@ -29,19 +24,6 @@ public class Utils {
         return true;
     }
 
-
-    public static byte[] getData(InputStream is) throws IOException{
-        ByteArrayOutputStream bops = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int len;
-        while ((len = is.read(buffer)) != -1) {
-            bops.write(buffer, 0, len);
-        }
-        byte[] data = bops.toByteArray();
-        bops.flush();
-        bops.close();
-        return data;
-    }
 
     public static String regexReplace(String input, String regex, String replacement) {
         Pattern p = Pattern.compile(regex);
@@ -66,61 +48,6 @@ public class Utils {
             c++;
         }
         return Utils.removeNull(StringArray);
-    }
-
-    public static StringBuilder getFileContent(URL url) throws IOException {
-        URLConnection connection = url.openConnection();
-        if (connection instanceof HttpURLConnection httpConnection) {
-            httpConnection.setRequestMethod("GET");
-            httpConnection.setDoOutput(true);
-            httpConnection.setDoInput(true);
-            httpConnection.setUseCaches(false);
-            httpConnection.setConnectTimeout(Setup.getSetupInstance().download.downloadConnectTimeout);
-            httpConnection.setReadTimeout(Setup.getSetupInstance().download.downloadReadTimeout);
-            BufferedReader is = new BufferedReader(new InputStreamReader(httpConnection.getInputStream(), StandardCharsets.UTF_8));
-            StringBuilder body = new StringBuilder();
-            String a;
-            while ((a = is.readLine()) != null) {
-                body.append(a);
-            }
-            is.close();
-            return body;
-        } else {
-            System.out.println("The URL is null");
-        }
-        return null;
-    }
-
-    public static byte[] getPartOfTheFileContent(URL url, int start, long end) throws IOException {
-        URLConnection connection = url.openConnection();
-        if (connection instanceof HttpURLConnection httpConnection) {
-            httpConnection.setRequestMethod("GET");
-            httpConnection.setDoOutput(true);
-            httpConnection.setDoInput(true);
-            httpConnection.setUseCaches(false);
-            httpConnection.setConnectTimeout(Setup.getSetupInstance().download.downloadConnectTimeout);
-            httpConnection.setReadTimeout(Setup.getSetupInstance().download.downloadReadTimeout);
-            httpConnection.setRequestProperty("Range", "bytes=" + start + "-" + end);
-            httpConnection.connect();
-            for (int j = 0; j != Setup.getSetupInstance().download.downloadRetries; j++) {
-                try {
-                    if (httpConnection.getResponseCode() == 206) {
-                        //System.out.println(Thread.currentThread().getName() + httpConnection.getResponseCode());
-                        InputStream inputStream = httpConnection.getInputStream();
-                        byte[] r = getData(inputStream);
-                        inputStream.close();
-                        return r;
-                    }
-                    //Output.output(Output.OutputLevel.Test, String.valueOf(httpConnection.getResponseCode()));
-                    //System.out.println(Thread.currentThread().getName() + "Request failed");
-                } catch (Throwable e) {
-                    //e.printStackTrace();
-                }
-            }
-        } else {
-            System.out.println("The URL is null");
-        }
-        return null;
     }
 
     public static String[] removeNull(String[] array){
@@ -151,7 +78,7 @@ public class Utils {
             if (!file.canWrite())
                 if (!file.setWritable(true))
                     return null;
-            byte[] input = readToString(String.valueOf(file));
+            byte[] input = Stream.readToString(String.valueOf(file));
             MessageDigest md = MessageDigest.getInstance("SHA-1");
             byte[] messageDigest = md.digest(input);
             BigInteger no = new BigInteger(1, messageDigest);
@@ -159,34 +86,6 @@ public class Utils {
             while (hashText.length() < 40) hashText.insert(0, "0");
             return hashText.toString();
         }
-    }
-
-    public static byte[] readToString(String fileName) throws IOException {
-        File file = new File(fileName);
-        long fileLength = file.length();
-        byte[] fileContent = new byte[(int) fileLength];
-        try {
-            FileInputStream in = new FileInputStream(file);
-            in.read(fileContent);
-            in.close();
-        } catch (IOException e) {
-            throw new IOException(e);
-        }
-        return fileContent;
-    }
-
-    public static byte[] writeToString(String fileName, String contents) throws IOException {
-        File file = new File(fileName);
-        long fileLength = contents.length();
-        byte[] fileContent = new byte[(int) fileLength];
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            out.write(contents.getBytes(StandardCharsets.UTF_8));
-            out.close();
-        } catch (IOException e) {
-            throw new IOException(e);
-        }
-        return fileContent;
     }
 
     public enum xboxLiveType {

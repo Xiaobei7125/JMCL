@@ -2,7 +2,7 @@ package jsonProcessing.setup;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import utils.Utils;
+import utils.Stream;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -12,14 +12,14 @@ public class Setup {
 
     static {
         try {
-            String contents = new String(Utils.readToString("JMCL.properties"), StandardCharsets.UTF_8);
+            String contents = new String(Stream.readToString("JMCL.properties"), StandardCharsets.UTF_8);
             set = new Gson().fromJson(contents, Setup.class);
             if (set == null) {
                 throw new IOException();
             }
         } catch (IOException ignored) {
             try {
-                byte[] setup = Utils.writeToString("JMCL.properties"
+                byte[] setup = Stream.writeToString("JMCL.properties"
                         , new GsonBuilder().setPrettyPrinting().create().toJson(getSetupInstance()));
             } catch (IOException ignored1) {
             }

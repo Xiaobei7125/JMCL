@@ -13,7 +13,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static utils.Utils.getPartOfTheFileContent;
+import static utils.Stream.getPartOfTheFileContent;
 
 public class Download {
     public static boolean downloadAFile(URL url, File file) throws IOException {

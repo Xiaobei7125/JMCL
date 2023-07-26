@@ -6,15 +6,19 @@ public class File {
     String name;
     URL url;
     long size;
-    File file;
-    ExtraActions extraActions;
+    java.io.File file;
 
-    public File(String name, URL url, long size, File file, ExtraActions extraActions) {
+    public File(String name, URL url, long size, java.io.File file) {
         this.name = name;
         this.url = url;
         this.size = size;
         this.file = file;
-        this.extraActions = extraActions;
+    }
+
+    public File(String name, long size, java.io.File file) {
+        this.name = name;
+        this.size = size;
+        this.file = file;
     }
 
 
@@ -35,19 +39,11 @@ public class File {
         this.url = url;
     }
 
-    public ExtraActions getExtraActions() {
-        return extraActions;
-    }
-
-    public void setExtraActions(ExtraActions extraActions) {
-        this.extraActions = extraActions;
-    }
-
-    public File getFile() {
+    public java.io.File getFile() {
         return file;
     }
 
-    public void setFile(File file) {
+    public void setFile(java.io.File file) {
         this.file = file;
     }
 
@@ -59,8 +55,5 @@ public class File {
         this.size = size;
     }
 
-    interface ExtraActions {
-        boolean actions() throws Exception;
-    }
 
 }

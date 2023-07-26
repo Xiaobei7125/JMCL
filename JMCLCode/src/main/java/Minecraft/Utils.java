@@ -3,6 +3,7 @@ package minecraft;
 import information.Account;
 import information.minecraft.download.DownloadBasicInformation;
 import information.minecraft.download.DownloadSource;
+import information.minecraft.download.MinecraftTask;
 import jsonProcessing.download.minecraft.library.VersionJson;
 import jsonProcessing.download.minecraft.library.VersionManifest;
 import jsonProcessing.login.microsoft.MinecraftInformationObject;
@@ -12,14 +13,13 @@ import minecraft.download.Url;
 import minecraft.download.VersionManifestProcessing;
 import minecraft.login.GetInformation;
 import minecraft.login.Login;
-import other.PublicVariable;
 import utils.Output;
+import utils.Stream;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.TimeUnit;
 
 import static jsonProcessing.download.minecraft.library.VersionJson.getGsonObject;
 
@@ -62,27 +62,28 @@ public class Utils {
         return new Account(MinecraftAuthenticationObject.getId(), MinecraftAuthenticationObject.getName(), MinecraftAuthenticationToken);
     }
 
-    public static void downloadMinecraft(DownloadBasicInformation DownloadBasicInformation) {
+    public static void downloadMinecraft(DownloadBasicInformation downloadBasicInformation) {
         try {
             VersionManifest MinecraftVersionManifestObject = Request.getMinecraftVersionManifestObject();
-            if (VersionManifestProcessing.isId(MinecraftVersionManifestObject, DownloadBasicInformation.getId())) {
-                VersionJson MinecraftVersionObject = Request.getMinecraftVersionObject(MinecraftVersionManifestObject, DownloadBasicInformation);
-                DownloadsUtils.downloadsVersionFileUtils(MinecraftVersionObject, DownloadBasicInformation);
-                DownloadsUtils.downloadsVersionJsonUtils(MinecraftVersionManifestObject, DownloadBasicInformation);
-                DownloadsUtils.downloadsLibrariesUtils(MinecraftVersionObject, DownloadBasicInformation);
-                DownloadsUtils.downloadLog4jFileUtils(MinecraftVersionObject, DownloadBasicInformation);
-                DownloadsUtils.downloadAssetIndexJsonUtils(MinecraftVersionObject, DownloadBasicInformation);
-                DownloadsUtils.downloadsAssetIndexUtils(MinecraftVersionObject, DownloadBasicInformation);
-                PublicVariable.executorService.shutdown();
-                for (; ; ) {
-                    if (PublicVariable.executorService.awaitTermination(5000, TimeUnit.MILLISECONDS)) {
-                        PublicVariable.multiThreadedDownloadExecutorService.shutdownNow();
-                        System.out.println(PublicVariable.executorService.isTerminated());
-                        System.out.println(DownloadsUtils.end + "/" + DownloadsUtils.error + "/" +
-                                (DownloadsUtils.error + DownloadsUtils.end));
-                        break;
-                    }
-                }
+            if (VersionManifestProcessing.isId(MinecraftVersionManifestObject, downloadBasicInformation.getId())) {
+                MinecraftTask mcDownloadsTask = new MinecraftTask();
+                VersionJson MinecraftVersionObject = Request.getMinecraftVersionObject(MinecraftVersionManifestObject, downloadBasicInformation);
+                DownloadsUtils.downloadsVersionJsonUtils(mcDownloadsTask, MinecraftVersionManifestObject, downloadBasicInformation);
+                DownloadsUtils.downloadsVersionFileUtils(mcDownloadsTask, MinecraftVersionObject, downloadBasicInformation);
+//                DownloadsUtils.downloadsLibrariesUtils(MinecraftVersionObject, downloadBasicInformation);
+//                DownloadsUtils.downloadLog4jFileUtils(MinecraftVersionObject, downloadBasicInformation);
+//                DownloadsUtils.downloadAssetIndexJsonUtils(MinecraftVersionObject, downloadBasicInformation);
+//                DownloadsUtils.downloadsAssetIndexUtils(MinecraftVersionObject, downloadBasicInformation);
+//                PublicVariable.executorService.shutdown();
+//                for (; ; ) {
+//                    if (PublicVariable.executorService.awaitTermination(5000, TimeUnit.MILLISECONDS)) {
+//                        PublicVariable.multiThreadedDownloadExecutorService.shutdownNow();
+//                        System.out.println(PublicVariable.executorService.isTerminated());
+//                        System.out.println(DownloadsUtils.end + "/" + DownloadsUtils.error + "/" +
+//                                (DownloadsUtils.error + DownloadsUtils.end));
+//                        break;
+//                    }
+//                }
             } else {
                 System.out.println("This minecraft version does not exist.");
             }
@@ -119,7 +120,7 @@ public class Utils {
                             " -XX:-UseAdaptiveSizePolicy" +
                             " -XX:-OmitStackTraceInFastThrow";
             StringBuilder classPath = new StringBuilder(" -cp ");
-            getGsonObject().fromJson(new String(utils.Utils.readToString(DownloadBasicInformation.getMainPath() + "versions\\" + DownloadBasicInformation.getId() + "\\" + DownloadBasicInformation.getId() + ".json"), StandardCharsets.UTF_8),
+            getGsonObject().fromJson(new String(Stream.readToString(DownloadBasicInformation.getMainPath() + "versions\\" + DownloadBasicInformation.getId() + "\\" + DownloadBasicInformation.getId() + ".json"), StandardCharsets.UTF_8),
                     VersionJson.class);
             String a = "";
             for (int i = 0; i < VersionJson.getLibraries().length; i++) {
