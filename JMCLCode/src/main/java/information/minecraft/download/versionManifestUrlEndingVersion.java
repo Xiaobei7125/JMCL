@@ -1,10 +1,10 @@
 package information.minecraft.download;
 
-public enum VersionManifestVersion {
+public enum versionManifestUrlEndingVersion {
     v1("mc/game/version_manifest.json"), v2("mc/game/version_manifest_v2.json");
     final String urlPath;
 
-    VersionManifestVersion(String urlPath) {
+    versionManifestUrlEndingVersion(String urlPath) {
         this.urlPath = urlPath;
     }
 

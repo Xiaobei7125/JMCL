@@ -7,25 +7,22 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52b5a912-3e1b-441c-ad53-0a299eb59686" name="变更" comment="优化代码结构;&#10;(多线程下载速度慢,目前原因未知);">
+    <list default="true" id="52b5a912-3e1b-441c-ad53-0a299eb59686" name="变更" comment="优化代码结构;&#10;VersionJson&amp;VersionFile完成&#10;(多线程下载速度慢,目前原因未知);">
       <changelist_data name="071205080112" email="3183906066@qq.com" />
-      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/download/File.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/download/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/download/Outcome.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/Version.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/download/Libraries.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/DownloadsUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/DownloadsUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/DownloadsUtils.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/Request.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/Url.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/Url.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/UrlArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/UrlArray.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/Attribute.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/download/DownloadBasicInformation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/DownloadSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/download/DownloadSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/VersionFileType.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/download/VersionFileType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/VersionJsonManifestVersion.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/download/VersionManifestVersion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/VersionManifestProcessing.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/VersionManifestProcessing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/urlHeader/Bmclapi.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/download/urlHeader/Bmclapi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/urlHeader/Mcbbs.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/download/urlHeader/Mcbbs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/urlHeader/Official.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/download/urlHeader/Official.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/VersionManifestProcessing.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/Minecraft/download/VersionManifestProcessing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/download/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/download/Task.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/download/DownloadBasicInformation.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/information/minecraft/download/DownloadBasicInformation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/jsonProcessing/download/minecraft/library/VersionManifest.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/jsonProcessing/download/minecraft/library/VersionManifest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/main/CommandLineInputTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/main/CommandLineInputTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JMCLCode/src/main/java/main/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/JMCLCode/src/main/java/main/Test.java" afterDir="false" />
     </list>
@@ -94,8 +91,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -199,7 +196,14 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="information.download.Outcome" />
+      <recent name="information.download.Task" />
+      <recent name="utils.Stream" />
       <recent name="minecraft.download.UrlArray" />
+    </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="information.minecraft.download" />
+      <recent name="minecraft.download" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="minecraft.login" />
@@ -480,6 +484,8 @@
       <workItem from="1690177542619" duration="5452000" />
       <workItem from="1690188667142" duration="958000" />
       <workItem from="1690189641120" duration="3896000" />
+      <workItem from="1690695936332" duration="3556000" />
+      <workItem from="1690792553585" duration="2022000" />
     </task>
     <task id="LOCAL-00001" summary="2">
       <created>1660048873009</created>
@@ -859,7 +865,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/main" />
+                        <option value="HEAD" />
                       </list>
                     </value>
                   </entry>

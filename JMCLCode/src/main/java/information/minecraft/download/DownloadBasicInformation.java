@@ -1,16 +1,18 @@
 package information.minecraft.download;
 
 
+import information.minecraft.Version;
+
 import java.nio.file.Paths;
 
 public class DownloadBasicInformation {
     String mainPath;
-    String id;
+    Version version;
     String runPath = Paths.get("").toAbsolutePath().toString();
 
 
-    public DownloadBasicInformation(String mainPath, String id) {
-        this.id = id;
+    public DownloadBasicInformation(String mainPath, Version version) {
+        this.version = version;
         this.mainPath = mainPath;
     }
 
@@ -22,12 +24,12 @@ public class DownloadBasicInformation {
         this.mainPath = mainPath;
     }
 
-    public String getId() {
-        return id;
+    public Version getVersion() {
+        return version;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setVersion(Version version) {
+        this.version = version;
     }
 
     public String getRunPath() {

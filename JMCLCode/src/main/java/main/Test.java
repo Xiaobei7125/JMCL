@@ -1,5 +1,6 @@
 package main;
 
+import information.minecraft.Version;
 import information.minecraft.download.DownloadBasicInformation;
 import minecraft.Utils;
 
@@ -11,7 +12,7 @@ public class Test {
         //BufferedReader mainPath = new BufferedReader(new InputStreamReader(System.in));
         //BufferedReader id = new BufferedReader(new InputStreamReader(System.in));
         String mainPath = "F:\\JavaTest\\JMCL\\.minecraft\\";
-        String id = "1.20.1";
+        String version = "1.20.1";
         //Output.theNameOfTheCallingMethod();
 //        long i = 0;
 //        Output.output(Output.OutputLevel.main.Test,"\33[3;35;44m91222");
@@ -26,9 +27,9 @@ public class Test {
 //        }
         //minecraft.Utils.downloadMinecraft(new minecraft.minecraft.DownloadBasicInformation(mainPath.readLine(), id.readLine()));
         //Output.output(Output.OutputLevel.Test, String.valueOf(v1));
-        Utils.downloadMinecraft(new DownloadBasicInformation(mainPath, id));
+        Utils.downloadMinecraft(new DownloadBasicInformation(mainPath, new Version(version)));
         //VersionManifest MinecraftVersionManifestObject = Request.getMinecraftVersionManifestObject();
-        //DownloadsUtils.downloadsVersionFileUtils(Request.getMinecraftVersionObject(MinecraftVersionManifestObject, new DownloadBasicInformation(mainPath,id)),new DownloadBasicInformation(mainPath,id));
+        //Libraries.downloadsVersionFileUtils(Request.getMinecraftVersionObject(MinecraftVersionManifestObject, new DownloadBasicInformation(mainPath,id)),new DownloadBasicInformation(mainPath,id));
         //PublicVariable.multiThreadedDownloadExecutorService.shutdown();
 
     }

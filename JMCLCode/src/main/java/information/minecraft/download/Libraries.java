@@ -1,12 +1,11 @@
-package minecraft.download;
+package information.minecraft.download;
 
-import information.download.Task;
-import information.minecraft.download.DownloadBasicInformation;
-import information.minecraft.download.DownloadSource;
-import information.minecraft.download.FileType;
 import jsonProcessing.download.minecraft.library.VersionJson;
 import jsonProcessing.download.minecraft.library.VersionManifest;
 import jsonProcessing.setup.Setup;
+import minecraft.download.Request;
+import minecraft.download.Url;
+import minecraft.download.UrlArray;
 import org.jetbrains.annotations.NotNull;
 import other.IThreadManagement;
 import other.PublicVariable;
@@ -22,12 +21,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
-
-public class DownloadsUtils {
-    public static int end = 0;
-    public static int error = 0;
-
-    private static void downloadFile(URL url, @NotNull DownloadSource downloadSource, File file) throws Exception {
+public interface Libraries {
+    static void downloadFile(URL url, @NotNull DownloadSource downloadSource, File file) throws Exception {
         if (downloadSource.getIfUse()) {
             if (Setup.getSetupInstance().download.threads.multiThreadedDownload.ifMultiThreadedDownloadAFile) {
                 utils.Download.MultiThreadedDownloadAFile(url, file);
@@ -39,18 +34,60 @@ public class DownloadsUtils {
         }
     }
 
-    public static void downloadsVersionFileUtils(Task mcDownloadsTask, VersionJson VersionJson,
-                                                 DownloadBasicInformation downloadBasicInformation) throws Exception {
-        String name = downloadBasicInformation.getId() + "." + FileType.jar;
+    static void addVersionClientJarFileInformation(MinecraftTask mcDownloadsTask, VersionJson VersionJson,
+                                                   DownloadBasicInformation downloadBasicInformation) throws Exception {
+        String name = downloadBasicInformation.getVersion() + "." + FileType.jar;
         //下载路径
-        String incompletePath = downloadBasicInformation.getMainPath() + "versions\\" + downloadBasicInformation.getId() + "\\";
+        String incompletePath = downloadBasicInformation.getMainPath() + "versions\\" + downloadBasicInformation.getVersion() + "\\";
         //从下载处获得的sha1
         String standardSha1 = VersionJson.getDownloads().getClient().getSha1();
         int standardSize = VersionJson.getDownloads().getClient().getSize();
         File file = new File(incompletePath + name);
-        if (Setup.getSetupInstance().download.ifCheckFileBeforeDownloading && (Objects.equals(standardSha1, Utils.fileSha1(file)) && standardSize == file.length())) {
-            mcDownloadsTask.addFileArrayList(new information.minecraft.download.MinecraftFile(name,
+        if (!(Setup.getSetupInstance().download.ifCheckFileBeforeDownloading &&
+                (Objects.equals(standardSha1, Utils.fileSha1(file)) &&
+                        standardSize == file.length()))) {
+            mcDownloadsTask.addFileArrayList(new MinecraftFile(name,
                     UrlArray.versionJarFileURL(VersionJson), standardSize, file));
+        } else {
+            mcDownloadsTask.addDownloadCompletionFilesNumber(1)
+                    .addDownloadCompletionSize(standardSize)
+                    .addTotalSize(standardSize)
+                    .addFilesTotalNumber(1);
+        }
+    }
+
+    static void addVersionJsonFileInformation(MinecraftTask mcDownloadsTask, VersionManifest VersionManifest,
+                                              DownloadBasicInformation downloadBasicInformation) throws Exception {
+        String name = downloadBasicInformation.getVersion() + "." + FileType.json;
+        String incompletePath = downloadBasicInformation.getMainPath() + "versions\\" + downloadBasicInformation.getVersion() + "\\";
+        String standardSha1 = VersionManifest.getVersionJsonSha1(downloadBasicInformation.getVersion());
+        File file = new File(incompletePath + name);
+        long standardSize = Stream.getFileSize(UrlArray.versionJsonFileURL(VersionManifest, downloadBasicInformation.getVersion()));
+        if (!(Setup.getSetupInstance().download.ifCheckFileBeforeDownloading &&
+                (Objects.equals(standardSha1, Utils.fileSha1(file)) &&
+                        standardSize == file.length()))) {
+            mcDownloadsTask.addFileArrayList(new MinecraftFile(name,
+                    UrlArray.versionJsonFileURL(VersionManifest, downloadBasicInformation.getVersion()), standardSize, file));
+        } else {
+            mcDownloadsTask.addDownloadCompletionFilesNumber(1)
+                    .addDownloadCompletionSize(standardSize)
+                    .addTotalSize(standardSize)
+                    .addFilesTotalNumber(1);
+        }
+    }
+
+    static void addLog4jFileInformation(MinecraftTask mcDownloadsTask, VersionJson VersionJson,
+                                        DownloadBasicInformation downloadBasicInformation) throws Exception {
+        String name = VersionJson.getLogging().getClient().getFile().getId();
+        String incompletePath = downloadBasicInformation.getMainPath() + "assets\\log_configs\\";
+        String standardSha1 = VersionJson.getLogging().getClient().getFile().getSha1();
+        int standardSize = VersionJson.getLogging().getClient().getFile().getSize();
+        File file = new File(incompletePath + name);
+        if (!(Setup.getSetupInstance().download.ifCheckFileBeforeDownloading &&
+                (Objects.equals(standardSha1, Utils.fileSha1(file)) &&
+                        standardSize == file.length()))) {
+            mcDownloadsTask.addFileArrayList(new MinecraftFile(name,
+                    UrlArray.Log4jFileURL(VersionJson), standardSize, file));
         } else {
             mcDownloadsTask.addDownloadCompletionFilesNumber(1)
                     .addDownloadCompletionSize(standardSize)
@@ -60,15 +97,13 @@ public class DownloadsUtils {
 //        IThreadManagement iThreadManagement = () -> {
 //            AtomicBoolean outcome = new AtomicBoolean(false);
 //            PublicVariable.executorService.execute(() -> {
-//                String name = downloadBasicInformation.getId() + "." + FileType.jar;
-//                //下载路径
-//                String incompletePath = downloadBasicInformation.getMainPath() + "versions\\" + downloadBasicInformation.getId() + "\\";
-//                //从下载处获得的sha1
-//                String standardSha1 = VersionJson.getDownloads().getClient().getSha1();
-//                int standardSize = VersionJson.getDownloads().getClient().getSize();
-//                Stream file = new Stream(incompletePath + name);
+//                String name = VersionJson.getLogging().getClient().getFile().getId();
+//                String incompletePath = downloadBasicInformation.getMainPath() + "assets\\log_configs\\";
+//                String standardSha1 = VersionJson.getLogging().getClient().getFile().getSha1();
+//                int standardSize = VersionJson.getLogging().getClient().getFile().getSize();
+//                File file = new File(incompletePath + name);
 //                try {
-//                    outcome.set(download(UrlArray.versionJarFileURL(VersionJson), "DL-VF", standardSha1, file,
+//                    outcome.set(download(UrlArray.Log4jFileURL(VersionJson), "DL-LF", standardSha1, file,
 //                            standardSize, 0, new Outcome(new AtomicInteger(), new AtomicInteger(), new AtomicInteger(), 1)));
 //                } catch (Exception e) {
 //                    throw new RuntimeException(e);
@@ -79,63 +114,7 @@ public class DownloadsUtils {
 //        iThreadManagement.run();
     }
 
-    public static void downloadsVersionJsonUtils(Task mcDownloadsTask, VersionManifest VersionManifest,
-                                                 DownloadBasicInformation downloadBasicInformation) throws Exception {
-        String name = downloadBasicInformation.getId() + "." + FileType.json;
-        String incompletePath = downloadBasicInformation.getMainPath() + "versions\\" + downloadBasicInformation.getId() + "\\";
-        String standardSha1 = VersionManifest.getSha1(downloadBasicInformation.getId());
-        File file = new File(incompletePath + name);
-        long standardSize = Stream.getFileSize(UrlArray.versionJsonFileURL(VersionManifest, downloadBasicInformation.getId()));
-        if (Setup.getSetupInstance().download.ifCheckFileBeforeDownloading && (Objects.equals(standardSha1, Utils.fileSha1(file)) && standardSize == file.length())) {
-            mcDownloadsTask.addFileArrayList(new information.minecraft.download.MinecraftFile(name,
-                    UrlArray.versionJsonFileURL(VersionManifest, downloadBasicInformation.getId()), standardSize, file));
-        } else {
-            mcDownloadsTask.addDownloadCompletionFilesNumber(1)
-                    .addDownloadCompletionSize(standardSize)
-                    .addTotalSize(standardSize)
-                    .addFilesTotalNumber(1);
-        }
-//        IThreadManagement iThreadManagement = () -> {
-//            AtomicBoolean outcome = new AtomicBoolean(false);
-//            PublicVariable.executorService.execute(() -> {
-//                String name = downloadBasicInformation.getId() + "." + FileType.json;
-//                String incompletePath = downloadBasicInformation.getMainPath() + "versions\\" + downloadBasicInformation.getId() + "\\";
-//                String standardSha1 = VersionManifest.getSha1(downloadBasicInformation.getId());
-//                Stream file = new Stream(incompletePath + name);
-//                try {
-//                    outcome.set(download(UrlArray.versionJsonFileURL(VersionManifest, downloadBasicInformation.getId()), "DL-VJ",
-//                            standardSha1, file, 0, 0, new Outcome(new AtomicInteger(), new AtomicInteger(), new AtomicInteger(), 1)));
-//                } catch (Exception e) {
-//                    throw new RuntimeException(e);
-//                }
-//            });
-//            return outcome.get();
-//        };
-//        iThreadManagement.run();
-    }
-
-    public static void downloadLog4jFileUtils(VersionJson VersionJson, DownloadBasicInformation downloadBasicInformation) throws Exception {
-        IThreadManagement iThreadManagement = () -> {
-            AtomicBoolean outcome = new AtomicBoolean(false);
-            PublicVariable.executorService.execute(() -> {
-                String name = VersionJson.getLogging().getClient().getFile().getId();
-                String incompletePath = downloadBasicInformation.getMainPath() + "assets\\log_configs\\";
-                String standardSha1 = VersionJson.getLogging().getClient().getFile().getSha1();
-                int standardSize = VersionJson.getLogging().getClient().getFile().getSize();
-                File file = new File(incompletePath + name);
-                try {
-                    outcome.set(download(UrlArray.Log4jFileURL(VersionJson), "DL-LF", standardSha1, file,
-                            standardSize, 0, new Outcome(new AtomicInteger(), new AtomicInteger(), new AtomicInteger(), 1)));
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            });
-            return outcome.get();
-        };
-        iThreadManagement.run();
-    }
-
-    public static void downloadAssetIndexJsonUtils(VersionJson VersionJson, DownloadBasicInformation downloadBasicInformation) throws Exception {
+    static void addAssetIndexJsonInformation(VersionJson VersionJson, DownloadBasicInformation downloadBasicInformation) throws Exception {
         IThreadManagement iThreadManagement = () -> {
             AtomicBoolean outcome = new AtomicBoolean(false);
             PublicVariable.executorService.execute(() -> {
@@ -156,7 +135,7 @@ public class DownloadsUtils {
         iThreadManagement.run();
     }
 
-    public static void downloadsLibrariesUtils(@NotNull VersionJson VersionJson, DownloadBasicInformation downloadBasicInformation) throws Exception {
+    static void downloadsLibrariesUtils(@NotNull VersionJson VersionJson, DownloadBasicInformation downloadBasicInformation) throws Exception {
         AtomicInteger DLEnd = new AtomicInteger();
         AtomicInteger DLError = new AtomicInteger();
         AtomicInteger DLAdd = new AtomicInteger();
@@ -180,7 +159,7 @@ public class DownloadsUtils {
                             File file = new File(downloadBasicInformation.getRunPath() + "\\natives\\" + name);
                             outcome.set(download(UrlArray.nativesJarURL(VersionJson, finalI1), "DL-ND", standardSha1, file,
                                     standardSize, finalI1, new Outcome(DLEnd, DLError, DLAdd, sumOfDL)));
-                            String unzipTheDirectory = downloadBasicInformation.getMainPath() + "versions\\" + downloadBasicInformation.getId() + "\\natives\\";
+                            String unzipTheDirectory = downloadBasicInformation.getMainPath() + "versions\\" + downloadBasicInformation.getVersion() + "\\natives\\";
                             for (; ; ) {
                                 if (Zip.unzip(file.getPath(), unzipTheDirectory)) break;
                             }
@@ -225,7 +204,7 @@ public class DownloadsUtils {
         }
     }
 
-    public static void downloadsAssetIndexUtils(VersionJson VersionJson, DownloadBasicInformation downloadBasicInformation) throws Exception {
+    static void downloadsAssetIndexUtils(VersionJson VersionJson, DownloadBasicInformation downloadBasicInformation) throws Exception {
         String b = String.valueOf(Utils.deleteSymbol(Request.getMinecraftVersionAssetIndexJson(VersionJson), "{"));
         String[] hashArray = Utils.regexMatching(b, "\\w{40}");
         String[] pathArray = Utils.regexMatching(b, "[\\w/]+[.]{1}\\w+");
@@ -277,12 +256,12 @@ public class DownloadsUtils {
         }
     }
 
-    private static synchronized void count(String ThreadName, Outcome outcome, boolean ifSucceed) {
+    static void count(String ThreadName, Outcome outcome, boolean ifSucceed) {
         if (ifSucceed) {
-            end++;
+            information.download.Outcome.end++;
             outcome.end.addAndGet(1);
         } else {
-            error++;
+            information.download.Outcome.error++;
             outcome.error.addAndGet(1);
         }
         outcome.and.set(outcome.end.get() + outcome.error.get());
@@ -290,7 +269,7 @@ public class DownloadsUtils {
         PublicVariable.threadQuantity--;
     }
 
-    public static boolean download(URL[] url, String ThreadName, String theoreticalFileHash, File file, int theoreticalFileSize, int count, Outcome outcome) throws Exception {
+    static boolean download(URL[] url, String ThreadName, String theoreticalFileHash, File file, int theoreticalFileSize, int count, Outcome outcome) throws Exception {
         PublicVariable.threadQuantity++;
         String name = file.getName();
         try {
@@ -329,7 +308,7 @@ public class DownloadsUtils {
         return false;
     }
 
-    static class Outcome {
+    class Outcome {
         AtomicInteger and;
         AtomicInteger error;
         AtomicInteger end;

@@ -1,8 +1,9 @@
 package minecraft.download;
 
 
+import information.minecraft.Version;
 import information.minecraft.download.DownloadSource;
-import information.minecraft.download.VersionManifestVersion;
+import information.minecraft.download.versionManifestUrlEndingVersion;
 import jsonProcessing.download.minecraft.library.VersionJson;
 import jsonProcessing.download.minecraft.library.VersionManifest;
 import org.jetbrains.annotations.Contract;
@@ -16,13 +17,13 @@ public class Url {
 //    static final String mcbbs = "https://download.mcbbs.net/";
 
     @Contract("_, _ -> new")
-    public static @NotNull URL versionManifestJsonURL(VersionManifestVersion versionManifestVersion, DownloadSource downloadSource) throws MalformedURLException {
+    public static @NotNull URL versionManifestJsonURL(versionManifestUrlEndingVersion versionManifestVersion, DownloadSource downloadSource) throws MalformedURLException {
         return UrlArray.versionManifestJsonURL(versionManifestVersion)[downloadSource.ordinal()];
     }
 
     @Contract("_, _, _ -> new")
-    public static @NotNull URL versionJsonFileURL(VersionManifest VersionManifest, String id, DownloadSource downloadSource) throws MalformedURLException {
-        return UrlArray.versionJsonFileURL(VersionManifest, id)[downloadSource.ordinal()];
+    public static @NotNull URL versionJsonFileURL(VersionManifest VersionManifest, Version version, DownloadSource downloadSource) throws MalformedURLException {
+        return UrlArray.versionJsonFileURL(VersionManifest, version)[downloadSource.ordinal()];
 
     }
 

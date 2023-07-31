@@ -1,6 +1,7 @@
 package minecraft.download;
 
 
+import information.minecraft.Version;
 import jsonProcessing.download.minecraft.library.VersionManifest;
 
 import java.net.URL;
@@ -11,8 +12,8 @@ public class VersionManifestProcessing {
      * 返回版本的type;
      */
     public static String getVersionType(VersionManifest VersionManifest, String id) {
-        String[] idArray = VersionManifest.getIdArray();
-        String[] typeArray = VersionManifest.getTypeArray();
+        String[] idArray = VersionManifest.getVersionArray();
+        String[] typeArray = VersionManifest.getVersionTypeArray();
         int i;
         for (i = 0; i < idArray.length; i++) {
             if (idArray[i].equals(id)) {
@@ -27,7 +28,7 @@ public class VersionManifestProcessing {
      * 返回release或snapshot版本数组;
      */
     public static String[] getTypeArray(VersionManifest VersionManifest, Type type) {
-        String[] idArray = VersionManifest.getIdArray();
+        String[] idArray = VersionManifest.getVersionArray();
         String[] typeArray = new String[getTypeArrayCount(VersionManifest, type)];
         int b = 0;
         for (String s : idArray) {
@@ -44,7 +45,7 @@ public class VersionManifestProcessing {
      * 返回release或snapshot版本数组长度;
      */
     public static int getTypeArrayCount(VersionManifest VersionManifest, Type type) {
-        String[] idArray = VersionManifest.getIdArray();
+        String[] idArray = VersionManifest.getVersionArray();
         int typeArrayCount = 0;
         for (String s : idArray) {
             if (getVersionType(VersionManifest, s).equals(type.toString())) {
@@ -59,8 +60,8 @@ public class VersionManifestProcessing {
      * 返回版本的url;
      */
     public static URL getVersionJsonUrl(VersionManifest VersionManifest, String id) {
-        String[] idArray = VersionManifest.getIdArray();
-        URL[] urlArray = VersionManifest.getUrlArray();
+        String[] idArray = VersionManifest.getVersionArray();
+        URL[] urlArray = VersionManifest.getVersionJsonUrlArray();
         int i;
         for (i = 0; i < idArray.length; i++) {
             if (idArray[i].equals(id)) {
@@ -74,12 +75,12 @@ public class VersionManifestProcessing {
      * 这个方法输入MC版本列表变量,版本id;
      * 返回是否有此版本;
      */
-    public static boolean isId(VersionManifest VersionManifest, String id) {
-        String[] idArray = VersionManifest.getIdArray();
-        String[] typeArray = VersionManifest.getTypeArray();
+    public static boolean isVersion(VersionManifest VersionManifest, Version version) {
+        String[] idArray = VersionManifest.getVersionArray();
+        String[] typeArray = VersionManifest.getVersionTypeArray();
         int i;
         for (i = 0; i < idArray.length; i++) {
-            if (idArray[i].equals(id)) {
+            if (idArray[i].equals(version.version())) {
                 return true;
             }
         }
@@ -91,7 +92,7 @@ public class VersionManifestProcessing {
      * 返回此版本id在版本id数组的位置 ;
      */
     public static int getIdCount(VersionManifest VersionManifest, String id) {
-        String[] idArray = VersionManifest.getIdArray();
+        String[] idArray = VersionManifest.getVersionArray();
         int i;
         for (i = 0; i < idArray.length; i++) {
             if (idArray[i].equals(id)) {

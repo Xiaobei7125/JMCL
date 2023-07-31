@@ -1,7 +1,5 @@
 package information.download;
 
-import java.util.ArrayList;
-
 public class Task {
     /**
      * 全部文件大小
@@ -13,16 +11,13 @@ public class Task {
     private int filesTotalNumber;
     /** 经过检查已经下载的文件的数量*/
     private int downloadCompletionFilesNumber;
-    /** 需要下载的文件列表*/
-    private ArrayList<File> fileArrayList;
 
     public Task(long totalSize, long downloadCompletionSize, int filesTotalNumber,
-                int downloadCompletionFilesNumber, ArrayList<File> fileArrayList) {
+                int downloadCompletionFilesNumber) {
         this.totalSize = totalSize;
         this.downloadCompletionSize = downloadCompletionSize;
         this.filesTotalNumber = filesTotalNumber;
         this.downloadCompletionFilesNumber = downloadCompletionFilesNumber;
-        this.fileArrayList = fileArrayList;
     }
 
     public Task() {
@@ -30,7 +25,6 @@ public class Task {
         this.downloadCompletionSize = 0;
         this.filesTotalNumber = 0;
         this.downloadCompletionFilesNumber = 0;
-        this.fileArrayList = new ArrayList<>(1);
     }
 
 
@@ -58,14 +52,6 @@ public class Task {
         this.downloadCompletionFilesNumber = downloadCompletionFilesNumber;
     }
 
-    public ArrayList<File> getFileArrayList() {
-        return fileArrayList;
-    }
-
-    public void setFileArrayList(ArrayList<File> fileArrayList) {
-        this.fileArrayList = fileArrayList;
-    }
-
     public int getFilesTotalNumber() {
         return filesTotalNumber;
     }
@@ -81,16 +67,6 @@ public class Task {
 
     public Task addDownloadCompletionFilesNumber(int add) {
         this.downloadCompletionFilesNumber = this.downloadCompletionFilesNumber + add;
-        return this;
-    }
-
-    /**
-     * 添加文件信息的同时添加文件总数和文件总大小
-     */
-    public Task addFileArrayList(File file) {
-        this.fileArrayList.add(file);
-        this.filesTotalNumber++;
-        this.totalSize = this.totalSize + file.size;
         return this;
     }
 

@@ -1,4 +1,4 @@
-package information;
+package information.minecraft;
 
 public record Account(String UUID, String name, String accessToken) {
     @Override
